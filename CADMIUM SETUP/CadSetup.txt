@@ -1,0 +1,14 @@
+1. Copy CadSetup folder to installation drive
+2. Run setup.exe
+3. Keep the latest windows files when prompted
+4. Ignore error when prompted
+5. Copy cadmium folder to the installation drive
+6. run sysedit
+7. Type the following text in Autoexec.bat
+SET NODE-ID=0000000000AB
+8. Type the following text in config.sys
+FILES=100
+BUFFERS=15
+9. Restart the system
+10. 
+

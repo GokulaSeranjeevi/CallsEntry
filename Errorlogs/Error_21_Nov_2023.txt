@@ -1,0 +1,9 @@
+Date: 21/11/2023 Time: 11:42:12 Error: 
+Date: 21/11/2023 Time: 11:42:12 Error: Cannot open database "JCalls" requested by the login. The login failed.
+Date: 21/11/2023 Time: 11:42:40 Error: 
+Date: 21/11/2023 Time: 11:42:40 Error: Cannot open database "JCalls" requested by the login. The login failed.
+Date: 21/11/2023 Time: 11:43:11 Error: 
+Date: 21/11/2023 Time: 11:43:12 Error: Cannot open database "JCalls" requested by the login. The login failed.
+Date: 21/11/2023 Time: 14:36:46 Error: 
+Date: 21/11/2023 Time: 14:36:47 Error: Cannot open database "JCalls" requested by the login. The login failed.
+Date: 21/11/2023 Time: 14:46:24 Info: Command Completed
