@@ -38,11 +38,13 @@ public class DataValidationQuery {
 		sb = new StringBuilder("");
 
 		sb.append("Select * from DataValidation Where Databaseid=" + dataId + " and BranchId=" + branchId);
-		if (!Date.equals(null))
+		if (Date!=null)
 			sb.append(" And UpdateDate='" + Date + "'");
 		if (!text.equalsIgnoreCase(""))
 			sb.append(" And QueryDesc like '%" + text + "%'");
-
+		
+		
+		System.out.println(sb);
 		return sb.toString();
 	}
 

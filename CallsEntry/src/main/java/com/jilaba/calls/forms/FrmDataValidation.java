@@ -5,30 +5,40 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.sql.Date;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 
 import javax.annotation.PostConstruct;
 import javax.swing.BorderFactory;
+import javax.swing.InputVerifier;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
 import javax.swing.SwingConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.jilaba.calls.common.CommonMethods;
@@ -51,7 +61,8 @@ import com.jilaba.fonts.JilabaFonts;
 import com.jilaba.fonts.JilabaFonts.FontStyle;
 
 @Component
-public class FrmDataValidation extends JFrame implements ActionListener, KeyListener {
+@Scope("prototype")
+public class FrmDataValidation extends JFrame implements ActionListener, KeyListener, FocusListener {
 
 	private JPanel panelMain;
 	private JPanel panelEntry;
@@ -82,9 +93,9 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 	private JLabel lblViewDatabase;
 	private JLabel lblViewBranch;
 	private JLabel lblViewUpdateDate;
-	private JLabel lblViewUpdateby;
+	private JLabel lblHeadReason;
 	private JLabel lblViewSearch;
-	private JLabel lblOption;
+	private JLabel lblHeadQuery;
 	private JLabel lblCallNature;
 	private JLabel lblCallRecMode;
 	private JLabel lblDescription;
@@ -92,6 +103,7 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 	private JLabel lblPressEsc;
 	private JLabel lblOperatorLabel;
 	private JLabel lblMinimize;
+	private Date currentDate = new Date();
 
 	private JilabaComboBox<DatabaseName> cmbDatabaseName;
 	private JilabaComboBox<BranchOffice> cmbBranchOffice;
@@ -104,10 +116,13 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 	private JilabaSpinner spnUpdateDate;
 	private JilabaSpinner spnViewUpdateDate;
 	private JCheckBox chkDateCheck;
+	private String varupdDate;
+	private boolean blnDateCheck;
 
 	private JTextArea txtQuery;
 	private JTextArea txtReason;
 	private JTextArea txtViewQuery;
+	private JTextArea txtViewReason;
 	private JilabaTextField txtSearch;
 
 	private JButton btnAdd;
@@ -138,6 +153,7 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 	private Color color4 = Color.decode("#ccd5d2");
 	private Color color5 = Color.decode("#e4dedf");
 	private Color color6 = Color.decode("#b43e69");
+	private Color color7 = Color.decode("#ADD8E6");
 	@Autowired
 	private CommonMethods commonMethods;
 
@@ -162,6 +178,13 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 
 	private void createListeners() {
 
+		lblMinimize.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setState(JFrame.ICONIFIED);
+			}
+		});
+
 		spnUpdateDate.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -184,8 +207,75 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					spnViewUpdateDate.requestFocus();
+					if (chkDateCheck.isSelected() == true) {
+						spnViewUpdateDate.setEnabled(true);
+						blnDateCheck = true;
+						spnViewUpdateDate.requestFocus();
+					} else {
+						spnViewUpdateDate.setEnabled(false);
+						blnDateCheck = false;
+						txtSearch.requestFocus();
+					}
 				}
+			}
+		});
+
+		chkDateCheck.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if (chkDateCheck.isSelected() == true) {
+					spnViewUpdateDate.setEnabled(true);
+					blnDateCheck = true;
+					spnViewUpdateDate.requestFocus();
+				} else {
+					spnViewUpdateDate.setEnabled(false);
+					blnDateCheck = false;
+					txtSearch.requestFocus();
+				}
+			}
+		});
+		txtSearch.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if (chkDateCheck.isSelected() == true) {
+					spnViewUpdateDate.setEnabled(true);
+					blnDateCheck = true;
+					spnViewUpdateDate.requestFocus();
+				} else {
+					spnViewUpdateDate.setEnabled(false);
+					blnDateCheck = false;
+					txtSearch.requestFocus();
+				}
+			}
+		});
+
+		txtQuery.setInputVerifier(new InputVerifier() {
+
+			@Override
+			public boolean verify(JComponent input) {
+
+				if (txtQuery.getText().trim().isEmpty()) {
+
+					JOptionPane.showMessageDialog(panelMain, "Query description should not Empty...!");
+					txtQuery.requestFocus();
+					return false;
+				}
+				return true;
+			}
+		});
+
+		txtReason.setInputVerifier(new InputVerifier() {
+
+			@Override
+			public boolean verify(JComponent input) {
+
+				if (txtReason.getText().trim().isEmpty()) {
+
+					JOptionPane.showMessageDialog(panelMain, "Reason should not Empty...!");
+					txtReason.requestFocus();
+					return false;
+				}
+				return true;
 			}
 		});
 
@@ -200,6 +290,7 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		lblServerIpValue.setText(commonMethods.getIpAddress());
 		btnAdd.requestFocus();
 
+		btnAdd.requestFocus();
 		btnAdd.setEnabled(true);
 		btnEntryView.setEnabled(true);
 		btnSave.setEnabled(false);
@@ -213,11 +304,21 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		cmbUpdateby.removeAllItems();
 		cmbViewDatabaseName.removeAllItems();
 		cmbViewBranchOffice.removeAllItems();
-		//		cmbViewUpdateby.removeAllItems();
+		// cmbViewUpdateby.removeAllItems();
+		spnViewUpdateDate.setEnabled(true);
+		chkDateCheck.setSelected(true);
 
 		txtQuery.setText("");
 		txtReason.setText("");
 		txtSearch.setText("");
+		txtViewQuery.setText("");
+		txtViewReason.setText("");
+
+		spnViewUpdateDate.setValue(new Date());
+		spnUpdateDate.setValue(new Date());
+//		 SpinnerDateModel model = new SpinnerDateModel(currentDate, null, null, java.util.Calendar.DAY_OF_MONTH);
+//		model.setValue(spnUpdateDate);
+//		model.setValue(spnViewUpdateDate);
 
 		lstDatabaseName = new ArrayList<DatabaseName>();
 
@@ -248,9 +349,42 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		for (Operator oper : lstUpdateby) {
 
 			cmbUpdateby.addListItem(new ListItem(oper.getStaffname(), oper.getStaffid()));
-			//			cmbViewUpdateby.addListItem(new ListItem(oper.getStaffname(), oper.getStaffid()));
+			// cmbViewUpdateby.addListItem(new ListItem(oper.getStaffname(),
+			// oper.getStaffid()));
 		}
+		disableAllComponents(panelContent);
 
+	}
+
+	private static void disableAllComponents(JPanel panel) {
+		// Iterate through all components in the panel
+		for (java.awt.Component component : panel.getComponents()) {
+			// Disable the component
+			component.setEnabled(false);
+			// If it's a JTextField, you can also make it non-editable
+			if (component instanceof JTextField) {
+				((JTextField) component).setEditable(false);
+			}
+			if (component instanceof JTextArea) {
+				((JTextArea) component).setEditable(false);
+			}
+		}
+	}
+
+	private static void enableAllComponents(JPanel panel) {
+		// Iterate through all components in the panel
+		for (java.awt.Component component : panel.getComponents()) {
+			// Disable the component
+			component.setEnabled(true);
+			// If it's a JTextField, you can also make it non-editable
+			if (component instanceof JTextField) {
+				((JTextField) component).setEditable(true);
+
+			}
+			if (component instanceof JTextArea) {
+				((JTextArea) component).setEditable(true);
+			}
+		}
 	}
 
 	private void createControls() {
@@ -278,12 +412,12 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		panelMain.add(panelLine3Inialize());
 		panelMain.add(panelButtonInialize());
 		panelView.add(panelViewDetail());
-		//		panelView.add(panelReadyDetail());
+		// panelView.add(panelReadyDetail());
 
-		//		createInputVerifiers();
-		//		createActionListners();
+		// createInputVerifiers();
+		// createActionListners();
 		//
-		//		imageCompressor = new ImageCompressor();
+		// imageCompressor = new ImageCompressor();
 
 		getContentPane().add(panelMain);
 		panelMain.add(panelEntry);
@@ -298,7 +432,7 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		int txtHeight = 20;
 
 		panelViewDetail = new JPanel();
-		panelViewDetail.setBounds(20, panelLine2.getY() + 10, 918, 500);
+		panelViewDetail.setBounds(20, panelLine2.getY() + 10, 920, 530);
 		panelViewDetail.setLayout(null);
 		panelViewDetail.setBackground(color2);
 		panelViewDetail.setBorder(BorderFactory.createEtchedBorder(color3, color3));
@@ -335,11 +469,12 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		cmbViewBranchOffice.addKeyListener(this);
 
 		chkDateCheck = new JCheckBox("Date ");
-		chkDateCheck.setBounds(cmbViewBranchOffice.getX() + 130, lblViewBranch.getY(), lblWidth, lblHeight);
+		chkDateCheck.setBounds(cmbViewBranchOffice.getX() + 130, lblViewBranch.getY(), 50, lblHeight);
 		chkDateCheck.setBackground(color2);
 		chkDateCheck.setForeground(Color.BLACK);
 		chkDateCheck.setFont(CustomFonts.font);
 		chkDateCheck.setVisible(true);
+		chkDateCheck.setSelected(true);
 		chkDateCheck.setFont(CustomFonts.font);
 
 		lblViewUpdateDate = new JLabel("Update Date");
@@ -386,9 +521,17 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		btnLoad.addActionListener(this);
 		btnLoad.addKeyListener(this);
 
+		lblHeadQuery = new JLabel("Executed Query  ");
+		lblHeadQuery.setBounds(lblViewDatabase.getX(), lblViewDatabase.getY() + 30, lblWidth, lblHeight);
+		lblHeadQuery.setBackground(color2);
+		lblHeadQuery.setForeground(Color.RED);
+		lblHeadQuery.setFont(CustomFonts.font);
+		lblHeadQuery.setVisible(true);
+		lblHeadQuery.setFont(CustomFonts.font);
+
 		txtViewQuery = new JTextArea(350, 200);
-		txtViewQuery.setEditable(true);
-		//		txtQuery.setLineWrap(true);
+		txtViewQuery.setEditable(false);
+		// txtQuery.setLineWrap(true);
 		txtViewQuery.setBounds(lblViewDatabase.getX(), lblViewDatabase.getY() + 50, 1200, 280);
 		txtViewQuery.setFont(CustomFonts.fontCalibriBold);
 		txtViewQuery.setBackground(color2);
@@ -398,15 +541,43 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		txtViewQuery.addKeyListener(this);
 
 		JScrollPane scrollPane = new JScrollPane(txtViewQuery);
-		scrollPane.setBounds(lblViewDatabase.getX(), lblViewDatabase.getY() + 50, 870, 400);
+		scrollPane.setBounds(lblViewDatabase.getX(), lblViewDatabase.getY() + 50, 870, 350);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		add(scrollPane);
+
+		lblHeadReason = new JLabel("Reason For Updation");
+		lblHeadReason.setBounds(txtViewQuery.getX(), txtViewQuery.getY() + txtViewQuery.getHeight() + 70, lblWidth,
+				lblHeight);
+		lblHeadReason.setBackground(color2);
+		lblHeadReason.setForeground(Color.RED);
+		lblHeadReason.setFont(CustomFonts.font);
+		lblHeadReason.setVisible(true);
+		lblHeadReason.setFont(CustomFonts.font);
+
+		txtViewReason = new JTextArea(350, 200);
+		txtViewReason.setEditable(false);
+		txtViewReason.setLineWrap(true);
+		txtViewReason.setBounds(txtViewQuery.getX(), txtViewQuery.getY() + txtViewQuery.getHeight() + 90, 1200, 80);
+		txtViewReason.setFont(CustomFonts.fontCalibriBold);
+		txtViewReason.setBackground(color4);
+		txtViewReason.setForeground(Color.BLACK);
+		txtViewReason.setBorder(BorderFactory.createEtchedBorder(color4, color4));
+		txtViewReason.setVisible(true);
+		txtViewReason.addKeyListener(this);
+
+		JScrollPane reasonscrollPane = new JScrollPane(txtViewReason);
+		reasonscrollPane.setBounds(txtViewQuery.getX(), txtViewQuery.getY() + txtViewQuery.getHeight() + 90, 870, 80);
+		reasonscrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+//		reasonscrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		add(reasonscrollPane);
 
 		panelView.add(panelViewDetail);
 		panelViewDetail.add(lblViewDatabase);
 		panelViewDetail.add(cmbViewDatabaseName);
 		panelViewDetail.add(lblViewBranch);
+		panelViewDetail.add(lblHeadQuery);
+		panelViewDetail.add(lblHeadReason);
 		panelViewDetail.add(cmbViewBranchOffice);
 		panelViewDetail.add(lblViewUpdateDate);
 		panelViewDetail.add(spnViewUpdateDate);
@@ -414,6 +585,7 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		panelViewDetail.add(lblViewSearch);
 		panelViewDetail.add(txtSearch);
 		panelViewDetail.add(scrollPane);
+		panelViewDetail.add(reasonscrollPane);
 		panelViewDetail.add(btnLoad);
 
 		return panelViewDetail;
@@ -489,7 +661,7 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 
 		txtQuery = new JTextArea(350, 200);
 		txtQuery.setEditable(true);
-		//		txtQuery.setLineWrap(true);
+		// txtQuery.setLineWrap(true);
 		txtQuery.setBounds(spnUpdateDate.getX(), lblLQuery.getY() + 10, 1200, 280);
 		txtQuery.setFont(CustomFonts.fontCalibriBold);
 		txtQuery.setBackground(color2);
@@ -568,8 +740,8 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		panelButton = new JPanel();
 		panelButton.setBounds(0, panelContent.getY() + panelContent.getHeight() + 10, 958, 40);
 		panelButton.setLayout(null);
-		panelButton.setBackground(color4);
-		//		panelButton.setBorder(BorderFactory.createEtchedBorder(color3, color3));
+		panelButton.setBackground(color2);
+		// panelButton.setBorder(BorderFactory.createEtchedBorder(color3, color3));
 
 		btnAdd = new JButton("Add");
 		btnAdd.setHorizontalAlignment(SwingConstants.CENTER);
@@ -580,7 +752,9 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		btnAdd.setForeground(Color.BLACK);
 		btnAdd.setVisible(true);
 		btnAdd.addActionListener(this);
+		btnAdd.setVerifyInputWhenFocusTarget(false);
 		btnAdd.addKeyListener(this);
+		btnAdd.addFocusListener(this);
 
 		btnSave = new JButton("Save");
 		btnSave.setHorizontalAlignment(SwingConstants.CENTER);
@@ -592,6 +766,7 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		btnSave.setVisible(true);
 		btnSave.addActionListener(this);
 		btnSave.addKeyListener(this);
+		btnSave.addFocusListener(this);
 
 		btnUpdate = new JButton("Update");
 		btnUpdate.setHorizontalAlignment(SwingConstants.CENTER);
@@ -602,7 +777,9 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		btnUpdate.setForeground(Color.BLACK);
 		btnUpdate.setVisible(false);
 		btnUpdate.addActionListener(this);
+		btnUpdate.setVerifyInputWhenFocusTarget(false);
 		btnUpdate.addKeyListener(this);
+		btnUpdate.addFocusListener(this);
 
 		btnEntryView = new JButton("View");
 		btnEntryView.setHorizontalAlignment(SwingConstants.CENTER);
@@ -613,7 +790,9 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		btnEntryView.setForeground(Color.BLACK);
 		btnEntryView.setVisible(true);
 		btnEntryView.addActionListener(this);
+		btnEntryView.setVerifyInputWhenFocusTarget(false);
 		btnEntryView.addKeyListener(this);
+		btnEntryView.addFocusListener(this);
 
 		btnClear = new JButton("Clear");
 		btnClear.setHorizontalAlignment(SwingConstants.CENTER);
@@ -624,7 +803,9 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		btnClear.setForeground(Color.BLACK);
 		btnClear.setVisible(true);
 		btnClear.addActionListener(this);
+		btnClear.setVerifyInputWhenFocusTarget(false);
 		btnClear.addKeyListener(this);
+		btnClear.addFocusListener(this);
 
 		btnCancel = new JButton("Cancel");
 		btnCancel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -635,7 +816,9 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		btnCancel.setForeground(Color.BLACK);
 		btnCancel.setVisible(true);
 		btnCancel.addActionListener(this);
+		btnCancel.setVerifyInputWhenFocusTarget(false);
 		btnCancel.addKeyListener(this);
+		btnCancel.addFocusListener(this);
 
 		btnBack = new JButton("Back");
 		btnBack.setHorizontalAlignment(SwingConstants.CENTER);
@@ -646,7 +829,9 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		btnBack.setForeground(Color.BLACK);
 		btnBack.setVisible(true);
 		btnBack.addActionListener(this);
+		btnBack.setVerifyInputWhenFocusTarget(false);
 		btnBack.addKeyListener(this);
+		btnBack.addFocusListener(this);
 
 		btnClose = new JButton("Close");
 		btnClose.setHorizontalAlignment(SwingConstants.CENTER);
@@ -658,7 +843,9 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		btnClose.setMargin(new Insets(0, 0, 0, 0));
 		btnClose.setVisible(true);
 		btnClose.addActionListener(this);
+		btnClose.setVerifyInputWhenFocusTarget(false);
 		btnClose.addKeyListener(this);
+		btnClose.addFocusListener(this);
 
 		panelMain.add(panelButton);
 		panelButton.add(btnAdd);
@@ -719,21 +906,23 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		panelDetail.setBackground(color2);
 		panelDetail.setVisible(true);
 
-		//		lblHeading = new JLabel("CALLS REGISTER");
-		//		lblHeading.setBounds(865, -10, 170, 50);
-		//		//		lblHeading.setBounds(panelDetail.getWidth() / 2, panelDetail.getY() / 2, 20, 20);
-		//		lblHeading.setFont(jilabaFonts.getFont(FontStyle.BOLD, 23));
-		//		lblHeading.setForeground(fontColor1);
-		//		lblHeading.setVisible(true);
+		// lblHeading = new JLabel("CALLS REGISTER");
+		// lblHeading.setBounds(865, -10, 170, 50);
+		// // lblHeading.setBounds(panelDetail.getWidth() / 2, panelDetail.getY() / 2,
+		// 20, 20);
+		// lblHeading.setFont(jilabaFonts.getFont(FontStyle.BOLD, 23));
+		// lblHeading.setForeground(fontColor1);
+		// lblHeading.setVisible(true);
 
 		lblCallMnuHead = new JLabel("DATA VALIDATION");
 		lblCallMnuHead.setBounds(10, -10, 170, 50);
-		//		lblHeading.setBounds(panelDetail.getWidth() / 2, panelDetail.getY() / 2, 20, 20);
+		// lblHeading.setBounds(panelDetail.getWidth() / 2, panelDetail.getY() / 2, 20,
+		// 20);
 		lblCallMnuHead.setFont(jilabaFonts.getFont(FontStyle.BOLD, 23));
 		lblCallMnuHead.setForeground(fontColor1);
 		lblCallMnuHead.setVisible(true);
 
-		//		panelDetail.add(lblHeading);
+		// panelDetail.add(lblHeading);
 		panelDetail.add(lblCallMnuHead);
 		panelMain.add(panelDetail);
 		return panelLine;
@@ -828,8 +1017,6 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 				cmbViewBranchOffice.requestFocus();
 			} else if (e.getSource() == cmbViewBranchOffice) {
 				chkDateCheck.requestFocus();
-			} else if (e.getSource() == chkDateCheck) {
-				spnViewUpdateDate.requestFocus();
 			} else if (e.getSource() == spnViewUpdateDate) {
 				txtSearch.requestFocus();
 			} else if (e.getSource() == txtSearch) {
@@ -855,7 +1042,12 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 
 			FrmMainMenu frmMainMenu = Applicationmain.getAbstractApplicationContext().getBean(FrmMainMenu.class);
 			frmMainMenu.setVisible(true);
+
+			loadDetails();
+
 		} else if (e.getSource() == btnAdd) {
+
+			enableAllComponents(panelContent);
 			cmbDatabaseName.requestFocus();
 		} else if (e.getSource() == btnSave) {
 
@@ -883,6 +1075,9 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 			panelView.setVisible(true);
 			btnBack.setEnabled(true);
 			btnClear.setEnabled(true);
+			btnCancel.setEnabled(false);
+			btnAdd.setEnabled(false);
+			cmbViewDatabaseName.requestFocus();
 
 		} else if (e.getSource() == btnBack) {
 			loadDetails();
@@ -890,18 +1085,93 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 
 			cmbViewDatabaseName.setSelectedItemValue(1);
 			cmbViewBranchOffice.setSelectedItemValue(1);
+			txtViewQuery.setText("");
+			txtViewReason.setText("");
 			txtSearch.setText("");
-			chkDateCheck.setSelected(false);
+			spnViewUpdateDate.setEnabled(true);
+			spnViewUpdateDate.setValue(new Date());
+			chkDateCheck.setSelected(true);
+			cmbViewDatabaseName.requestFocus();
 
 		} else if (e.getSource() == btnLoad) {
 
-//			List<DataValidation> query = logicDataValidation.getData(cmbViewDatabaseName.getSelectedItemValue(),
-//					cmbViewBranchOffice.getSelectedItemValue(), spnViewUpdateDate.getDateValue(), txtSearch.getText());
-//
-//			txtViewQuery.setText(query);
+			if (blnDateCheck == true) {
+				varupdDate = spnViewUpdateDate.getDateValue();
+			} else {
+				varupdDate = null;
+			}
 
+			List<DataValidation> query = logicDataValidation.getData(cmbViewDatabaseName.getSelectedItemValue(),
+					cmbViewBranchOffice.getSelectedItemValue(), varupdDate, txtSearch.getText());
+			StringBuilder Query = new StringBuilder();
+			StringBuilder reason = new StringBuilder();
+
+			if (query.size() == 0) {
+
+				JOptionPane.showMessageDialog(panelMain, "No Data Found ...!");
+				txtViewQuery.setText("");
+				txtViewReason.setText("");
+				return;
+
+			}
+
+			for (DataValidation data : query) {
+
+				Query.append(data.getQueryDesc().toString()).append("\n");
+				reason.append(data.getReason().toString()).append("\n");
+			}
+
+			txtViewQuery.setText(Query.toString().trim());
+			txtViewReason.setText(reason.toString().trim());
+
+		} else if (e.getSource() == btnCancel) {
+
+			loadDetails();
 		}
 
+	}
+
+	@Override
+	public void focusGained(FocusEvent e) {
+		if (e.getSource() == btnAdd) {
+			btnAdd.setBackground(color7);
+		} else if (e.getSource() == btnBack) {
+			btnBack.setBackground(color7);
+		} else if (e.getSource() == btnSave) {
+			btnSave.setBackground(color7);
+		} else if (e.getSource() == btnEntryView) {
+			btnEntryView.setBackground(color7);
+		} else if (e.getSource() == btnClear) {
+			btnClear.setBackground(color7);
+		} else if (e.getSource() == btnCancel) {
+			btnCancel.setBackground(color7);
+		} else if (e.getSource() == btnBack) {
+			btnBack.setBackground(color7);
+		} else if (e.getSource() == btnClose) {
+			btnClose.setBackground(color7);
+		}
+
+	}
+
+	@Override
+	public void focusLost(FocusEvent e) {
+		if (e.getSource() == btnAdd) {
+			btnAdd.setBackground(color3);
+		} else if (e.getSource() == btnBack) {
+			btnBack.setBackground(color3);
+		} else if (e.getSource() == btnSave) {
+			btnSave.setBackground(color3);
+		} else if (e.getSource() == btnEntryView) {
+			btnEntryView.setBackground(color3);
+		} else if (e.getSource() == btnClear) {
+			btnClear.setBackground(color3);
+		} else if (e.getSource() == btnCancel) {
+			btnCancel.setBackground(color3);
+		} else if (e.getSource() == btnBack) {
+			btnBack.setBackground(color3);
+		} else if (e.getSource() == btnClose) {
+			btnClose.setBackground(color3);
+		}
 	}
 
 }

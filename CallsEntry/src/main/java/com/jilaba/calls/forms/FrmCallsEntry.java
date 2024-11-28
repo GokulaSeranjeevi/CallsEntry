@@ -174,7 +174,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 	private JilabaTextField txtRefNo;
 	private JilabaTextField txtOption;
 
-	//	private JilabaTextField txtDesc;
+	// private JilabaTextField txtDesc;
 
 	private JTextArea txtDesc;
 
@@ -546,7 +546,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		spnCallToDate.addKeyListener(this);
 		spnCallToDate.setFont(CustomFonts.fontCalibriBold);
 
-		//		DSsd
+		// DSsd
 
 		lblRecFrom = new JLabel("Received From");
 		lblRecFrom.setBounds(rdpBetweenDate.getX() + rdpBetweenDate.getWidth(), rdpBetweenDate.getY() - 5, lblWidth,
@@ -827,7 +827,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		panelButton.setBounds(panelContent.getX(), panelContent.getY() + panelContent.getHeight() + 10, 850, 40);
 		panelButton.setLayout(null);
 		panelButton.setBackground(color2);
-		//		panelButton.setBorder(BorderFactory.createEtchedBorder(color3, color3));
+		// panelButton.setBorder(BorderFactory.createEtchedBorder(color3, color3));
 
 		btnAdd = new JButton("Add");
 		btnAdd.setHorizontalAlignment(SwingConstants.CENTER);
@@ -944,7 +944,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//				FrmImageDialog frmImageDialog;
+				// FrmImageDialog frmImageDialog;
 				if (blnFrmCallEdit == true) {
 
 					int row = tblEditCalls.getSelectedRow();
@@ -981,26 +981,28 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 								new Object[] { getContentPane() });
 						frmImageDialog.setVisible(true);
 
-						//					lblImage1 = frmImageDialog.getLblImage1Path();
-						//					lblImage2 = frmImageDialog.getLblImage2Path();
-						//					lblImage3 = frmImageDialog.getLblImage3Path();
-						//					lblImage4 = frmImageDialog.getLblImage4Path();
+						// lblImage1 = frmImageDialog.getLblImage1Path();
+						// lblImage2 = frmImageDialog.getLblImage2Path();
+						// lblImage3 = frmImageDialog.getLblImage3Path();
+						// lblImage4 = frmImageDialog.getLblImage4Path();
 
 					} else {
-						//						frmImageDialog = Applicationmain.getAbstractApplicationContext().getBean(FrmImageDialog.class,
-						//								new Object[] { getContentPane() });
+						// frmImageDialog =
+						// Applicationmain.getAbstractApplicationContext().getBean(FrmImageDialog.class,
+						// new Object[] { getContentPane() });
 						frmImageDialog.setVisible(true);
 
 						frmImageDialog.reloadImage();
 
-						/*						frmImageDialog = Applicationmain.getAbstractApplicationContext().getBean(FrmImageDialog.class,
-														new Object[] { getContentPane() });
-												frmImageDialog.setVisible(true);
-												lblImage1 = frmImageDialog.getLblImage1Path();
-												lblImage2 = frmImageDialog.getLblImage2Path();
-												lblImage3 = frmImageDialog.getLblImage3Path();
-												lblImage4 = frmImageDialog.getLblImage4Path();
-						*/ }
+						/*
+						 * frmImageDialog =
+						 * Applicationmain.getAbstractApplicationContext().getBean(FrmImageDialog.class,
+						 * new Object[] { getContentPane() }); frmImageDialog.setVisible(true);
+						 * lblImage1 = frmImageDialog.getLblImage1Path(); lblImage2 =
+						 * frmImageDialog.getLblImage2Path(); lblImage3 =
+						 * frmImageDialog.getLblImage3Path(); lblImage4 =
+						 * frmImageDialog.getLblImage4Path();
+						 */ }
 
 				}
 
@@ -1012,32 +1014,23 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 				System.out.println(lblImage4);
 
 				/*
-														
-														
-													
-														
-														
-														
-														jFileChooser = new JFileChooser();
-														int retVal = jFileChooser.showOpenDialog(getContentPane());
-														try {
-														if (retVal == JFileChooser.APPROVE_OPTION) {
-														previewFile = jFileChooser.getSelectedFile();
-														//						lblPath.setText(previewFile.getAbsolutePath());
-														returnStatus = changePreview(previewFile);
-														if (!returnStatus.isStatus())
-														throw new JilabaException(returnStatus.getDescription());
-														}
-														else {
-														returnStatus = loadDefaultPreview();
-														CommonValues.returnStatusCatch(returnStatus);
-														}
-														} catch (Exception e2) {
-														JOptionPane.showMessageDialog(getContentPane(), e2.getMessage(), "Repair",
-														JOptionPane.ERROR_MESSAGE);
-														loadDefaultPreview();
-														}
-														*/
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 * jFileChooser = new JFileChooser(); int retVal =
+				 * jFileChooser.showOpenDialog(getContentPane()); try { if (retVal ==
+				 * JFileChooser.APPROVE_OPTION) { previewFile = jFileChooser.getSelectedFile();
+				 * // lblPath.setText(previewFile.getAbsolutePath()); returnStatus =
+				 * changePreview(previewFile); if (!returnStatus.isStatus()) throw new
+				 * JilabaException(returnStatus.getDescription()); } else { returnStatus =
+				 * loadDefaultPreview(); CommonValues.returnStatusCatch(returnStatus); } } catch
+				 * (Exception e2) { JOptionPane.showMessageDialog(getContentPane(),
+				 * e2.getMessage(), "Repair", JOptionPane.ERROR_MESSAGE); loadDefaultPreview();
+				 * }
+				 */
 			}
 		});
 
@@ -1061,58 +1054,51 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 
 	}
 
-	/*private ReturnStatus changePreview(File file) {
-		try {
-			BufferedImage bi = new BufferedImage(lblPreview.getWidth(), lblPreview.getHeight(),
-					BufferedImage.TYPE_INT_RGB);
-			Graphics2D g = bi.createGraphics();
-			Image img = ImageIO.read(file);
-			g.drawImage(img, 0, 0, lblPreview.getWidth(), lblPreview.getHeight(), null);
-			g.dispose();
-			lblPreview.setIcon(new ImageIcon(
-					img.getScaledInstance(lblPreview.getWidth(), lblPreview.getHeight(), BufferedImage.SCALE_SMOOTH)));
-	
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(bi, "png", baos);
-	
-			repImageFile = baos.toByteArray();
-	
-			repImageFile = imageCompressor.compressBytes(repImageFile);
-	
-			return new ReturnStatus(true);
-	
-		} catch (Exception e) {
-			return new ReturnStatus(false, e.getMessage());
-		}
-	}
-	*/
-	/*	private ReturnStatus loadDefaultPreview() {
-	
-			try {
-	
-				if (classLoader.getResource(ImageResource.IMAGEPREVIEW) != null && previewIcon == null) {
-					BufferedImage bi = new BufferedImage(lblPreview.getWidth(), lblPreview.getHeight(),
-							BufferedImage.TYPE_INT_RGB);
-					Graphics2D g = bi.createGraphics();
-					Image img = ImageIO.read(classLoader.getResource(ImageResource.IMAGEPREVIEW));
-					g.drawImage(img, 0, 0, lblPreview.getWidth(), lblPreview.getHeight(), null);
-					g.dispose();
-	
-					previewIcon = new ImageIcon(img.getScaledInstance(lblPreview.getWidth(), lblPreview.getHeight(),
-							BufferedImage.SCALE_SMOOTH));
-				}
-	
-				lblPreview.setIcon(previewIcon);
-	
-				//			previewFile = null;
-				//			lblPath.setText("");
-	
-				return new ReturnStatus(true);
-	
-			} catch (IOException e) {
-				return new ReturnStatus(false, ErrorHandling.handleError(e));
-			}
-		}*/
+	/*
+	 * private ReturnStatus changePreview(File file) { try { BufferedImage bi = new
+	 * BufferedImage(lblPreview.getWidth(), lblPreview.getHeight(),
+	 * BufferedImage.TYPE_INT_RGB); Graphics2D g = bi.createGraphics(); Image img =
+	 * ImageIO.read(file); g.drawImage(img, 0, 0, lblPreview.getWidth(),
+	 * lblPreview.getHeight(), null); g.dispose(); lblPreview.setIcon(new ImageIcon(
+	 * img.getScaledInstance(lblPreview.getWidth(), lblPreview.getHeight(),
+	 * BufferedImage.SCALE_SMOOTH)));
+	 * 
+	 * ByteArrayOutputStream baos = new ByteArrayOutputStream(); ImageIO.write(bi,
+	 * "png", baos);
+	 * 
+	 * repImageFile = baos.toByteArray();
+	 * 
+	 * repImageFile = imageCompressor.compressBytes(repImageFile);
+	 * 
+	 * return new ReturnStatus(true);
+	 * 
+	 * } catch (Exception e) { return new ReturnStatus(false, e.getMessage()); } }
+	 */
+	/*
+	 * private ReturnStatus loadDefaultPreview() {
+	 * 
+	 * try {
+	 * 
+	 * if (classLoader.getResource(ImageResource.IMAGEPREVIEW) != null &&
+	 * previewIcon == null) { BufferedImage bi = new
+	 * BufferedImage(lblPreview.getWidth(), lblPreview.getHeight(),
+	 * BufferedImage.TYPE_INT_RGB); Graphics2D g = bi.createGraphics(); Image img =
+	 * ImageIO.read(classLoader.getResource(ImageResource.IMAGEPREVIEW));
+	 * g.drawImage(img, 0, 0, lblPreview.getWidth(), lblPreview.getHeight(), null);
+	 * g.dispose();
+	 * 
+	 * previewIcon = new ImageIcon(img.getScaledInstance(lblPreview.getWidth(),
+	 * lblPreview.getHeight(), BufferedImage.SCALE_SMOOTH)); }
+	 * 
+	 * lblPreview.setIcon(previewIcon);
+	 * 
+	 * // previewFile = null; // lblPath.setText("");
+	 * 
+	 * return new ReturnStatus(true);
+	 * 
+	 * } catch (IOException e) { return new ReturnStatus(false,
+	 * ErrorHandling.handleError(e)); } }
+	 */
 
 	private void createInputVerifiers() {
 
@@ -1164,6 +1150,9 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 			if (component instanceof JTextField) {
 				((JTextField) component).setEditable(false);
 			}
+			if (component instanceof JTextArea) {
+				((JTextArea) component).setEditable(false);
+			}
 		}
 	}
 
@@ -1175,6 +1164,9 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 			// If it's a JTextField, you can also make it non-editable
 			if (component instanceof JTextField) {
 				((JTextField) component).setEditable(true);
+			}
+			if (component instanceof JTextArea) {
+				((JTextArea) component).setEditable(true);
 			}
 		}
 	}
@@ -1213,6 +1205,10 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		btnAdd.requestFocus();
 		callNo = logicCallsEntry.getLastCallNo();
 		lblLastCallNoVal.setText(callNo);
+
+		spnCallDate.setValue(new java.util.Date());
+		spnCallFromDate.setValue(new java.util.Date());
+		spnCallToDate.setValue(new java.util.Date());
 
 		panelEntry.setVisible(true);
 		panelView.setVisible(false);
@@ -1270,10 +1266,14 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 
 		callFrom = logicCallsEntry.getCallFrom();
 		for (Operator oper : callFrom) {
-			//			cmbCallFrom.addListItem(new ListItem(oper.getStaffname(), oper.getStaffid()));
-			//			cmbViewRecby.addListItem(new ListItem(oper.getStaffname(), oper.getStaffid()));
-			//			cmbViewCallCoOrd.addListItem(new ListItem(oper.getStaffname(), oper.getStaffid()));
-			//			cmbViewCustCoOrd.addListItem(new ListItem(oper.getStaffname(), oper.getStaffid()));
+			// cmbCallFrom.addListItem(new ListItem(oper.getStaffname(),
+			// oper.getStaffid()));
+			// cmbViewRecby.addListItem(new ListItem(oper.getStaffname(),
+			// oper.getStaffid()));
+			// cmbViewCallCoOrd.addListItem(new ListItem(oper.getStaffname(),
+			// oper.getStaffid()));
+			// cmbViewCustCoOrd.addListItem(new ListItem(oper.getStaffname(),
+			// oper.getStaffid()));
 
 			cmbDeptAuthorize.addListItem(new ListItem(oper.getStaffname(), oper.getStaffid()));
 
@@ -1719,21 +1719,23 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		panelDetail.setBackground(color2);
 		panelDetail.setVisible(true);
 
-		//		lblHeading = new JLabel("CALLS REGISTER");
-		//		lblHeading.setBounds(865, -10, 170, 50);
-		//		//		lblHeading.setBounds(panelDetail.getWidth() / 2, panelDetail.getY() / 2, 20, 20);
-		//		lblHeading.setFont(jilabaFonts.getFont(FontStyle.BOLD, 23));
-		//		lblHeading.setForeground(fontColor1);
-		//		lblHeading.setVisible(true);
+		// lblHeading = new JLabel("CALLS REGISTER");
+		// lblHeading.setBounds(865, -10, 170, 50);
+		// // lblHeading.setBounds(panelDetail.getWidth() / 2, panelDetail.getY() / 2,
+		// 20, 20);
+		// lblHeading.setFont(jilabaFonts.getFont(FontStyle.BOLD, 23));
+		// lblHeading.setForeground(fontColor1);
+		// lblHeading.setVisible(true);
 
 		lblCallMnuHead = new JLabel("CALLS ENTRY");
 		lblCallMnuHead.setBounds(10, -10, 170, 50);
-		//		lblHeading.setBounds(panelDetail.getWidth() / 2, panelDetail.getY() / 2, 20, 20);
+		// lblHeading.setBounds(panelDetail.getWidth() / 2, panelDetail.getY() / 2, 20,
+		// 20);
 		lblCallMnuHead.setFont(jilabaFonts.getFont(FontStyle.BOLD, 23));
 		lblCallMnuHead.setForeground(fontColor1);
 		lblCallMnuHead.setVisible(true);
 
-		//		panelDetail.add(lblHeading);
+		// panelDetail.add(lblHeading);
 		panelDetail.add(lblCallMnuHead);
 		panelMain.add(panelDetail);
 		return panelLine;
@@ -1809,7 +1811,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 
 			setVisible(false);
 
-			//			reLoadImageSetEmpty();
+			// reLoadImageSetEmpty();
 
 			FrmMainMenu frmMainMenu = Applicationmain.getAbstractApplicationContext().getBean(FrmMainMenu.class);
 			frmMainMenu.setVisible(true);
@@ -1921,14 +1923,16 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 			cmbDevCoOrd.setSelectedItem(tblEditCalls.getValueAt(row, 13).toString());
 			txtEditCallNo.setText(tblEditCalls.getValueAt(row, 0).toString());
 
-			//			CallsImages callsImages = logicReadyCalls
-			//					.getImages(String.valueOf(tblEditCalls.getValueAt(row, 0).toString()));
+			// CallsImages callsImages = logicReadyCalls
+			// .getImages(String.valueOf(tblEditCalls.getValueAt(row, 0).toString()));
 			blnFrmCallEdit = true;
-			//			FrmImageDialog frmImageDialog = Applicationmain.getAbstractApplicationContext()
-			//					.getBean(FrmImageDialog.class, new Object[] { getContentPane() });
-			//			frmImageDialog.booleanAssign(blnFrmCallEdit, false,(String.valueOf(tblEditCalls.getValueAt(row, 0).toString())),
-			//					callsImages);
-			//			frmImageDialog.setVisible(true);
+			// FrmImageDialog frmImageDialog =
+			// Applicationmain.getAbstractApplicationContext()
+			// .getBean(FrmImageDialog.class, new Object[] { getContentPane() });
+			// frmImageDialog.booleanAssign(blnFrmCallEdit,
+			// false,(String.valueOf(tblEditCalls.getValueAt(row, 0).toString())),
+			// callsImages);
+			// frmImageDialog.setVisible(true);
 
 			spnCallDate.requestFocus();
 
@@ -2147,7 +2151,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 			calls.setCustcordinator_name(String.valueOf(cmbCustStaff.getSelectedItem()));
 			calls.setCallcoordinator(String.valueOf(cmbStaff.getSelectedItemValue()));
 			calls.setModuleid(Integer.parseInt(String.valueOf(cmbModule.getSelectedItemValue())));
-			//			calls.setRefNo(String.valueOf(txtRefNo.getText()));
+			// calls.setRefNo(String.valueOf(txtRefNo.getText()));
 			calls.setMoption(txtOption.getText());
 			calls.setCallnature(String.valueOf(((String) cmbNature.getSelectedItem()).charAt(0)));
 			calls.setDescription(txtDesc.getText());
@@ -2155,7 +2159,8 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 
 			if (FrmImageDialog.blnImageVerify == true) {
 				logicCallsEntry.getCallSave(calls, call, lblImage1, lblImage2, lblImage3, lblImage4);
-				//				logicCallsEntry.saveCallImages(call, lblImage1, lblImage2, lblImage3, lblImage4);
+				// logicCallsEntry.saveCallImages(call, lblImage1, lblImage2, lblImage3,
+				// lblImage4);
 			} else {
 
 				logicCallsEntry.getCallSave(calls, "", null, null, null, null);
@@ -2288,10 +2293,13 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 
 			}
 
-			/*setVisible(false);
-			
-			FrmMainMenu frmMainMenu = Applicationmain.getAbstractApplicationContext().getBean(FrmMainMenu.class);
-			frmMainMenu.setVisible(true);*/
+			/*
+			 * setVisible(false);
+			 * 
+			 * FrmMainMenu frmMainMenu =
+			 * Applicationmain.getAbstractApplicationContext().getBean(FrmMainMenu.class);
+			 * frmMainMenu.setVisible(true);
+			 */
 
 		}
 
@@ -2326,7 +2334,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 				}
 				spnCallToDate.setVisible(false);
 				lblCallFromDate.setText("As On");
-				//				spnCallToDate = null;
+				// spnCallToDate = null;
 				spnCallFromDate.requestFocus();
 			} else if (e.getSource() == rdpBetweenDate) {
 

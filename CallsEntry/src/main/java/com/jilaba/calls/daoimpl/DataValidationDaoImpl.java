@@ -160,9 +160,10 @@ public class DataValidationDaoImpl implements DataValidationDao {
 
 			List<DataValidation> lstDataValidation;
 
-			lstDataValidation = jdbcTemplate.query(dataValidationQuery.getData( dataId,  branchId,  Date,  text2), new DataRowMapper());
+			lstDataValidation = jdbcTemplate.query(dataValidationQuery.getData(dataId, branchId, Date, text2),
+					new DataRowMapper());
 
-			return new ReturnStatus(true);
+			return new ReturnStatus(true, lstDataValidation);
 		} catch (Exception e) {
 			return new ReturnStatus(false, ErrorHandling.handleError(e));
 		}
@@ -176,6 +177,7 @@ public class DataValidationDaoImpl implements DataValidationDao {
 			DataValidation dataValidation = new DataValidation();
 
 			dataValidation.setQueryDesc(rs.getString("QueryDesc"));
+			dataValidation.setReason(rs.getString("Reason"));
 
 			return dataValidation;
 
