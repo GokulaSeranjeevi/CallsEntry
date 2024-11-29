@@ -237,7 +237,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		panelMain.add(panelContentInitialize());
 		panelMain.add(panelShortcutInitialize());
 		panelMain.add(panelLine3Inialize());
-		//		panelMain.add(panelPendingCalls());
+		// panelMain.add(panelPendingCalls());
 
 		getContentPane().add(panelMain);
 
@@ -258,15 +258,15 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		lblHeading.setFont(jilabaFonts.getFont(FontStyle.BOLD, 15));
 		lblHeading.setVisible(true);
 
-		//		panelPending = new JPanel();
-		//		panelPending.setBounds(10, lblHeading.getY()+30, 230, 150);
-		//		panelPending.setLayout(null);
-		//		panelPending.setVisible(true);
-		//		panelPending.setBackground(color2);
-		//		panelPending.setBorder(BorderFactory.createEtchedBorder(color4, color4));
+		// panelPending = new JPanel();
+		// panelPending.setBounds(10, lblHeading.getY()+30, 230, 150);
+		// panelPending.setLayout(null);
+		// panelPending.setVisible(true);
+		// panelPending.setBackground(color2);
+		// panelPending.setBorder(BorderFactory.createEtchedBorder(color4, color4));
 
-		//		panelShortcut.add(lblHeading);
-		//		panelShortcut.add(panelPending);
+		// panelShortcut.add(lblHeading);
+		// panelShortcut.add(panelPending);
 
 		tblPendingCalls = new JilabaTable(getPendingCalls());
 		tblPendingCalls.setAutoResizeMode(JilabaTable.AUTO_RESIZE_OFF);
@@ -371,10 +371,14 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		jilabaColumnlist.add(new JilabaColumn("Description", String.class, 230, JLabel.LEFT));
 		jilabaColumnlist.add(new JilabaColumn("No.Of.Calls ", String.class, 150, JLabel.RIGHT));
 
-		//		jilabaColumnlist.add(new JilabaColumn("Total Calls",  String.class, 150, JLabel.RIGHT));
-		//		jilabaColumnlist.add(new JilabaColumn("Assigned Calls", String.class, 150, JLabel.RIGHT));
-		//		jilabaColumnlist.add(new JilabaColumn("UnAssigned Calls", String.class, 150, JLabel.RIGHT));
-		//		jilabaColumnlist.add(new JilabaColumn("Pending Calls", String.class, 150, JLabel.RIGHT));
+		// jilabaColumnlist.add(new JilabaColumn("Total Calls", String.class, 150,
+		// JLabel.RIGHT));
+		// jilabaColumnlist.add(new JilabaColumn("Assigned Calls", String.class, 150,
+		// JLabel.RIGHT));
+		// jilabaColumnlist.add(new JilabaColumn("UnAssigned Calls", String.class, 150,
+		// JLabel.RIGHT));
+		// jilabaColumnlist.add(new JilabaColumn("Pending Calls", String.class, 150,
+		// JLabel.RIGHT));
 
 		return jilabaColumnlist;
 
@@ -386,10 +390,14 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		jilabaColumnlist.add(new JilabaColumn("Description", String.class, 210, JLabel.LEFT));
 		jilabaColumnlist.add(new JilabaColumn("No.Of.Calls ", String.class, 155, JLabel.RIGHT));
 
-		//		jilabaColumnlist.add(new JilabaColumn("Total Calls",  String.class, 150, JLabel.RIGHT));
-		//		jilabaColumnlist.add(new JilabaColumn("Assigned Calls", String.class, 150, JLabel.RIGHT));
-		//		jilabaColumnlist.add(new JilabaColumn("UnAssigned Calls", String.class, 150, JLabel.RIGHT));
-		//		jilabaColumnlist.add(new JilabaColumn("Pending Calls", String.class, 150, JLabel.RIGHT));
+		// jilabaColumnlist.add(new JilabaColumn("Total Calls", String.class, 150,
+		// JLabel.RIGHT));
+		// jilabaColumnlist.add(new JilabaColumn("Assigned Calls", String.class, 150,
+		// JLabel.RIGHT));
+		// jilabaColumnlist.add(new JilabaColumn("UnAssigned Calls", String.class, 150,
+		// JLabel.RIGHT));
+		// jilabaColumnlist.add(new JilabaColumn("Pending Calls", String.class, 150,
+		// JLabel.RIGHT));
 
 		return jilabaColumnlist;
 
@@ -416,7 +424,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		panelMenu.setLocation(0, 25);
 		panelMenu.setSize(650, 580);
 		panelMenu.setVisible(true);
-		//		panelMenu.setBorder(BorderFactory.createEtchedBorder(color1, color1));
+		// panelMenu.setBorder(BorderFactory.createEtchedBorder(color1, color1));
 
 		btnX = 30;
 		btnY = 30;
@@ -430,8 +438,8 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		btnMaster.setBorderPainted(true);
 		btnMaster.setForeground(fontColor2);
 		btnMaster.setBorder(BorderFactory.createLineBorder(Color.decode("#BF360C")));
-		//		btnMaster.setBorder(BorderFactory.createEtchedBorder(color1, color1));
-		//		btnMaster.setBorder(BorderFactory.createEmptyBorder());
+		// btnMaster.setBorder(BorderFactory.createEtchedBorder(color1, color1));
+		// btnMaster.setBorder(BorderFactory.createEmptyBorder());
 		btnMaster.setMnemonic(KeyEvent.VK_M);
 		btnMaster.setBounds(btnX, btnY, btnWidth, btnHeight);
 		btnMaster.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -635,9 +643,9 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		btnExit.setVisible(true);
 		btnExit.addActionListener(this);
 
-		//		JFrame frame = new JFrame("");
-		//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//		frame.setSize(600, 500);
+		// JFrame frame = new JFrame("");
+		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// frame.setSize(600, 500);
 
 		gifLabel = new JLabel("");
 		gifLabel.setBounds(200, 80, 600, 500);
@@ -645,7 +653,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		gifLabel.setFocusable(true);
 		gifLabel.setVisible(true); // Initially hide the GIF
 
-		//		frame.add(gifLabel);
+		// frame.add(gifLabel);
 
 		panelContent.add(gifLabel);
 		panelContent.add(btnMaster);
@@ -872,10 +880,6 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 
 				workinProgress();
 
-			} else if (e.getSource() == btnDailyActivity) {
-
-				workinProgress();
-
 			} else if (e.getSource() == btnDataMaintenance) {
 
 				workinProgress();
@@ -887,13 +891,20 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 				if (response == JOptionPane.YES_OPTION) {
 
 					FrmVersionUpgrade frmVersionUpgrade = new FrmVersionUpgrade();
-					
+
 					System.exit(0);
 
 				} else {
 					return;
 				}
 
+			} else if (e.getSource() == btnDailyActivity) {
+
+				setVisible(false);
+
+				FrmDailyActivity frmDailyActivity = Applicationmain.getAbstractApplicationContext()
+						.getBean(FrmDailyActivity.class);
+				frmDailyActivity.setVisible(true);
 			}
 
 		} catch (Exception e2) {
@@ -908,11 +919,12 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		String currentDir = System.getProperty("user.dir");
 		String destinationPath = currentDir + File.separator + "Calls.jar";
 
-		//		String destinationPath = "\\\\172.16.10.97\\e\\Calls.jar"; // Destination path
+		// String destinationPath = "\\\\172.16.10.97\\e\\Calls.jar"; // Destination
+		// path
 
 		try {
 			copyJarFile(sourcePath, destinationPath);
-			//			JOptionPane.showMessageDialog(null, "", "JAR file copied successfully.", 0);
+			// JOptionPane.showMessageDialog(null, "", "JAR file copied successfully.", 0);
 
 			openJarFile(destinationPath);
 
@@ -948,12 +960,16 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		gifLabel.setVisible(true);
 		gifLabel.requestFocusInWindow();
 		ImageIcon gifIcon = new ImageIcon(
-				"C:\\Users\\avrsw\\eclipse-workspace\\CallsEntry\\src\\main\\resources\\resource\\WIP.gif"); // Update with your GIF path
+				"C:\\Users\\avrsw\\eclipse-workspace\\CallsEntry\\src\\main\\resources\\resource\\WIP.gif"); // Update
+																												// with
+																												// your
+																												// GIF
+																												// path
 		gifLabel.setIcon(gifIcon);
 		gifLabel.setVisible(true); // Show the GIF
 
 		// Delay for 2 seconds (2000 milliseconds)
-		//                         Thread.sleep(2000);
+		// Thread.sleep(2000);
 
 	}
 
