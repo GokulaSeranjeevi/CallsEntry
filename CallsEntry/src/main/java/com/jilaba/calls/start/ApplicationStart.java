@@ -1,5 +1,7 @@
 package com.jilaba.calls.start;
 
+import java.security.Security;
+
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
@@ -15,6 +17,25 @@ public class ApplicationStart {
 	public static void main(String[] args) {
 
 		try {
+			
+			String disabledAlgorithms = Security.getProperty("jdk.tls.disabledAlgorithms");
+			String[] algorithms = disabledAlgorithms.split(",");
+			for (int i = 0; i < algorithms.length; i++) {
+				String string = algorithms[i];
+				if ("TLSv1".contains(string.trim()) || "TLSv1.1".contains(string.trim())) {
+					algorithms[i] = null;
+				}
+			}
+			String altered = "";
+			for (int i = 0; i < algorithms.length; i++) {
+				String string = algorithms[i];
+				if (null == string) {
+					continue;
+				}
+
+				altered += string + ",";
+			}
+			Security.setProperty("jdk.tls.disabledAlgorithms", altered);
 
 			// to merge button focus and cursor foucs
 			UIManager.put("Button.defaultButtonFollowsFocus", true);

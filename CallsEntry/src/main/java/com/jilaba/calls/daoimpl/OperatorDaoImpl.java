@@ -39,6 +39,7 @@ public class OperatorDaoImpl implements OperatorDao {
 			return new ReturnStatus(true, lstOperator);
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ReturnStatus(false, ErrorHandling.handleError(e));
 		}
 
