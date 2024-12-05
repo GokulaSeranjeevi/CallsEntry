@@ -1,10 +1,7 @@
 package com.jilaba.calls.query;
 
-import java.sql.Date;
-import java.text.Normalizer.Form;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Formatter;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

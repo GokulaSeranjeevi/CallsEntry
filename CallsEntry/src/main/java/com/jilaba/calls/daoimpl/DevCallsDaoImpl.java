@@ -9,9 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JOptionPane;
-import javax.swing.text.TabableView;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -21,7 +18,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Component;
 
 import com.jilaba.calls.dao.DevCalls;
-import com.jilaba.calls.forms.FrmDevCalls;
 import com.jilaba.calls.forms.FrmLogin;
 import com.jilaba.calls.model.Calls;
 import com.jilaba.calls.model.CallsImages;

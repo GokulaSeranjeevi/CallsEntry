@@ -7,9 +7,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import com.jilaba.calls.common.CommonMethods;
 //import com.jilaba.calls.common.CommonMethods;
 import com.jilaba.calls.start.Applicationmain;
-import com.jilaba.exception.ErrorHandling;
 import com.jilaba.exception.JilabaException;
-import com.jilaba.fileresource.Server;
 import com.jilaba.security.Validation;
 
 public class ConnectionConfig {

@@ -1,47 +1,35 @@
 package com.jilaba.calls.forms;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Dialog;
-import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.jilaba.calls.common.CommonMethods;
-import com.jilaba.calls.common.CommonValues;
 import com.jilaba.calls.common.CustomFonts;
 import com.jilaba.calls.logic.LogicDevCallAssign;
 import com.jilaba.calls.model.Operator;
-import com.jilaba.calls.start.Applicationmain;
 import com.jilaba.common.ReturnStatus;
-import com.jilaba.control.JilabaButton;
 import com.jilaba.control.JilabaComboBox;
 import com.jilaba.control.JilabaSpinner;
 import com.jilaba.control.JilabaTextField;
 import com.jilaba.control.ListItem;
 import com.jilaba.exception.ErrorHandling;
 import com.jilaba.exception.JilabaException;
-import com.jilaba.fonts.JilabaFonts.FontStyle;
 
 @Component
 @Scope("prototype")

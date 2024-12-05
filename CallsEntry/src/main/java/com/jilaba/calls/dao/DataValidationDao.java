@@ -1,7 +1,5 @@
 package com.jilaba.calls.dao;
 
-import java.util.List;
-
 import com.jilaba.calls.model.DataValidation;
 import com.jilaba.common.ReturnStatus;
 

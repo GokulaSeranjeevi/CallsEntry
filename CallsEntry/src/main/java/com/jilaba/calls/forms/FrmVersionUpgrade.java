@@ -1,9 +1,14 @@
 package com.jilaba.calls.forms;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.*;
-import java.nio.file.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class FrmVersionUpgrade extends JFrame {
 

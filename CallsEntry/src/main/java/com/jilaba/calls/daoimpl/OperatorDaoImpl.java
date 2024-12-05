@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import com.jilaba.calls.dao.OperatorDao;
 import com.jilaba.calls.model.Operator;
 import com.jilaba.calls.query.OperatorQuery;
-import com.jilaba.calls.start.Applicationmain;
 import com.jilaba.common.ReturnStatus;
 import com.jilaba.exception.ErrorHandling;
 

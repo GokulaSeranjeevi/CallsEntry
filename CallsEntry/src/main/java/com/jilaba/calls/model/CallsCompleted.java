@@ -1,7 +1,5 @@
 package com.jilaba.calls.model;
 
-import com.jilaba.common.ReturnStatus;
-
 public class CallsCompleted {
 
 	private int callNo;

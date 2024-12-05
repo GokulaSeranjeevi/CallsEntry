@@ -4,11 +4,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.net.SocketException;
 import java.net.URISyntaxException;
-import java.net.UnknownHostException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.CodeSource;
 import java.util.Enumeration;
@@ -31,7 +28,6 @@ import com.jilaba.control.JilabaMenu;
 import com.jilaba.control.JilabaMenuItem;
 import com.jilaba.exception.ErrorHandling;
 import com.jilaba.exception.JilabaException;
-import com.jilaba.fileresource.Server;
 
 @Component
 public class CommonMethods {

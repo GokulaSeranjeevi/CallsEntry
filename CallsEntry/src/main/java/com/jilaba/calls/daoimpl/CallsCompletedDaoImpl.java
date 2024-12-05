@@ -14,15 +14,12 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.jilaba.calls.dao.CallsCompletedDao;
-import com.jilaba.calls.daoimpl.ReadyCallsDaoImpl.ReadyCallsCallsRowMapper;
 import com.jilaba.calls.model.CallsCompleted;
 import com.jilaba.calls.model.Customer;
 import com.jilaba.calls.model.Department;
 import com.jilaba.calls.model.Module;
 import com.jilaba.calls.model.Operator;
-import com.jilaba.calls.model.ReadyCalls;
 import com.jilaba.calls.query.CallsCompletedQuery;
-import com.jilaba.calls.query.ReadyCallsQuery;
 import com.jilaba.common.ReturnStatus;
 import com.jilaba.exception.ErrorHandling;
 

@@ -1,7 +1,5 @@
 package com.jilaba.calls.dao;
 
-import java.util.List;
-
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 

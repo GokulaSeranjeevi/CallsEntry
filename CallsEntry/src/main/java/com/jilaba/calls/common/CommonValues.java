@@ -1,7 +1,6 @@
 package com.jilaba.calls.common;
 
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 
 public class CommonValues {
 	public static final int MAINSCREEN = 10;

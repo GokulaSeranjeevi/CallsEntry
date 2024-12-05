@@ -2,15 +2,8 @@ package com.jilaba.calls.start;
 
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.stereotype.Component;
 
-import com.jilaba.calls.common.CommonMethods;
 import com.jilaba.calls.forms.FrmLogin;
-import com.jilaba.exception.ErrorHandling;
-import com.jilaba.exception.JilabaException;
-import com.jilaba.fileresource.Server;
-import com.jilaba.security.Validation;
 
 public class Applicationmain {
 

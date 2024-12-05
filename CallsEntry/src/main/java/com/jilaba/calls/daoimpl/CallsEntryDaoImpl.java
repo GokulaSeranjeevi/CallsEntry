@@ -8,19 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.sql.DataSource;
 import javax.swing.JOptionPane;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.jilaba.calls.common.TransactionManager;
 import com.jilaba.calls.dao.CallsEntryDao;
@@ -29,12 +23,12 @@ import com.jilaba.calls.model.CallsImages;
 import com.jilaba.calls.model.CustStaff;
 import com.jilaba.calls.model.Customer;
 import com.jilaba.calls.model.Department;
+import com.jilaba.calls.model.Module;
 import com.jilaba.calls.model.Operator;
 import com.jilaba.calls.query.CallsEntryQuery;
 import com.jilaba.common.ReturnStatus;
 import com.jilaba.exception.ErrorHandling;
 import com.jilaba.exception.JilabaException;
-import com.jilaba.calls.model.Module;
 
 @Component
 public class CallsEntryDaoImpl implements CallsEntryDao {

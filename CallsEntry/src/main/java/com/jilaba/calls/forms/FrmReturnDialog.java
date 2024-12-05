@@ -2,12 +2,10 @@ package com.jilaba.calls.forms;
 
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
-import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -22,7 +20,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.jilaba.calls.common.CustomFonts;
-import com.jilaba.calls.logic.LogicDevCalls;
 import com.jilaba.calls.logic.LogicReadyCalls;
 import com.jilaba.exception.JilabaException;
 import com.jilaba.fonts.JilabaFonts;

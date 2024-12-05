@@ -1,7 +1,5 @@
 package com.jilaba.calls.model;
 
-import java.sql.Date;
-
 public class DataValidation {
 
 	private int DatabaseId;

@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.jilaba.calls.dao.DevCallAssign;
@@ -18,11 +17,11 @@ import com.jilaba.calls.model.Calls;
 import com.jilaba.calls.model.CustStaff;
 import com.jilaba.calls.model.Customer;
 import com.jilaba.calls.model.Department;
+import com.jilaba.calls.model.Module;
 import com.jilaba.calls.model.Operator;
 import com.jilaba.calls.query.DevCallAssignQuery;
 import com.jilaba.common.ReturnStatus;
 import com.jilaba.exception.ErrorHandling;
-import com.jilaba.calls.model.Module;
 
 @Component
 @Scope("prototype")

@@ -3,16 +3,12 @@ package com.jilaba.calls.daoimpl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.support.ResourceArrayPropertyEditor;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,9 +17,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Component;
 
 import com.jilaba.calls.dao.ReadyCallsDao;
-import com.jilaba.calls.daoimpl.DevCallsDaoImpl.callsImageRowMapper;
 import com.jilaba.calls.forms.FrmLogin;
-import com.jilaba.calls.model.Calls;
 import com.jilaba.calls.model.CallsImages;
 import com.jilaba.calls.model.CustStaff;
 import com.jilaba.calls.model.Customer;

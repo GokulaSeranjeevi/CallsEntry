@@ -18,7 +18,6 @@ import com.jilaba.calls.model.Operator;
 import com.jilaba.calls.model.ReadyCalls;
 import com.jilaba.calls.model.ReturnCalls;
 import com.jilaba.common.ReturnStatus;
-import com.jilaba.control.JilabaTextField;
 
 @Component
 @Scope("prototype")

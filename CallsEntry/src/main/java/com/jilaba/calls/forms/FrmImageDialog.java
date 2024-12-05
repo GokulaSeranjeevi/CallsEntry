@@ -1,6 +1,5 @@
 package com.jilaba.calls.forms;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics2D;
@@ -13,17 +12,13 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -41,12 +36,10 @@ import org.springframework.stereotype.Component;
 
 import com.jilaba.calls.common.CustomFonts;
 import com.jilaba.calls.common.ImageResource;
-import com.jilaba.calls.logic.LogicCallsEntry;
 import com.jilaba.calls.logic.LogicDevCallAssign;
 import com.jilaba.calls.model.CallsImages;
 import com.jilaba.calls.start.Applicationmain;
 import com.jilaba.common.ReturnStatus;
-import com.jilaba.control.ImageZoomLabel;
 import com.jilaba.exception.ErrorHandling;
 import com.jilaba.exception.JilabaException;
 import com.jilaba.imagemanager.ImageCompressor;

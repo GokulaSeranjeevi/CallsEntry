@@ -3,9 +3,7 @@ package com.jilaba.calls.forms;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.RenderingHints;
-import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -31,11 +29,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.jilaba.calls.common.CustomFonts;
-import com.jilaba.calls.common.ImageResource;
 import com.jilaba.calls.start.Applicationmain;
 import com.jilaba.common.ReturnStatus;
 import com.jilaba.control.ImageZoomLabel;
-import com.jilaba.exception.ErrorHandling;
 import com.jilaba.imagemanager.ImageCompressor;
 
 @Component

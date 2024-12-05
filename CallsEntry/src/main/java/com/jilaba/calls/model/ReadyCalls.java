@@ -2,8 +2,6 @@ package com.jilaba.calls.model;
 
 import java.sql.Date;
 
-import javax.print.DocFlavor.STRING;
-
 public class ReadyCalls {
 
 	private int Callno;

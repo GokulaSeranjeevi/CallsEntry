@@ -15,7 +15,6 @@ import com.jilaba.calls.model.Calls;
 import com.jilaba.calls.query.MainMenuQuery;
 import com.jilaba.common.ReturnStatus;
 import com.jilaba.exception.ErrorHandling;
-import com.mysql.cj.Query;
 
 @Component
 @Scope("prototype")
