@@ -902,9 +902,9 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 
 				setVisible(false);
 
-				FrmDailyActivity frmDailyActivity = Applicationmain.getAbstractApplicationContext()
-						.getBean(FrmDailyActivity.class);
-				frmDailyActivity.setVisible(true);
+//				FrmDailyActivity frmDailyActivity = Applicationmain.getAbstractApplicationContext()
+//						.getBean(FrmDailyActivity.class);
+//				frmDailyActivity.setVisible(true);
 			}
 
 		} catch (Exception e2) {

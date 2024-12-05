@@ -9,11 +9,15 @@
 	<description>CallsEntry</description>
 	<properties>
 		<jdk.version>1.8</jdk.version>
-		<spring.version>5.1.0.RELEASE</spring.version>
+			<spring.version>5.1.0.RELEASE</spring.version>
 		<mysql.connector.version>8.0.12</mysql.connector.version>
 	</properties>
 	<dependencies>
-
+	<dependency>
+    <groupId>javax.annotation</groupId>
+    <artifactId>javax.annotation-api</artifactId>
+    <version>1.3.2</version> <!-- or the latest version -->
+</dependency>
 		<dependency>
 			<groupId>com.jilaba.utility</groupId>
 			<artifactId>JilabaUtility</artifactId>
@@ -24,11 +28,11 @@
 			<artifactId>JilabaControl</artifactId>
 			<version>2.0</version>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>com.anicalans.authentication</groupId>
 			<artifactId>Authentication</artifactId>
 			<version>1.0</version>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
@@ -65,11 +69,11 @@
 			<version>1.3.1</version>
 		</dependency>
 		
-		<!--<dependency>
+		<dependency>
 			<groupId>net.sourceforge.jtds</groupId>
 			<artifactId>jtds</artifactId>
 			<version>1.2</version>
-		</dependency>-->
+		</dependency>
 
 		<dependency>
 			<groupId>commons-collections</groupId>
