@@ -14,6 +14,7 @@ public class CustomFonts {
 	public final static Font FONT16 = jilabaFonts.getFont(16);
 	public final static Font BOLDFONT14 = jilabaFonts.getFont(FontStyle.BOLD, 14);
 	public final static Font FONT22 = jilabaFonts.getFont(22);
+	public final static Font FONT62 = jilabaFonts.getFont(26);
 
 	public final static Font font = new Font("Calibri", Font.PLAIN, 17);
 	public final static Font fontCalibriPlain15 = new Font("Calibri", Font.PLAIN, 15);
