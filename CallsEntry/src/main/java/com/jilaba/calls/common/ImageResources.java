@@ -23,6 +23,8 @@ public class ImageResources {
 	public static final String ATTENDANCE = "resource/attendance.png";
 	public static final String INDIVIDUALREPORT = "resource/INDIVIDUALREPORT.png";
 	public static final String ATTENDANCEREPORT = "resource/AttendanceReport.png";
+	public static final String MARK = "resource/Mark.png";
+	public static final String ATTENDANCEEXIT = "resource/AttendanceExit.png";
 	public static final String WORKINPROGRESS = "resource/WIP.gif";
 
 }
