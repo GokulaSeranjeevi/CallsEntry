@@ -48,13 +48,15 @@ public class ApplicationStart {
 					ApplicationConfig.class);
 			Applicationmain.setAbstractApplicationContext(applicationContext);
 
-			FrmDailyActivity frmDailyActivity = Applicationmain.getAbstractApplicationContext()
-					.getBean(FrmDailyActivity.class);
-			frmDailyActivity.setVisible(true);
+			/*
+			 * FrmDailyActivity frmDailyActivity =
+			 * Applicationmain.getAbstractApplicationContext()
+			 * .getBean(FrmDailyActivity.class); frmDailyActivity.setVisible(true);
+			 */
 
 //			
-//			FrmLogin frmLogin = Applicationmain.getAbstractApplicationContext().getBean(FrmLogin.class);
-//			frmLogin.setVisible(true);
+			FrmLogin frmLogin = Applicationmain.getAbstractApplicationContext().getBean(FrmLogin.class);
+			frmLogin.setVisible(true);
 
 		} catch (Exception e) {
 
