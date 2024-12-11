@@ -1,0 +1,9 @@
+package com.anicalans.commonutility.common;
+
+public class RunTimeCommands {
+	public static final String VERSIONHANDLER = "VERSIONHANDLER";
+	public static final String CALLANICALANSFROMMODULES = "CALLANICALANSFROMMODULES";
+	public static final String CALLANICALANSFROMALLBRANCHES = "CALLANICALANSFROMALLBRANCHES";
+	public static final String CALLANICALANSFROMALLBRANCHESMODULES = "CALLANICALANSFROMALLBRANCHESMODULES";
+	public static final String CALLMODULESFROMANICALANS = "CALLMODULESFROMANICALANS";
+}
