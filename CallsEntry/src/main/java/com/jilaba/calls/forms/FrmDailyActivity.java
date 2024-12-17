@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -20,6 +21,8 @@ import java.util.Timer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -27,6 +30,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.SwingConstants;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
 import com.jilaba.calls.common.CommonMethods;
@@ -34,10 +38,15 @@ import com.jilaba.calls.common.CustomFonts;
 import com.jilaba.calls.common.ImageResources;
 import com.jilaba.calls.common.LoginCredential;
 import com.jilaba.calls.common.TimerJob;
+import com.jilaba.calls.logic.LogicLogin;
+import com.jilaba.calls.model.Operator;
 import com.jilaba.calls.start.Applicationmain;
 import com.jilaba.control.JilabaColumn;
+import com.jilaba.control.JilabaComboBox;
 import com.jilaba.control.JilabaSpinner;
 import com.jilaba.control.JilabaTable;
+import com.jilaba.control.JilabaTextField;
+import com.jilaba.control.ListItem;
 import com.jilaba.design.ControlResize;
 import com.jilaba.fonts.JilabaFonts;
 import com.jilaba.fonts.JilabaFonts.FontStyle;
@@ -79,6 +88,11 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 	private JScrollPane scrAtn;
 	private JButton btnAtnMark;
 	private JButton btnExit;
+	private JCheckBox chkAtmMark;
+	private JilabaComboBox<Operator> cmbApprovedby;
+	private JilabaTextField txtAtn;
+
+	private List<Operator> lstoperator = new ArrayList<Operator>();
 
 	private Color color1 = Color.decode("#F1C232");
 	private Color color2 = Color.decode("#FFFFFF");
@@ -86,7 +100,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 	private Color color4 = Color.decode("#cdcdcd");
 	private Color color5 = Color.decode("#e4dedf");
 	private Color color6 = Color.decode("#b43e69");
-	private Color color7 = Color.decode("#ADD8E6");
+	private Color color7 = Color.decode("#ACDDDE");
 
 	private Color fontColor1 = Color.decode("#17202A");
 	private Color fontColor2 = Color.decode("#3B3B3B");
@@ -94,6 +108,9 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 	private JilabaFonts jilabaFonts = new JilabaFonts();
 
 	private ControlResize controlResize;
+
+	@Autowired
+	private LogicLogin logicLogin;
 
 	public FrmDailyActivity() {
 
@@ -112,6 +129,54 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		setSize(controlResize.getRectangle().getSize());
 		controlResize.reAlignControls();
 
+	}
+
+	private void enableTextBox() {
+		tblAttendance.add(txtAtn);
+		int selectedRow = tblAttendance.getSelectedRow();
+		int selectedColumn = tblAttendance.getSelectedColumn();
+		if (selectedRow != -1 && selectedColumn != -1 && selectedColumn == 8 || selectedColumn == 7) {
+			Rectangle cellRect = tblAttendance.getCellRect(selectedRow, selectedColumn, true);
+			txtAtn.setBounds(cellRect);
+			txtAtn.setVisible(true);
+			txtAtn.requestFocus();
+			txtAtn.addKeyListener(this);
+		}
+	}
+
+	private void enableComboBox() {
+		tblAttendance.add(cmbApprovedby);
+
+		lstoperator = logicLogin.getOperators();
+
+		for (Operator oper : lstoperator) {
+
+			cmbApprovedby.addListItem(new ListItem(oper.getStaffname()));
+		}
+
+		int selectedRow = tblAttendance.getSelectedRow();
+		int selectedColumn = tblAttendance.getSelectedColumn();
+		if (selectedRow != -1 && selectedColumn != -1 && selectedColumn == 6) {
+			Rectangle cellRect = tblAttendance.getCellRect(selectedRow, selectedColumn, true);
+			cmbApprovedby.setBounds(cellRect);
+			cmbApprovedby.setVisible(true);
+			cmbApprovedby.requestFocus();
+			cmbApprovedby.addKeyListener(this);
+		}
+	}
+
+	private void enableCheckBox() {
+		tblAttendance.add(chkAtmMark);
+		int selectedRow = tblAttendance.getSelectedRow();
+		int selectedColumn = tblAttendance.getSelectedColumn();
+		if (selectedRow != -1 && selectedColumn != -1 && selectedColumn != 0 && selectedColumn != 6
+				&& selectedColumn != 7 && selectedColumn != 8) {
+			Rectangle cellRect = tblAttendance.getCellRect(selectedRow, selectedColumn, true);
+			chkAtmMark.setBounds(cellRect);
+			chkAtmMark.setVisible(true);
+			chkAtmMark.requestFocus();
+			chkAtmMark.addKeyListener(this);
+		}
 	}
 
 	private void createListeners() {
@@ -139,6 +204,85 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 
 		});
 
+		tblAttendance.addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+				if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+
+					if (tblAttendance.getSelectedColumn() == 6) {
+						enableComboBox();
+					} else if (tblAttendance.getSelectedColumn() == 7 || tblAttendance.getSelectedColumn() == 8) {
+						enableTextBox();
+					} else {
+						enableCheckBox();
+					}
+				}
+
+			}
+
+		});
+
+		chkAtmMark.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+
+					int selectedRow = tblAttendance.getSelectedRow();
+					int selectedColumn = tblAttendance.getSelectedColumn();
+
+					tblAttendance.setValueAt("Yes", selectedRow, selectedColumn);
+					tblAttendance.setCellColor(selectedRow, selectedColumn, color7);
+
+					chkAtmMark.setVisible(false);
+					tblAttendance.requestFocus();
+
+				}
+
+			}
+		});
+
+		cmbApprovedby.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+
+					int selectedRow = tblAttendance.getSelectedRow();
+					int selectedColumn = tblAttendance.getSelectedColumn();
+
+					tblAttendance.setValueAt(cmbApprovedby.getSelectedItem(), selectedRow, selectedColumn);
+//					tblAttendance.setCellColor(selectedRow, selectedColumn, color7);FS
+
+					cmbApprovedby.setVisible(false);
+					tblAttendance.requestFocus();
+
+				}
+
+			}
+		});
+		txtAtn.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+
+					int selectedRow = tblAttendance.getSelectedRow();
+					int selectedColumn = tblAttendance.getSelectedColumn();
+
+					tblAttendance.setValueAt(txtAtn.getText(), selectedRow, selectedColumn);
+//					tblAttendance.setCellColor(selectedRow, selectedColumn, color7);FS
+
+					txtAtn.setText("");
+					txtAtn.setVisible(false);
+					tblAttendance.requestFocus();
+
+				}
+
+			}
+		});
 	}
 
 	private void createControls() {
@@ -221,6 +365,20 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		scrAtn.getViewport().setBackground(tblAttendance.getTableHeader().getBackground());
 		scrAtn.setVisible(true);
 
+		chkAtmMark = new JCheckBox("Yes");
+		chkAtmMark.setVisible(true);
+		chkAtmMark.setBackground(color2);
+		chkAtmMark.setHorizontalAlignment(SwingConstants.CENTER);
+		chkAtmMark.setSelected(true);
+
+		cmbApprovedby = new JilabaComboBox<>();
+		cmbApprovedby.setVisible(true);
+		cmbApprovedby.setBackground(color2);
+
+		txtAtn = new JilabaTextField();
+		txtAtn.setVisible(true);
+		txtAtn.setBackground(color2);
+
 		btnAtnMark = new JButton("Attendance Mark");
 		btnAtnMark.setHorizontalAlignment(SwingConstants.CENTER);
 		btnAtnMark.setBounds(scrAtn.getX() + 330, scrAtn.getY() + scrAtn.getHeight() + 18, 90, 20);
@@ -268,14 +426,14 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 
 		List<JilabaColumn> jilabaColumnlist = new ArrayList<>();
 		jilabaColumnlist.add(new JilabaColumn(" StaffName ", String.class, 250, JLabel.LEFT));
-		jilabaColumnlist.add(new JilabaColumn(" Leave", String.class, 150, JLabel.LEFT));
-		jilabaColumnlist.add(new JilabaColumn(" Permission ", String.class, 200, JLabel.LEFT));
-		jilabaColumnlist.add(new JilabaColumn(" MonthOff ", String.class, 150, JLabel.LEFT));
-		jilabaColumnlist.add(new JilabaColumn(" WeekOff ", String.class, 150, JLabel.LEFT));
-		jilabaColumnlist.add(new JilabaColumn(" ComboOff ", String.class, 150, JLabel.LEFT));
+		jilabaColumnlist.add(new JilabaColumn(" Leave", String.class, 150, JLabel.CENTER));
+		jilabaColumnlist.add(new JilabaColumn(" Permission ", String.class, 150, JLabel.CENTER));
+		jilabaColumnlist.add(new JilabaColumn(" MonthOff ", String.class, 150, JLabel.CENTER));
+		jilabaColumnlist.add(new JilabaColumn(" WeekOff ", String.class, 150, JLabel.CENTER));
+		jilabaColumnlist.add(new JilabaColumn(" ComboOff ", String.class, 150, JLabel.CENTER));
 		jilabaColumnlist.add(new JilabaColumn(" Approvedby ", String.class, 150, JLabel.LEFT));
 		jilabaColumnlist.add(new JilabaColumn(" Reason ", String.class, 300, JLabel.LEFT));
-		jilabaColumnlist.add(new JilabaColumn(" PermissionTime ", String.class, 200, JLabel.LEFT));
+		jilabaColumnlist.add(new JilabaColumn(" PermissionTime ", String.class, 200, JLabel.CENTER));
 
 		return jilabaColumnlist;
 
@@ -335,7 +493,6 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		btnAttendance.addActionListener(this);
 		btnAttendance.setIconTextGap(80);
 		btnAttendance.setFont(CustomFonts.FONT62);
-		btnAttendance.addActionListener(this);
 
 		btnIndividualReport = new JButton("Individual Report");
 		btnIndividualReport.setOpaque(false);
@@ -493,6 +650,29 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 
 			panelEntry.setVisible(false);
 			panelView.setVisible(true);
+
+			lstoperator = logicLogin.getOperators();
+
+			List<Object> lstobject;
+
+			for (Operator oper : lstoperator) {
+
+				lstobject = new ArrayList<>();
+
+				lstobject.add(oper.getStaffname());
+				lstobject.add("No");
+				lstobject.add("No");
+				lstobject.add("No");
+				lstobject.add("No");
+				lstobject.add("No");
+				lstobject.add("");
+				lstobject.add("");
+				lstobject.add("");
+
+				tblAttendance.addRow(lstobject);
+
+			}
+
 		} else if (e.getSource() == btnExit) {
 			panelView.setVisible(false);
 			panelEntry.setVisible(true);
@@ -511,17 +691,16 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		/*
-		 * if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-		 * 
-		 * setVisible(false);
-		 * 
-		 * FrmMainMenu frmMainMenu =
-		 * Applicationmain.getAbstractApplicationContext().getBean(FrmMainMenu.class);
-		 * frmMainMenu.setVisible(true);
-		 * 
-		 * }
-		 */
+
+		if (e.getSource() == tblAttendance) {
+
+			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+
+				btnAtnMark.requestFocus();
+
+			}
+
+		}
 
 	}
 

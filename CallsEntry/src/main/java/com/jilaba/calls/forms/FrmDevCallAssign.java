@@ -309,9 +309,9 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 						frmCallDialog.getInitializeValue(callNo, tblSelectedRow);
 						frmCallDialog.setVisible(true);
 
-						//					tblCalls.removeRow(tblSelectedRow);
-						//					tblCalls.requestFocus();
-						//					tblCalls.changeSelection(tblSelectedRow, 1, false, false);
+						// tblCalls.removeRow(tblSelectedRow);
+						// tblCalls.requestFocus();
+						// tblCalls.changeSelection(tblSelectedRow, 1, false, false);
 						loadDevCalls();
 
 					} else {
@@ -384,7 +384,7 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 		cmbRecvFrom.removeAllItems();
 		cmbModule.removeAllItems();
 		cmbCallNature.removeAllItems();
-		//		cmbExplanation.removeAllItems();
+		// cmbExplanation.removeAllItems();
 
 		cmbDevCoOrd.addListItem(new ListItem("All", 0));
 		cmbCustomer.addListItem(new ListItem("All", 0));
@@ -397,69 +397,63 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 
 		loadCmbValues();
 
-		/*lstDevCoOrd = logicDevCallAssign.getDevCallCoOrd();
-		strDevCoOrd = new ArrayList<Object>();
-		for (Operator devcoOrd : lstDevCoOrd) {
-		
-			strDevCoOrd.add(devcoOrd.getStaffid());
-			cmbDevCoOrd.addListItem(new ListItem(devcoOrd.getStaffname(), devcoOrd.getStaffid()));
-		
-		}
-		
-		lstCustomer = logicDevCallAssign.getCustomer();
-		
-		strCustomer = new ArrayList<Object>();
-		for (Customer cust : lstCustomer) {
-		
-			strCustomer.add(cust.getCustId());
-			cmbCustomer.addListItem(new ListItem(cust.getcustName().trim(), cust.getCustId()));
-		}
-		
-		lstCustCoOrd = logicDevCallAssign.getCustCoOrd();
-		strCustCoOrd = new ArrayList<Object>();
-		
-		for (Operator custCoOrd : lstCustCoOrd) {
-		
-			strCustCoOrd.add(custCoOrd.getStaffid());
-			cmbCustCoOrd.addListItem(new ListItem(custCoOrd.getStaffname(), custCoOrd.getStaffid()));
-		
-		}
-		
-		lstDept = logicDevCallAssign.getDepartment();
-		strDeptParam = new ArrayList<Object>();
-		
-		for (Department dept : lstDept) {
-			strDeptParam.add(dept.getdNo());
-			cmbDepartment.addListItem(new ListItem(dept.getDepartment(), dept.getdNo()));
-		}
-		
-		lstDeptAuthor = logicDevCallAssign.getDeptAuthorize();
-		strDeptAuthorize = new ArrayList<Object>();
-		
-		for (Operator deptAuthor : lstDeptAuthor) {
-			strDeptAuthorize.add(deptAuthor);
-			cmbDeptAuthor.addListItem(new ListItem(deptAuthor.getStaffname(), deptAuthor.getStaffid()));
-		}
-		
-		lstRecvFrom = logicDevCallAssign.getRecvFrom();
-		strRecvFromParam = new ArrayList<Object>();
-		
-		for (Operator recvFrom : lstRecvFrom) {
-		
-			strRecvFromParam.add(recvFrom.getStaffid());
-			cmbRecvFrom.addListItem(new ListItem(recvFrom.getStaffname(), recvFrom.getStaffid()));
-		}
-		
-		lstModule = logicDevCallAssign.getModule(strDeptParam);
-		strModule = new ArrayList<Object>();
-		
-		for (com.jilaba.calls.model.Module module : lstModule) {
-		
-			strModule.add(module.getModuleId());
-			cmbModule.addListItem(new ListItem(module.getModuleName(), module.getModuleId()));
-		}
-		
-		*/ cmbCallNature.addListItem(new ListItem("Error", 1));
+		/*
+		 * lstDevCoOrd = logicDevCallAssign.getDevCallCoOrd(); strDevCoOrd = new
+		 * ArrayList<Object>(); for (Operator devcoOrd : lstDevCoOrd) {
+		 * 
+		 * strDevCoOrd.add(devcoOrd.getStaffid()); cmbDevCoOrd.addListItem(new
+		 * ListItem(devcoOrd.getStaffname(), devcoOrd.getStaffid()));
+		 * 
+		 * }
+		 * 
+		 * lstCustomer = logicDevCallAssign.getCustomer();
+		 * 
+		 * strCustomer = new ArrayList<Object>(); for (Customer cust : lstCustomer) {
+		 * 
+		 * strCustomer.add(cust.getCustId()); cmbCustomer.addListItem(new
+		 * ListItem(cust.getcustName().trim(), cust.getCustId())); }
+		 * 
+		 * lstCustCoOrd = logicDevCallAssign.getCustCoOrd(); strCustCoOrd = new
+		 * ArrayList<Object>();
+		 * 
+		 * for (Operator custCoOrd : lstCustCoOrd) {
+		 * 
+		 * strCustCoOrd.add(custCoOrd.getStaffid()); cmbCustCoOrd.addListItem(new
+		 * ListItem(custCoOrd.getStaffname(), custCoOrd.getStaffid()));
+		 * 
+		 * }
+		 * 
+		 * lstDept = logicDevCallAssign.getDepartment(); strDeptParam = new
+		 * ArrayList<Object>();
+		 * 
+		 * for (Department dept : lstDept) { strDeptParam.add(dept.getdNo());
+		 * cmbDepartment.addListItem(new ListItem(dept.getDepartment(), dept.getdNo()));
+		 * }
+		 * 
+		 * lstDeptAuthor = logicDevCallAssign.getDeptAuthorize(); strDeptAuthorize = new
+		 * ArrayList<Object>();
+		 * 
+		 * for (Operator deptAuthor : lstDeptAuthor) { strDeptAuthorize.add(deptAuthor);
+		 * cmbDeptAuthor.addListItem(new ListItem(deptAuthor.getStaffname(),
+		 * deptAuthor.getStaffid())); }
+		 * 
+		 * lstRecvFrom = logicDevCallAssign.getRecvFrom(); strRecvFromParam = new
+		 * ArrayList<Object>();
+		 * 
+		 * for (Operator recvFrom : lstRecvFrom) {
+		 * 
+		 * strRecvFromParam.add(recvFrom.getStaffid()); cmbRecvFrom.addListItem(new
+		 * ListItem(recvFrom.getStaffname(), recvFrom.getStaffid())); }
+		 * 
+		 * lstModule = logicDevCallAssign.getModule(strDeptParam); strModule = new
+		 * ArrayList<Object>();
+		 * 
+		 * for (com.jilaba.calls.model.Module module : lstModule) {
+		 * 
+		 * strModule.add(module.getModuleId()); cmbModule.addListItem(new
+		 * ListItem(module.getModuleName(), module.getModuleId())); }
+		 * 
+		 */ cmbCallNature.addListItem(new ListItem("Error", 1));
 		cmbCallNature.addListItem(new ListItem("Modification", 2));
 		cmbCallNature.addListItem(new ListItem("Clarification", 3));
 		cmbCallNature.addListItem(new ListItem("Development", 4));
@@ -499,9 +493,9 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 
 		lstDept = logicDevCallAssign.getDepartment();
 
-		//		lstDeptParam = new ArrayList<Object>();
+		// lstDeptParam = new ArrayList<Object>();
 		for (Department dept : lstDept) {
-			//			lstDeptParam.add(dept.getdNo());
+			// lstDeptParam.add(dept.getdNo());
 			cmbDepartment.addListItem(new ListItem(dept.getDepartment(), dept.getdNo()));
 		}
 
@@ -548,7 +542,7 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 		tblCalls.setForeground(color4);
 		tblCalls.setVisible(true);
 
-		//		tblCalls.setCellEditor(new TableButtonRendererEditor(tblCalls, 4));
+		// tblCalls.setCellEditor(new TableButtonRendererEditor(tblCalls, 4));
 
 		scrCalls = new JScrollPane(tblCalls);
 		scrCalls.setBounds(10, 10, 680, 360);
@@ -559,7 +553,7 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 		panelCallDesc.setBounds(scrCalls.getX(), scrCalls.getY() + scrCalls.getHeight() + 3, 680, 50);
 		panelCallDesc.setLayout(null);
 		panelCallDesc.setBackground(color7);
-		//		panelCallDesc.setBorder(BorderFactory.createEtchedBorder(color3, color3));
+		// panelCallDesc.setBorder(BorderFactory.createEtchedBorder(color3, color3));
 		panelCallDesc.setVisible(true);
 
 		txtCallDesc = new JTextArea("");
@@ -593,10 +587,14 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 		jilabaColumnlist.add(new JilabaColumn("Call Date ", String.class, 150, JLabel.CENTER));
 		jilabaColumnlist.add(new JilabaColumn("Client ", String.class, 200, JLabel.LEFT));
 		jilabaColumnlist.add(new JilabaColumn("Module ", String.class, 150, JLabel.LEFT));
-		//		jilabaColumnlist.add(new JilabaColumn("Explanation ", String.class, 150, JLabel.LEFT));
-		//		jilabaColumnlist.add(new JilabaColumn("Sug.To ", String.class, 150, JLabel.LEFT));
-		//		jilabaColumnlist.add(new JilabaColumn("Dev Hrs ", String.class, 100, JLabel.LEFT));
-		//		jilabaColumnlist.add(new JilabaColumn("Assn Date ", String.class, 150, JLabel.LEFT));
+		// jilabaColumnlist.add(new JilabaColumn("Explanation ", String.class, 150,
+		// JLabel.LEFT));
+		// jilabaColumnlist.add(new JilabaColumn("Sug.To ", String.class, 150,
+		// JLabel.LEFT));
+		// jilabaColumnlist.add(new JilabaColumn("Dev Hrs ", String.class, 100,
+		// JLabel.LEFT));
+		// jilabaColumnlist.add(new JilabaColumn("Assn Date ", String.class, 150,
+		// JLabel.LEFT));
 		jilabaColumnlist.add(new JilabaColumn("Prop Dev ", String.class, 150, JLabel.LEFT));
 		jilabaColumnlist.add(new JilabaColumn("Dev Co-Ord ", String.class, 150, JLabel.LEFT));
 		jilabaColumnlist.add(new JilabaColumn("Cust Co-Ord ", String.class, 150, JLabel.LEFT));
@@ -939,7 +937,7 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 		cmbDeptAuthor.setVisible(true);
 		cmbDeptAuthor.addKeyListener(this);
 
-		/*KSJDK*/
+		/* KSJDK */
 
 		lblRecvFrom = new JLabel("Received From");
 		lblRecvFrom.setBounds(cmbCustCoOrd.getX() + 130, cmbCustCoOrd.getY(), lblWidth, lblHeight);
@@ -1080,7 +1078,8 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 
 		lblHeading = new JLabel("DEVELOPER CALL ASSIGN");
 		lblHeading.setBounds(20, -10, 170, 50);
-		//		lblHeading.setBounds(panelDetail.getWidth() / 2, panelDetail.getY() / 2, 20, 20);
+		// lblHeading.setBounds(panelDetail.getWidth() / 2, panelDetail.getY() / 2, 20,
+		// 20);
 		lblHeading.setFont(jilabaFonts.getFont(FontStyle.BOLD, 23));
 		lblHeading.setForeground(fontColor1);
 		lblHeading.setVisible(true);
@@ -1176,7 +1175,7 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 
 				if (!callNoStr.equals("")) {
 					strCallNo = Long.valueOf(callNoStr);
-					//				strCallNo = Integer.valueOf(String.valueOf(txtCallNo.getText().trim()));
+					// strCallNo = Integer.valueOf(String.valueOf(txtCallNo.getText().trim()));
 					cmbCustomer.requestFocus();
 				}
 			} else if (e.getSource() == cmbCustomer) {
@@ -1186,21 +1185,21 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 
 			} else if (e.getSource() == cmbDepartment) {
 
-				/*if (cmbDepartment.getSelectedItem().equals("All")) {} else {
-					strDeptParam.clear();
-					cmbModule.removeAllItems();
-					strDeptParam.add(cmbDepartment.getSelectedItemValue());
-				}
-				
-				lstModule = logicDevCallAssign.getModule(strDeptParam);
-				strModule = new ArrayList<Object>();
-				
-				for (com.jilaba.calls.model.Module module : lstModule) {
-				
-					strModule.add(module.getModuleId());
-				
-					cmbModule.addListItem(new ListItem(module.getModuleName(), module.getModuleId()));
-				}*/
+				/*
+				 * if (cmbDepartment.getSelectedItem().equals("All")) {} else {
+				 * strDeptParam.clear(); cmbModule.removeAllItems();
+				 * strDeptParam.add(cmbDepartment.getSelectedItemValue()); }
+				 * 
+				 * lstModule = logicDevCallAssign.getModule(strDeptParam); strModule = new
+				 * ArrayList<Object>();
+				 * 
+				 * for (com.jilaba.calls.model.Module module : lstModule) {
+				 * 
+				 * strModule.add(module.getModuleId());
+				 * 
+				 * cmbModule.addListItem(new ListItem(module.getModuleName(),
+				 * module.getModuleId())); }
+				 */
 
 				lstModule = logicDevCallAssign
 						.getModule(Integer.valueOf(String.valueOf(cmbDepartment.getSelectedItemValue())));
@@ -1309,7 +1308,8 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 				}
 
 				btnImage.setVisible(true);
-				txtCallDesc.setText(" Option -> " + calls.getMoption() + "\r\n " + "Call -> " + calls.getDescription().trim());
+				txtCallDesc.setText(
+						" Option -> " + calls.getMoption() + "\r\n " + "Call -> " + calls.getDescription().trim());
 
 			}
 		});
@@ -1329,7 +1329,7 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 
 	public void btnView() {
 
-		//		loadDetails();
+		// loadDetails();
 
 		tblCalls.clear();
 		tblDevCalls.clear();
@@ -1350,10 +1350,10 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 			lstObject.add(call.getCdate());
 			lstObject.add(call.getLstCustomer().get(0).getcustName().trim());
 			lstObject.add(call.getLstModule().get(0).getModuleName().trim());
-			//			lstObject.add("");
-			//			lstObject.add("");
-			//			lstObject.add("0");
-			//			lstObject.add("");
+			// lstObject.add("");
+			// lstObject.add("");
+			// lstObject.add("0");
+			// lstObject.add("");
 			lstObject.add("");
 			lstObject.add(call.getCallcoordinator().trim());
 			lstObject.add(call.getCustcordinator_name().trim());

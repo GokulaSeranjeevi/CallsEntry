@@ -11,7 +11,6 @@ import org.springframework.context.support.AbstractApplicationContext;
 import com.jilaba.calls.common.CustomFonts;
 import com.jilaba.calls.config.ApplicationConfig;
 import com.jilaba.calls.forms.FrmDailyActivity;
-import com.jilaba.calls.forms.FrmLogin;
 
 public class ApplicationStart {
 
@@ -48,16 +47,16 @@ public class ApplicationStart {
 					ApplicationConfig.class);
 			Applicationmain.setAbstractApplicationContext(applicationContext);
 
-			/*
-			 * FrmDailyActivity frmDailyActivity =
-			 * Applicationmain.getAbstractApplicationContext()
-			 * .getBean(FrmDailyActivity.class); frmDailyActivity.setVisible(true);
-			 */
+			FrmDailyActivity frmDailyActivity = Applicationmain.getAbstractApplicationContext()
+					.getBean(FrmDailyActivity.class);
+			frmDailyActivity.setVisible(true);
 
 //			
-			FrmLogin frmLogin = Applicationmain.getAbstractApplicationContext().getBean(FrmLogin.class);
-			frmLogin.setVisible(true);
-
+			/*
+			 * FrmLogin frmLogin =
+			 * Applicationmain.getAbstractApplicationContext().getBean(FrmLogin.class);
+			 * frmLogin.setVisible(true);
+			 */
 		} catch (Exception e) {
 
 			JOptionPane.showMessageDialog(null, e.getMessage());
