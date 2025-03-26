@@ -10,7 +10,8 @@ public class CallsEntryQuery {
 	public String getCallFrom() {
 
 		sb = new StringBuilder();
-		sb.append("Select * from Staff Where Active='Y' And designation<>4");
+		sb.append("Select * from Staff Where Active='Y' And designation<>4 \r\n"
+				+ "Order by staffname");
 		return sb.toString();
 	}
 
@@ -31,7 +32,8 @@ public class CallsEntryQuery {
 	public String getCustStaff() {
 
 		sb = new StringBuilder();
-		sb.append("Select * from custstaff Where Active='Y'");
+		sb.append("Select * from custstaff Where Active='Y' \r\n"
+				+ "Order by custstaffname");
 
 		return sb.toString();
 	}
@@ -39,7 +41,8 @@ public class CallsEntryQuery {
 	public String getCallCoOrd() {
 
 		sb = new StringBuilder();
-		sb.append("Select * from staff Where Active='Y' And designation in(3,4) ");
+		sb.append("Select * from staff Where Active='Y' And designation in(3,4) \r\n"
+				+ "Order by staffname ");
 		return sb.toString();
 	}
 
@@ -57,7 +60,7 @@ public class CallsEntryQuery {
 
 	public String getLastCallNo() {
 		sb = new StringBuilder();
-		sb.append("Select Max(CallNo) from calls ");
+		sb.append("Select Coalesce(Max(CallNo),0) from calls ");
 
 		return sb.toString();
 	}
@@ -90,7 +93,7 @@ public class CallsEntryQuery {
 				+ " Left join staff s2 On s2.staffid = C.callcoordinator\r\n"
 				+ "Left join module M On M.moduleid = C.moduleid \r\n"
 				+ "Left join Callimages I On I.Callno = C.callno \r\n");
-		sb.append("Where testResult='' And C.Callno>999 \r\n");
+		sb.append("Where testResult='' \r\n");
 
 		if (toDate != null) {
 			sb.append(" And C.Cdate between '" + fromDate + "' And '" + toDate + "'\r\n");
@@ -239,7 +242,7 @@ public class CallsEntryQuery {
 
 		sb = new StringBuilder("");
 
-		sb.append("Select Max(CallNo)+1 from calls with (Nolock) ");
+		sb.append("Select Coalesce(Max(CallNo),0)+1 from calls with (Nolock) ");
 		return sb.toString();
 
 	}

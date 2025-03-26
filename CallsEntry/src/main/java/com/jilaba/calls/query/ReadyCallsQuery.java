@@ -73,15 +73,15 @@ public class ReadyCallsQuery {
 		sb.append("Left join customer CS on CS.custid = C.cusid \r\n");
 		sb.append("Left join department d on d.dno = C.dno \r\n");
 		sb.append("Left join module m on m.moduleid = C.moduleid \r\n");
-		sb.append(
-				"Where cancel='' And C.testresult<>'C' And C.testdate is null And R.Callstatus<>'C' And C.Callno>999 \r\n");
+		sb.append("Where cancel='' And C.testresult<>'C' And C.testdate is null And R.Callstatus<>'C'  \r\n");
 		if (strCallToDate != null) {
 			sb.append(" And C.Cdate between '" + strCallFromDate + "' And '" + strCallToDate + "'\r\n");
-			//			sb.append(
-			//					" And R.Rdate between '" + strReadyFromDate + "' And '" + strReadyToDate + "'\r\n");
+			// sb.append(
+			// " And R.Rdate between '" + strReadyFromDate + "' And '" + strReadyToDate +
+			// "'\r\n");
 		} else {
 			sb.append(" And C.Cdate<='" + strCallFromDate + "'");
-			//			sb.append(" And R.RdSate<='" + strReadyFromDate + "'");
+			// sb.append(" And R.RdSate<='" + strReadyFromDate + "'");
 		}
 
 		if (!callno.equals("")) {
@@ -112,7 +112,7 @@ public class ReadyCallsQuery {
 
 	public String getCallsImages(String callNo) {
 		sb = new StringBuilder();
-		sb.append("Select callno, image1, image2, image3, image4 from  Callimages Where Callno = ? And Callno>999 ");
+		sb.append("Select callno, image1, image2, image3, image4 from  Callimages Where Callno = ?  ");
 
 		System.out.println(sb);
 		return sb.toString();
@@ -173,7 +173,7 @@ public class ReadyCallsQuery {
 
 		sb = new StringBuilder("");
 
-		sb.append("Select  * from ReadyMark Where progress=1 And CallStatus<>'C' And Callno>999 Order by QcOPer");
+		sb.append("Select  * from ReadyMark Where progress=1 And CallStatus<>'C'  Order by QcOPer");
 
 		return sb.toString();
 	}
@@ -192,7 +192,7 @@ public class ReadyCallsQuery {
 
 		sb = new StringBuilder("");
 
-		sb.append("Select  progress from ReadyMark Where progress=1 And CallStatus<>'C'  And Callno>999 And Qcoper="
+		sb.append("Select  progress from ReadyMark Where progress=1 And CallStatus<>'C'  And Qcoper="
 				+ FrmLogin.OperCode);
 
 		return sb.toString();

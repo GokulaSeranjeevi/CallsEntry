@@ -94,7 +94,7 @@ public class DevCallsQuery {
 				.append("LEFT JOIN staff s1 ON C.callcoordinator = s1.staffid \r\n")
 				.append("LEFT JOIN staff s3 ON C.receby = s3.staffid \r\n")
 				.append("LEFT JOIN Callimages I on I.Callno = C.callno \r\n")
-				.append("WHERE C.cdate <='" + asOnDate + "' And C.Callno>999 And C.sugto<>0 \r\n");
+				.append("WHERE C.cdate <='" + asOnDate + "' And C.sugto<>0 \r\n");
 
 		if (devCount != 0) {
 			sb.append(" AND  C.Sugto= ?");

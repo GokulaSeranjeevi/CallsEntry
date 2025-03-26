@@ -73,8 +73,9 @@ public class DevCallAssignQuery {
 
 		sb = new StringBuilder("");
 		sb.append("Select sugto,S.StaffName DeveloperName, Count(*) DevCalls from Calls C\r\n"
-				+ "Left join staff S on S.staffid = C.sugto\r\n" + "  Where C.Callno>999 And Sugto<>0 And C.Ready='' \r\n  "
-				+ "group by sugto,S.staffname\r\n" + "Order by sugto");
+				+ "Left join staff S on S.staffid = C.sugto\r\n"
+				+ "  Where C.Callno>999 And Sugto<>0 And C.Ready='' \r\n  " + "group by sugto,S.staffname\r\n"
+				+ "Order by sugto");
 
 		return sb.toString();
 	}
@@ -95,7 +96,7 @@ public class DevCallAssignQuery {
 					.append("FROM Calls C ").append("LEFT JOIN customer t ON C.cusid = t.custid \r\n")
 					.append("LEFT JOIN module m ON C.moduleid = m.moduleid \r\n")
 					.append("LEFT JOIN staff s ON C.receby = S.staffid  \r\n")
-					.append(" LEFT JOIN Callimages I on I.Callno = C.callno \r\n").append("WHERE C.SugTo = 0 And C.Callno>999  \r\n");
+					.append(" LEFT JOIN Callimages I on I.Callno = C.callno \r\n").append("WHERE C.SugTo = 0   \r\n");
 
 			if (devCoOrd != 0) {
 				sb.append(" AND C.callcoordinator= ?");
@@ -156,56 +157,40 @@ public class DevCallAssignQuery {
 		sb.append(")");
 	}
 
-	/*public String getCalls(int devCallcount, int callNo, int custCount, int deptCount, int recByCount, int modIdCount) {
-		try {
-	
-			sb = new StringBuilder();
-			sb.append(
-					"Select C.callno,format(C.cdate,'dd-MMM-yyyy')cdate, t.custname ,m.modulename ,C.callcoordinator,C.custcordinator_name,C.moption,C.ticketno,C.description from Calls C\r\n");
-			sb.append("Left join customer t on C.cusid = t.custid\r\n");
-			sb.append("Left join module m on C.moduleid = m.moduleid\r\n");
-			sb.append("Left join staff s on C.sugto = S.staffid  \r\n");
-			sb.append("Where C.SugTo=0 And ");
-	
-			sb.append(" C.callcoordinator in (?");
-			for (int index = devCallcount - 1; index > 0; index--)
-				sb.append(",?");
-			sb.append(" )");
-			sb.append("  And ");
-	
-			sb.append("  C.cusid in (?");
-			for (int index = custCount - 1; index > 0; index--)
-				sb.append(",?");
-			sb.append(" )");
-			sb.append("  And ");
-	
-			sb.append(" C.dno in (?");
-			for (int index = deptCount - 1; index > 0; index--)
-				sb.append(",?");
-			sb.append(" )");
-			sb.append("  And ");
-			sb.append("C.receby in (?");
-			for (int index = recByCount - 1; index > 0; index--)
-				sb.append(",?");
-			sb.append(" )");
-			sb.append(" And ");
-			sb.append("C.moduleid in (?");
-			for (int index = modIdCount - 1; index > 0; index--)
-				sb.append(",?");
-			sb.append(" )");
-			if (!String.valueOf(callNo).trim().isEmpty())
-				sb.append(" And C.CallNo =" + callNo);
-	
-			System.out.println(sb);
-	
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage());
-	
-		}
-		return sb.toString();
-	
-	}
-	*/
+	/*
+	 * public String getCalls(int devCallcount, int callNo, int custCount, int
+	 * deptCount, int recByCount, int modIdCount) { try {
+	 * 
+	 * sb = new StringBuilder(); sb.append(
+	 * "Select C.callno,format(C.cdate,'dd-MMM-yyyy')cdate, t.custname ,m.modulename ,C.callcoordinator,C.custcordinator_name,C.moption,C.ticketno,C.description from Calls C\r\n"
+	 * ); sb.append("Left join customer t on C.cusid = t.custid\r\n");
+	 * sb.append("Left join module m on C.moduleid = m.moduleid\r\n");
+	 * sb.append("Left join staff s on C.sugto = S.staffid  \r\n");
+	 * sb.append("Where C.SugTo=0 And ");
+	 * 
+	 * sb.append(" C.callcoordinator in (?"); for (int index = devCallcount - 1;
+	 * index > 0; index--) sb.append(",?"); sb.append(" )"); sb.append("  And ");
+	 * 
+	 * sb.append("  C.cusid in (?"); for (int index = custCount - 1; index > 0;
+	 * index--) sb.append(",?"); sb.append(" )"); sb.append("  And ");
+	 * 
+	 * sb.append(" C.dno in (?"); for (int index = deptCount - 1; index > 0;
+	 * index--) sb.append(",?"); sb.append(" )"); sb.append("  And ");
+	 * sb.append("C.receby in (?"); for (int index = recByCount - 1; index > 0;
+	 * index--) sb.append(",?"); sb.append(" )"); sb.append(" And ");
+	 * sb.append("C.moduleid in (?"); for (int index = modIdCount - 1; index > 0;
+	 * index--) sb.append(",?"); sb.append(" )"); if
+	 * (!String.valueOf(callNo).trim().isEmpty()) sb.append(" And C.CallNo =" +
+	 * callNo);
+	 * 
+	 * System.out.println(sb);
+	 * 
+	 * } catch (Exception e) { JOptionPane.showMessageDialog(null, e.getMessage());
+	 * 
+	 * } return sb.toString();
+	 * 
+	 * }
+	 */
 	public String getDeveloper() {
 
 		sb = new StringBuilder("");

@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -128,6 +129,13 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		controlResize = new ControlResize(this);
 		setSize(controlResize.getRectangle().getSize());
 		controlResize.reAlignControls();
+
+	}
+
+	private void loadInitialize() {
+
+		tblAttendance.clear();
+		spnAtnDate.setValue(new java.util.Date());
 
 	}
 
@@ -370,14 +378,20 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		chkAtmMark.setBackground(color2);
 		chkAtmMark.setHorizontalAlignment(SwingConstants.CENTER);
 		chkAtmMark.setSelected(true);
+		chkAtmMark.setFont(CustomFonts.FONT16);
+		chkAtmMark.setForeground(Color.BLACK);
 
 		cmbApprovedby = new JilabaComboBox<>();
 		cmbApprovedby.setVisible(true);
 		cmbApprovedby.setBackground(color2);
+		cmbApprovedby.setFont(CustomFonts.FONT16);
+		cmbApprovedby.setForeground(Color.BLACK);
 
 		txtAtn = new JilabaTextField();
 		txtAtn.setVisible(true);
 		txtAtn.setBackground(color2);
+		txtAtn.setFont(CustomFonts.FONT16);
+		txtAtn.setForeground(Color.BLACK);
 
 		btnAtnMark = new JButton("Attendance Mark");
 		btnAtnMark.setHorizontalAlignment(SwingConstants.CENTER);
@@ -678,6 +692,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 			panelEntry.setVisible(true);
 			panelContent.setFocusable(true);
 			panelContent.requestFocusInWindow();
+			loadInitialize();
 
 		}
 

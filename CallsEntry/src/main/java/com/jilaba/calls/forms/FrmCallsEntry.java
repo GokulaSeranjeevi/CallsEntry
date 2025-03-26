@@ -1203,8 +1203,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 
 		cmbDetailsLoad();
 
-		cmbBranch.addListItem(new ListItem("AVR"));
-		cmbBranch.addListItem(new ListItem("SVR"));
+		cmbBranch.addListItem(new ListItem("LJM"));
 
 		cmbNature.addListItem(new ListItem("Error"));
 		cmbNature.addListItem(new ListItem("Modification"));

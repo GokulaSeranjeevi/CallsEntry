@@ -70,7 +70,7 @@ public class CallsCompletedQuery {
 		sb.append("Left join staff S on S.staffid =C.Testing\r\n" + "Left join customer L on L.custid = C.cusid\r\n");
 		sb.append("Left join staff S1 on S1.staffid =C.receby\r\n");
 		sb.append("Left join staff S2 on S2.staffid =C.AUTHORISED\r\n" + "Left join department d on d.dno = C.dno\r\n");
-		sb.append("Left join module m on m.moduleid = C.moduleid\r\n" + "Where testresult='C' And Callno>999 ");
+		sb.append("Left join module m on m.moduleid = C.moduleid\r\n" + "Where testresult='C' ");
 
 		if (strCallToDate != null) {
 			sb.append(" And C.Cdate between '" + strCallFromDate + "' And '" + strCallToDate + "'\r\n");
