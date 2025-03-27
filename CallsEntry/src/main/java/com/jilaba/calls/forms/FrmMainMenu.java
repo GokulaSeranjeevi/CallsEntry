@@ -40,7 +40,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.jilaba.calls.common.CommonMethods;
-import com.jilaba.calls.common.ImageResources;
+import com.jilaba.calls.common.ImageResource;
 import com.jilaba.calls.common.LoginCredential;
 import com.jilaba.calls.common.TimerJob;
 import com.jilaba.calls.logic.LogicMainMenu;
@@ -443,7 +443,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		btnMaster.setMnemonic(KeyEvent.VK_M);
 		btnMaster.setBounds(btnX, btnY, btnWidth, btnHeight);
 		btnMaster.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		CommonMethods.setIcon(ImageResources.MASTERICON, btnMaster);
+		CommonMethods.setIcon(ImageResource.MASTERICON, btnMaster);
 		btnMaster.setVisible(true);
 		btnMaster.addActionListener(this);
 
@@ -461,7 +461,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		btnCallsEntry.setMnemonic(KeyEvent.VK_E);
 		btnCallsEntry.setBounds(btnX, btnY, btnWidth, btnHeight);
 		btnCallsEntry.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		CommonMethods.setIcon(ImageResources.CALLSENTRYICON, btnCallsEntry);
+		CommonMethods.setIcon(ImageResource.CALLSENTRYICON, btnCallsEntry);
 		btnCallsEntry.setVisible(true);
 		btnCallsEntry.addActionListener(this);
 
@@ -479,7 +479,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		btnCallsAssign.setMnemonic(KeyEvent.VK_A);
 		btnCallsAssign.setBounds(btnX, btnY, btnWidth, btnHeight);
 		btnCallsAssign.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		CommonMethods.setIcon(ImageResources.CALLSASSIGN, btnCallsAssign);
+		CommonMethods.setIcon(ImageResource.CALLSASSIGN, btnCallsAssign);
 		btnCallsAssign.setVisible(true);
 		btnCallsAssign.addActionListener(this);
 
@@ -497,7 +497,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		btnDevCalls.setMnemonic(KeyEvent.VK_D);
 		btnDevCalls.setBounds(btnX, btnY, btnWidth, btnHeight);
 		btnDevCalls.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		CommonMethods.setIcon(ImageResources.DEVCALLS, btnDevCalls);
+		CommonMethods.setIcon(ImageResource.DEVCALLS, btnDevCalls);
 		btnDevCalls.setVisible(true);
 		btnDevCalls.addActionListener(this);
 
@@ -515,7 +515,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		btnReadyCalls.setMnemonic(KeyEvent.VK_R);
 		btnReadyCalls.setBounds(btnX, btnY, btnWidth, btnHeight);
 		btnReadyCalls.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		CommonMethods.setIcon(ImageResources.READYCALLS, btnReadyCalls);
+		CommonMethods.setIcon(ImageResource.READYCALLS, btnReadyCalls);
 		btnReadyCalls.setVisible(true);
 		btnReadyCalls.addActionListener(this);
 
@@ -534,7 +534,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		btnCompletedCalls.setMnemonic(KeyEvent.VK_C);
 		btnCompletedCalls.setBounds(btnX, btnY, btnWidth, btnHeight);
 		btnCompletedCalls.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		CommonMethods.setIcon(ImageResources.COMPLETEDCALLS, btnCompletedCalls);
+		CommonMethods.setIcon(ImageResource.COMPLETEDCALLS, btnCompletedCalls);
 		btnCompletedCalls.addActionListener(this);
 
 		btnX = btnX + btnHSpace;
@@ -551,7 +551,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		btnDataMaintenance.setMnemonic(KeyEvent.VK_M);
 		btnDataMaintenance.setBounds(btnX, btnY, btnWidth, btnHeight);
 		btnDataMaintenance.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		CommonMethods.setIcon(ImageResources.DATAMAINTENANCE, btnDataMaintenance);
+		CommonMethods.setIcon(ImageResource.DATAMAINTENANCE, btnDataMaintenance);
 		btnDataMaintenance.addActionListener(this);
 
 		btnX = btnX + btnHSpace;
@@ -568,7 +568,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		btnDailyActivity.setMnemonic(KeyEvent.VK_Y);
 		btnDailyActivity.setBounds(btnX, btnY, btnWidth, btnHeight);
 		btnDailyActivity.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		CommonMethods.setIcon(ImageResources.DAILYACTIVITY, btnDailyActivity);
+		CommonMethods.setIcon(ImageResource.DAILYACTIVITY, btnDailyActivity);
 		btnDailyActivity.addActionListener(this);
 
 		btnX = btnX + btnHSpace;
@@ -585,7 +585,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		btnDataValidation.setMnemonic(KeyEvent.VK_V);
 		btnDataValidation.setBounds(btnX, btnY, btnWidth, btnHeight);
 		btnDataValidation.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		CommonMethods.setIcon(ImageResources.DATAVALIDATION, btnDataValidation);
+		CommonMethods.setIcon(ImageResource.DATAVALIDATION, btnDataValidation);
 		btnDataValidation.addActionListener(this);
 
 		btnX = btnX + btnHSpace;
@@ -602,7 +602,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		btnVersionUpgrade.setMnemonic(KeyEvent.VK_L);
 		btnVersionUpgrade.setBounds(btnX, btnY, btnWidth, btnHeight);
 		btnVersionUpgrade.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		CommonMethods.setIcon(ImageResources.VERSION, btnVersionUpgrade);
+		CommonMethods.setIcon(ImageResource.VERSION, btnVersionUpgrade);
 		btnVersionUpgrade.setVisible(true);
 		btnVersionUpgrade.addActionListener(this);
 
@@ -621,7 +621,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		btnLogOut.setMnemonic(KeyEvent.VK_L);
 		btnLogOut.setBounds(btnX, btnY, btnWidth, btnHeight);
 		btnLogOut.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		CommonMethods.setIcon(ImageResources.LOGOUT, btnLogOut);
+		CommonMethods.setIcon(ImageResource.LOGOUT, btnLogOut);
 		btnLogOut.setVisible(true);
 		btnLogOut.addActionListener(this);
 
@@ -639,7 +639,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		btnExit.setMnemonic(KeyEvent.VK_X);
 		btnExit.setBounds(btnX, btnY, btnWidth, btnHeight);
 		btnExit.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		CommonMethods.setIcon(ImageResources.EXIT, btnExit);
+		CommonMethods.setIcon(ImageResource.EXIT, btnExit);
 		btnExit.setVisible(true);
 		btnExit.addActionListener(this);
 
@@ -686,7 +686,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		lblDevelopedby = new JLabel();
 		lblDevelopedby.setBounds(825, panelLine3.getY(), 150, 50);
 		lblDevelopedby.setBackground(color1);
-		CommonMethods.setIcon(ImageResources.developedBy, lblDevelopedby);
+		CommonMethods.setIcon(ImageResource.developedBy, lblDevelopedby);
 		lblDevelopedby.setVisible(true);
 
 		lblMinimize = new JLabel("");
@@ -759,21 +759,21 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		lblOperatorLabel.setBounds(10, 5, 120, 22);
 		lblOperatorLabel.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
 		lblOperatorLabel.setForeground(color2);
-		CommonMethods.setIcon(ImageResources.SERVERIPICON, lblOperatorLabel);
+		CommonMethods.setIcon(ImageResource.SERVERIPICON, lblOperatorLabel);
 		lblOperatorLabel.setVisible(true);
 
 		lblVersion = new JLabel(Applicationmain.VERSION);
 		lblVersion.setBounds(170, 5, 100, 22);
 		lblVersion.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
 		lblVersion.setForeground(color2);
-		CommonMethods.setIcon(ImageResources.VERSIONICON, lblVersion);
+		CommonMethods.setIcon(ImageResource.VERSIONICON, lblVersion);
 		lblVersion.setVisible(true);
 
 		lblServerIpValue = new JLabel(LoginCredential.getLocalIpAdd());
 		lblServerIpValue.setBounds(620, 5, 120, 22);
 		lblServerIpValue.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
 		lblServerIpValue.setForeground(color2);
-		CommonMethods.setIcon(ImageResources.LOCALIPICON, lblServerIpValue);
+		CommonMethods.setIcon(ImageResource.LOCALIPICON, lblServerIpValue);
 		lblServerIpValue.setVisible(true);
 
 		String localdate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy hh:mm:ss a"));
@@ -782,7 +782,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		lblDateTime.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
 		lblDateTime.setForeground(color2);
 		lblDateTime.setHorizontalAlignment(JLabel.RIGHT);
-		CommonMethods.setIcon(ImageResources.DATEICON, lblDateTime);
+		CommonMethods.setIcon(ImageResource.DATEICON, lblDateTime);
 		lblDateTime.setVisible(true);
 
 		new Timer().scheduleAtFixedRate(new TimerJob(lblDateTime), Calendar.getInstance().getTime(), 1);

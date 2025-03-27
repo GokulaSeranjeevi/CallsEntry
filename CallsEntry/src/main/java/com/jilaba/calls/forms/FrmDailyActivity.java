@@ -36,7 +36,7 @@ import org.springframework.context.annotation.Scope;
 
 import com.jilaba.calls.common.CommonMethods;
 import com.jilaba.calls.common.CustomFonts;
-import com.jilaba.calls.common.ImageResources;
+import com.jilaba.calls.common.ImageResource;
 import com.jilaba.calls.common.LoginCredential;
 import com.jilaba.calls.common.TimerJob;
 import com.jilaba.calls.logic.LogicLogin;
@@ -404,7 +404,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		btnAtnMark.addActionListener(this);
 		btnAtnMark.setVerifyInputWhenFocusTarget(false);
 		btnAtnMark.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		CommonMethods.setIcon(ImageResources.MARK, btnAtnMark);
+		CommonMethods.setIcon(ImageResource.MARK, btnAtnMark);
 		btnAtnMark.addActionListener(this);
 		btnAtnMark.setIconTextGap(10);
 		btnAtnMark.addKeyListener(this);
@@ -420,7 +420,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		btnExit.addActionListener(this);
 		btnExit.setVerifyInputWhenFocusTarget(false);
 		btnExit.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		CommonMethods.setIcon(ImageResources.ATTENDANCEEXIT, btnExit);
+		CommonMethods.setIcon(ImageResource.ATTENDANCEEXIT, btnExit);
 		btnExit.addActionListener(this);
 		btnExit.setIconTextGap(10);
 		btnExit.addKeyListener(this);
@@ -464,7 +464,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		lblDevelopedby = new JLabel();
 		lblDevelopedby.setBounds(825, panelLine3.getY(), 150, 50);
 		lblDevelopedby.setBackground(color1);
-		CommonMethods.setIcon(ImageResources.developedBy, lblDevelopedby);
+		CommonMethods.setIcon(ImageResource.developedBy, lblDevelopedby);
 		lblDevelopedby.setVisible(true);
 
 		lblMinimize = new JLabel("");
@@ -503,7 +503,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		btnAttendance.setMnemonic(KeyEvent.VK_A);
 		btnAttendance.setBounds(50, 30, 250, 80);
 		btnAttendance.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		CommonMethods.setIcon(ImageResources.ATTENDANCE, btnAttendance);
+		CommonMethods.setIcon(ImageResource.ATTENDANCE, btnAttendance);
 		btnAttendance.addActionListener(this);
 		btnAttendance.setIconTextGap(80);
 		btnAttendance.setFont(CustomFonts.FONT62);
@@ -520,7 +520,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		btnIndividualReport.setMnemonic(KeyEvent.VK_I);
 		btnIndividualReport.setBounds(50, btnAttendance.getY() + btnAttendance.getHeight() + 30, 250, 80);
 		btnIndividualReport.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		CommonMethods.setIcon(ImageResources.INDIVIDUALREPORT, btnIndividualReport);
+		CommonMethods.setIcon(ImageResource.INDIVIDUALREPORT, btnIndividualReport);
 		btnIndividualReport.addActionListener(this);
 		btnIndividualReport.setIconTextGap(80);
 		btnIndividualReport.setFont(CustomFonts.FONT62);
@@ -538,7 +538,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		btnAtnReport.setMnemonic(KeyEvent.VK_R);
 		btnAtnReport.setBounds(50, btnIndividualReport.getY() + btnIndividualReport.getHeight() + 30, 250, 80);
 		btnAtnReport.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		CommonMethods.setIcon(ImageResources.ATTENDANCEREPORT, btnAtnReport);
+		CommonMethods.setIcon(ImageResource.ATTENDANCEREPORT, btnAtnReport);
 		btnAtnReport.addActionListener(this);
 		btnAtnReport.setIconTextGap(70);
 		btnAtnReport.setFont(CustomFonts.FONT62);
@@ -618,21 +618,21 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		lblOperatorLabel.setBounds(10, 5, 120, 22);
 		lblOperatorLabel.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
 		lblOperatorLabel.setForeground(color2);
-		CommonMethods.setIcon(ImageResources.SERVERIPICON, lblOperatorLabel);
+		CommonMethods.setIcon(ImageResource.SERVERIPICON, lblOperatorLabel);
 		lblOperatorLabel.setVisible(true);
 
 		lblVersion = new JLabel(Applicationmain.VERSION);
 		lblVersion.setBounds(170, 5, 100, 22);
 		lblVersion.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
 		lblVersion.setForeground(color2);
-		CommonMethods.setIcon(ImageResources.VERSIONICON, lblVersion);
+		CommonMethods.setIcon(ImageResource.VERSIONICON, lblVersion);
 		lblVersion.setVisible(true);
 
 		lblServerIpValue = new JLabel(LoginCredential.getLocalIpAdd());
 		lblServerIpValue.setBounds(620, 5, 120, 22);
 		lblServerIpValue.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
 		lblServerIpValue.setForeground(color2);
-		CommonMethods.setIcon(ImageResources.LOCALIPICON, lblServerIpValue);
+		CommonMethods.setIcon(ImageResource.LOCALIPICON, lblServerIpValue);
 		lblServerIpValue.setVisible(true);
 
 		String localdate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy hh:mm:ss a"));
@@ -641,7 +641,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		lblDateTime.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
 		lblDateTime.setForeground(color2);
 		lblDateTime.setHorizontalAlignment(JLabel.RIGHT);
-		CommonMethods.setIcon(ImageResources.DATEICON, lblDateTime);
+		CommonMethods.setIcon(ImageResource.DATEICON, lblDateTime);
 		lblDateTime.setVisible(true);
 		new Timer().scheduleAtFixedRate(new TimerJob(lblDateTime), Calendar.getInstance().getTime(), 1);
 

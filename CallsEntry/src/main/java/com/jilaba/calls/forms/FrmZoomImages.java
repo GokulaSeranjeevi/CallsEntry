@@ -29,9 +29,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.jilaba.calls.common.CustomFonts;
+import com.jilaba.calls.common.ImageZoomLabel;
 import com.jilaba.calls.start.Applicationmain;
 import com.jilaba.common.ReturnStatus;
-import com.jilaba.control.ImageZoomLabel;
 import com.jilaba.imagemanager.ImageCompressor;
 
 @Component

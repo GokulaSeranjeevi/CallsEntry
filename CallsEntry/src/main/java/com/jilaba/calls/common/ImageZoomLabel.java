@@ -8,7 +8,6 @@ import java.awt.geom.AffineTransform;
 
 import javax.swing.JLabel;
 
-/** @author Lokesh Raj B */
 public class ImageZoomLabel extends JLabel {
 
 	private static final long serialVersionUID = 1L;
@@ -56,7 +55,8 @@ public class ImageZoomLabel extends JLabel {
 		at.translate(-zoomPointX, -zoomPointY);
 		g2D.setTransform(at);
 
-		// System.out.println("Zoom-X : " + zoomPointX + " | Zoom-Y : " + zoomPointY + "Zoom % : " + zoom);
+		// System.out.println("Zoom-X : " + zoomPointX + " | Zoom-Y : " + zoomPointY +
+		// "Zoom % : " + zoom);
 		// getIcon().paintIcon(this, g2D, 0, 0);
 		super.paintComponent(g2D);
 	}

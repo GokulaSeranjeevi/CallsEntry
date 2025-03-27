@@ -49,7 +49,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jilaba.calls.common.CommonMethods;
 import com.jilaba.calls.common.CustomFonts;
-import com.jilaba.calls.common.ImageResources;
+import com.jilaba.calls.common.ImageResource;
 import com.jilaba.calls.common.LoginCredential;
 import com.jilaba.calls.common.TimerJob;
 import com.jilaba.calls.logic.LogicCallsEntry;
@@ -1670,7 +1670,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		lblDevelopedby = new JLabel();
 		lblDevelopedby.setBounds(825, panelLine3.getY(), 150, 50);
 		lblDevelopedby.setBackground(color1);
-		CommonMethods.setIcon(ImageResources.developedBy, lblDevelopedby);
+		CommonMethods.setIcon(ImageResource.developedBy, lblDevelopedby);
 		lblDevelopedby.setVisible(true);
 
 		lblMinimize = new JLabel("");
@@ -1751,21 +1751,21 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		lblOperatorLabel.setBounds(10, 5, 120, 22);
 		lblOperatorLabel.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
 		lblOperatorLabel.setForeground(color2);
-		CommonMethods.setIcon(ImageResources.SERVERIPICON, lblOperatorLabel);
+		CommonMethods.setIcon(ImageResource.SERVERIPICON, lblOperatorLabel);
 		lblOperatorLabel.setVisible(true);
 
 		lblVersion = new JLabel(Applicationmain.VERSION);
 		lblVersion.setBounds(170, 5, 100, 22);
 		lblVersion.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
 		lblVersion.setForeground(color2);
-		CommonMethods.setIcon(ImageResources.VERSIONICON, lblVersion);
+		CommonMethods.setIcon(ImageResource.VERSIONICON, lblVersion);
 		lblVersion.setVisible(true);
 
 		lblServerIpValue = new JLabel(LoginCredential.getLocalIpAdd());
 		lblServerIpValue.setBounds(620, 5, 120, 22);
 		lblServerIpValue.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
 		lblServerIpValue.setForeground(color2);
-		CommonMethods.setIcon(ImageResources.LOCALIPICON, lblServerIpValue);
+		CommonMethods.setIcon(ImageResource.LOCALIPICON, lblServerIpValue);
 		lblServerIpValue.setVisible(true);
 
 		String localdate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy hh:mm:ss a"));
@@ -1774,7 +1774,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		lblDateTime.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
 		lblDateTime.setForeground(color2);
 		lblDateTime.setHorizontalAlignment(JLabel.RIGHT);
-		CommonMethods.setIcon(ImageResources.DATEICON, lblDateTime);
+		CommonMethods.setIcon(ImageResource.DATEICON, lblDateTime);
 		lblDateTime.setVisible(true);
 		new Timer().scheduleAtFixedRate(new TimerJob(lblDateTime), Calendar.getInstance().getTime(), 1);
 
