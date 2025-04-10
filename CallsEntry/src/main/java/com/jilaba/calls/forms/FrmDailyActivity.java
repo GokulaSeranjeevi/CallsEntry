@@ -26,10 +26,13 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.SwingConstants;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -39,7 +42,9 @@ import com.jilaba.calls.common.CustomFonts;
 import com.jilaba.calls.common.ImageResource;
 import com.jilaba.calls.common.LoginCredential;
 import com.jilaba.calls.common.TimerJob;
+import com.jilaba.calls.logic.LogicDailyActvity;
 import com.jilaba.calls.logic.LogicLogin;
+import com.jilaba.calls.model.DailyActivity;
 import com.jilaba.calls.model.Operator;
 import com.jilaba.calls.start.Applicationmain;
 import com.jilaba.control.JilabaColumn;
@@ -111,7 +116,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 	private ControlResize controlResize;
 
 	@Autowired
-	private LogicLogin logicLogin;
+	private LogicDailyActvity logicDailyActvity;
 
 	public FrmDailyActivity() {
 
@@ -155,7 +160,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 	private void enableComboBox() {
 		tblAttendance.add(cmbApprovedby);
 
-		lstoperator = logicLogin.getOperators();
+		lstoperator = logicDailyActvity.getOperators();
 
 		for (Operator oper : lstoperator) {
 
@@ -368,6 +373,16 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		tblAttendance.setVisible(true);
 		tblAttendance.addKeyListener(this);
 
+		TableColumnModel columnModel = tblAttendance.getColumnModel();
+		int lastColumnIndex = columnModel.getColumnCount() - 1;
+		TableColumn lastColumn = columnModel.getColumn(lastColumnIndex);
+
+		// Set width to 0 to hide
+		lastColumn.setMinWidth(0);
+		lastColumn.setMaxWidth(0);
+		lastColumn.setPreferredWidth(0);
+		lastColumn.setResizable(false);
+
 		scrAtn = new JScrollPane(tblAttendance);
 		scrAtn.setBounds(lblAtnDate.getX(), lblAtnDate.getY() + lblAtnDate.getHeight() + 10, 850, 400);
 		scrAtn.getViewport().setBackground(tblAttendance.getTableHeader().getBackground());
@@ -405,7 +420,6 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		btnAtnMark.setVerifyInputWhenFocusTarget(false);
 		btnAtnMark.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		CommonMethods.setIcon(ImageResource.MARK, btnAtnMark);
-		btnAtnMark.addActionListener(this);
 		btnAtnMark.setIconTextGap(10);
 		btnAtnMark.addKeyListener(this);
 
@@ -448,6 +462,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		jilabaColumnlist.add(new JilabaColumn(" Approvedby ", String.class, 150, JLabel.LEFT));
 		jilabaColumnlist.add(new JilabaColumn(" Reason ", String.class, 300, JLabel.LEFT));
 		jilabaColumnlist.add(new JilabaColumn(" PermissionTime ", String.class, 200, JLabel.CENTER));
+		jilabaColumnlist.add(new JilabaColumn(" StaffId ", String.class, 200, JLabel.CENTER));
 
 		return jilabaColumnlist;
 
@@ -665,7 +680,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 			panelEntry.setVisible(false);
 			panelView.setVisible(true);
 
-			lstoperator = logicLogin.getOperators();
+			lstoperator = logicDailyActvity.getOperators();
 
 			List<Object> lstobject;
 
@@ -682,6 +697,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 				lstobject.add("");
 				lstobject.add("");
 				lstobject.add("");
+				lstobject.add(oper.getStaffid());
 
 				tblAttendance.addRow(lstobject);
 
@@ -694,6 +710,31 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 			panelContent.requestFocusInWindow();
 			loadInitialize();
 
+		} else if (e.getSource() == btnAtnMark) {
+
+			List<DailyActivity> dailyActivities = new ArrayList<>();
+
+			for (int row = 0; row < tblAttendance.getRowCount(); row++) {
+				DailyActivity dailyActivity = new DailyActivity();
+
+				dailyActivity.setLeave(String.valueOf(tblAttendance.getValueAt(row, 1).equals("NO") ? "Y" : "N"));
+				dailyActivity.setPermission(String.valueOf(tblAttendance.getValueAt(row, 2).equals("NO") ? "Y" : "N"));
+				dailyActivity.setMonthOff(String.valueOf(tblAttendance.getValueAt(row, 3).equals("NO") ? "Y" : "N"));
+				dailyActivity.setWeekOff(String.valueOf(tblAttendance.getValueAt(row, 4).equals("NO") ? "Y" : "N"));
+				dailyActivity.setComboOff(String.valueOf(tblAttendance.getValueAt(row, 5).equals("NO") ? "Y" : "N"));
+				dailyActivity.setApprovedby(Integer.valueOf(0));
+				dailyActivity.setReason(String.valueOf(tblAttendance.getValueAt(row, 7)));
+				dailyActivity.setPermissionTime(String.valueOf(tblAttendance.getValueAt(row, 8)));
+
+				dailyActivities.add(dailyActivity);
+			}
+
+			try {
+				logicDailyActvity.saveDailyActivity(dailyActivities);
+				JOptionPane.showMessageDialog(panelMain, "All records saved ...!");
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		}
 
 	}

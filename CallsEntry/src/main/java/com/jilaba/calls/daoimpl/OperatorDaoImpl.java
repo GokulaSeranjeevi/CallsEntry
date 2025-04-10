@@ -20,7 +20,6 @@ import com.jilaba.exception.ErrorHandling;
 @Scope("prototype")
 public class OperatorDaoImpl implements OperatorDao {
 
-	// private Applicationmain app;
 	@Autowired
 	private OperatorQuery operatorQuery;
 

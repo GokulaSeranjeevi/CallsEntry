@@ -1,4 +1,4 @@
-ServerName - 172.16.10.99
+ServerName - 192.168.20.125			
 UserName - sa
-password - ´¯±
-PortNo - 1433
+password - USRkÁ¨À¨
+PortNo - 3434

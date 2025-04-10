@@ -13,7 +13,7 @@ public class OperatorQuery {
 
 		sb = new StringBuilder();
 
-		sb.append("Select * from staff Where Active='Y' And designation<>4");
+		sb.append("Select * from staff Where Active='Y'");
 
 		return sb.toString();
 	}

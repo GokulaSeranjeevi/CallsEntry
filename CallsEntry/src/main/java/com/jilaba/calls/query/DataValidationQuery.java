@@ -28,7 +28,7 @@ public class DataValidationQuery {
 	public String getUpdateby() {
 
 		sb = new StringBuilder("");
-		sb.append("Select * from Staff Where Active='Y'");
+		sb.append("Select * from Staff Where Active='Y' And designation In(1,2,3)");
 
 		return sb.toString();
 	}

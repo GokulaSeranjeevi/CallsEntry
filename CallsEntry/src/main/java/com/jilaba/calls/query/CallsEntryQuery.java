@@ -10,8 +10,7 @@ public class CallsEntryQuery {
 	public String getCallFrom() {
 
 		sb = new StringBuilder();
-		sb.append("Select * from Staff Where Active='Y' And designation<>4 \r\n"
-				+ "Order by staffname");
+		sb.append("Select * from Staff Where Active='Y' \r\n" + "Order by staffname");
 		return sb.toString();
 	}
 
@@ -32,8 +31,7 @@ public class CallsEntryQuery {
 	public String getCustStaff() {
 
 		sb = new StringBuilder();
-		sb.append("Select * from custstaff Where Active='Y' \r\n"
-				+ "Order by custstaffname");
+		sb.append("Select * from custstaff Where Active='Y' \r\n" + "Order by custstaffname");
 
 		return sb.toString();
 	}
@@ -41,8 +39,7 @@ public class CallsEntryQuery {
 	public String getCallCoOrd() {
 
 		sb = new StringBuilder();
-		sb.append("Select * from staff Where Active='Y' And designation in(3,4) \r\n"
-				+ "Order by staffname ");
+		sb.append("Select * from staff Where Active='Y' And designation in(3,5) \r\n" + "Order by staffname ");
 		return sb.toString();
 	}
 
@@ -222,8 +219,7 @@ public class CallsEntryQuery {
 		return sb.toString();
 	}
 
-	public String updateCallImages(int callNo, byte[] lblImage1, byte[] lblImage2, byte[] lblImage3,
-			byte[] lblImage4) {
+	public String updateCallImages(int callNo, byte[] lblImage1, byte[] lblImage2, byte[] lblImage3, byte[] lblImage4) {
 
 		sb = new StringBuilder("");
 

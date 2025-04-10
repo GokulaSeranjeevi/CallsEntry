@@ -73,9 +73,8 @@ public class DevCallAssignQuery {
 
 		sb = new StringBuilder("");
 		sb.append("Select sugto,S.StaffName DeveloperName, Count(*) DevCalls from Calls C\r\n"
-				+ "Left join staff S on S.staffid = C.sugto\r\n"
-				+ "  Where C.Callno>999 And Sugto<>0 And C.Ready='' \r\n  " + "group by sugto,S.staffname\r\n"
-				+ "Order by sugto");
+				+ "Left join staff S on S.staffid = C.sugto\r\n" + "  Where Sugto<>0 And C.Ready='' \r\n  "
+				+ "group by sugto,S.staffname\r\n" + "Order by sugto");
 
 		return sb.toString();
 	}
