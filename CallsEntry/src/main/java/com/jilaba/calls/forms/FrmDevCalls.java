@@ -76,7 +76,7 @@ public class FrmDevCalls extends JFrame implements ActionListener, KeyListener {
 	private JPanel panelDetail2;
 	private JPanel panelTakenCall;
 	private JPanel panelContent;
-	private JPanel panelCallDetail;
+	private JPanel panelcallTransfer;
 	private JPanel panelLine3;
 	private JPanel panelCallDesc;
 
@@ -339,9 +339,9 @@ public class FrmDevCalls extends JFrame implements ActionListener, KeyListener {
 
 								int callNo = Integer.valueOf(String.valueOf(lblCallAndTicketval.getText()));
 
-								//						lstCheck = new ArrayList<Calls>();
+								// lstCheck = new ArrayList<Calls>();
 
-								//						lstCheck = logicDevCalls.validateProgressCall(FrmLogin.OperCode);
+								// lstCheck = logicDevCalls.validateProgressCall(FrmLogin.OperCode);
 
 								if ((progress.size() == 0 && strType != 2) && (progress.size() == 0 && strType != 3)) {
 
@@ -432,6 +432,23 @@ public class FrmDevCalls extends JFrame implements ActionListener, KeyListener {
 					btnView();
 				}
 
+				if (e.getKeyCode() == KeyEvent.VK_T) {
+
+					int callNo = Integer.valueOf(
+							String.valueOf(tblDevCalls.getModel().getValueAt(tblDevCalls.getSelectedRow(), 0)));
+
+					int moduleid = Integer.valueOf(
+							String.valueOf(tblDevCalls.getModel().getValueAt(tblDevCalls.getSelectedRow(), 13)));
+
+					FrmTransferCall frmTransferCall = Applicationmain.getAbstractApplicationContext()
+							.getBean(FrmTransferCall.class, new Object[] { getContentPane() });
+					frmTransferCall.intializeVariable(callNo, moduleid);
+					frmTransferCall.setVisible(true);
+
+					btnView();
+
+				}
+
 			}
 		});
 
@@ -465,7 +482,7 @@ public class FrmDevCalls extends JFrame implements ActionListener, KeyListener {
 		panelMain.add(panelDetailInitialize());
 		panelMain.add(panelLine2Initialize());
 		panelMain.add(panelDetail2Initialize());
-		//		panelMain.add(panelDevCallSummary());
+		// panelMain.add(panelDevCallSummary());
 		panelMain.add(panelContentInitialize());
 		panelMain.add(panelLine3Inialize());
 
@@ -580,14 +597,14 @@ public class FrmDevCalls extends JFrame implements ActionListener, KeyListener {
 		cmbCallNature.addListItem(new ListItem("General", 5));
 		cmbCallNature.addListItem(new ListItem("Tallying", 6));
 
-		//		lstCheck= logicDevCalls.validateProgressCall();
-		//		
-		//		if (lstCheck != null) {
+		// lstCheck= logicDevCalls.validateProgressCall();
 		//
-		////			logicDevCalls.updateProgressCall(callNo);
-		//			
-		//			tblDevCalls.setRowColor(selectedRow, Color.decode("#CEAB8C"));
-		//		}
+		// if (lstCheck != null) {
+		//
+		//// logicDevCalls.updateProgressCall(callNo);
+		//
+		// tblDevCalls.setRowColor(selectedRow, Color.decode("#CEAB8C"));
+		// }
 		//
 
 		return new ReturnStatus(true);
@@ -626,12 +643,14 @@ public class FrmDevCalls extends JFrame implements ActionListener, KeyListener {
 		scrDevCalls.getViewport().setBackground(tblDevCalls.getTableHeader().getBackground());
 		scrDevCalls.setVisible(true);
 
-		//		panelCallDetail = new JPanel();
-		//		panelCallDetail.setBounds(scrDevCalls.getX(), scrDevCalls.getY() + scrDevCalls.getHeight() + 10, 900, 40);
-		//		panelCallDetail.setLayout(null);
-		//		panelCallDetail.setBackground(color6);
-		//		//		panelCallDetail.setBorder(BorderFactory.createEtchedBorder(color3, color3));
-		//		panelCallDetail.setVisible(true);
+		// panelCallDetail = new JPanel();
+		// panelCallDetail.setBounds(scrDevCalls.getX(), scrDevCalls.getY() +
+		// scrDevCalls.getHeight() + 10, 900, 40);
+		// panelCallDetail.setLayout(null);
+		// panelCallDetail.setBackground(color6);
+		// // panelCallDetail.setBorder(BorderFactory.createEtchedBorder(color3,
+		// color3));
+		// panelCallDetail.setVisible(true);
 
 		txtCallDesc = new JTextArea("");
 		txtCallDesc.setBounds(scrDevCalls.getX(), scrDevCalls.getY() + scrDevCalls.getHeight() + 5, 900, 50);
@@ -805,9 +824,9 @@ public class FrmDevCalls extends JFrame implements ActionListener, KeyListener {
 		lblPressEsc.setVisible(true);
 
 		lblShortcutkey = new JLabel(
-				" P -Progress Call Mark                           R - Call Ready Mark                           I - Image Details To Show                               C - Progress Call Cancel ");
+				" P -Progress Call Mark                           R - Call Ready Mark                           I - Image Details To Show                               C - Progress Call Cancel                             T-Transfer Call to Other");
 		lblShortcutkey.setHorizontalAlignment(SwingConstants.LEFT);
-		lblShortcutkey.setBounds(lblPressEsc.getX() + lblPressEsc.getWidth() + 20, lblPressEsc.getY(), 500, 20);
+		lblShortcutkey.setBounds(lblPressEsc.getX() + lblPressEsc.getWidth() + 20, lblPressEsc.getY(), 550, 20);
 		lblShortcutkey.setFont(jilabaFonts.getFont(FontStyle.BOLD, 15));
 		lblShortcutkey.setBackground(color2);
 		lblShortcutkey.setVisible(true);
@@ -816,7 +835,8 @@ public class FrmDevCalls extends JFrame implements ActionListener, KeyListener {
 		lblProgressColourkey.setHorizontalAlignment(SwingConstants.LEFT);
 		lblProgressColourkey.setBounds(750, lblShortcutkey.getY(), 10, 10);
 		lblProgressColourkey.setFont(jilabaFonts.getFont(FontStyle.BOLD, 15));
-		//		lblProgressColourkey.setBorder(BorderFactory.createEtchedBorder(color4, color4));
+		// lblProgressColourkey.setBorder(BorderFactory.createEtchedBorder(color4,
+		// color4));
 		lblProgressColourkey.setBackground(Color.decode("#CEAB8C"));
 		lblProgressColourkey.setOpaque(true);
 		lblProgressColourkey.setForeground(Color.decode("#CEAB8C"));
@@ -827,7 +847,8 @@ public class FrmDevCalls extends JFrame implements ActionListener, KeyListener {
 		lblProgressColourkeyNote.setBounds(lblProgressColourkey.getX() + lblProgressColourkey.getWidth() + 10,
 				lblShortcutkey.getY() - 5, 80, 20);
 		lblProgressColourkeyNote.setFont(jilabaFonts.getFont(FontStyle.BOLD, 15));
-		//		lblProgressColourkeyNote.setBorder(BorderFactory.createEtchedBorder(color4, color4));
+		// lblProgressColourkeyNote.setBorder(BorderFactory.createEtchedBorder(color4,
+		// color4));
 		lblProgressColourkeyNote.setBackground(color2);
 		lblProgressColourkeyNote.setVisible(true);
 
@@ -836,7 +857,8 @@ public class FrmDevCalls extends JFrame implements ActionListener, KeyListener {
 		lblReturnColourkey.setBounds(lblProgressColourkeyNote.getX() + lblProgressColourkeyNote.getWidth() + 10,
 				lblProgressColourkeyNote.getY() + 5, 10, 10);
 		lblReturnColourkey.setFont(jilabaFonts.getFont(FontStyle.BOLD, 15));
-		//		lblReturnColourkey.setBorder(BorderFactory.createEtchedBorder(color4, color4));
+		// lblReturnColourkey.setBorder(BorderFactory.createEtchedBorder(color4,
+		// color4));
 		lblReturnColourkey.setBackground(Color.decode("#57b9ff"));
 		lblReturnColourkey.setOpaque(true);
 		lblReturnColourkey.setForeground(Color.decode("#57b9ff"));
@@ -847,12 +869,13 @@ public class FrmDevCalls extends JFrame implements ActionListener, KeyListener {
 		lblReturnColourkeyNote.setBounds(lblReturnColourkey.getX() + lblReturnColourkey.getWidth() + 10,
 				lblReturnColourkey.getY() - 5, 80, 20);
 		lblReturnColourkeyNote.setFont(jilabaFonts.getFont(FontStyle.BOLD, 15));
-		//		lblReturnColourkeyNote.setBorder(BorderFactory.createEtchedBorder(color4, color4));
+		// lblReturnColourkeyNote.setBorder(BorderFactory.createEtchedBorder(color4,
+		// color4));
 		lblReturnColourkeyNote.setBackground(color2);
 		lblReturnColourkeyNote.setVisible(true);
 
 		panelMain.add(panelContent);
-		//		panelContent.add(panelCallDetail);
+		// panelContent.add(panelCallDetail);
 		panelContent.add(scrDevCalls);
 		panelContent.add(scrollReasonPane);
 		panelContent.add(panelTakenCall);
@@ -1171,7 +1194,8 @@ public class FrmDevCalls extends JFrame implements ActionListener, KeyListener {
 
 		lblHeading = new JLabel("DEVELOPER CALLS");
 		lblHeading.setBounds(20, -10, 170, 50);
-		//		lblHeading.setBounds(panelDetail.getWidth() / 2, panelDetail.getY() / 2, 20, 20);
+		// lblHeading.setBounds(panelDetail.getWidth() / 2, panelDetail.getY() / 2, 20,
+		// 20);
 		lblHeading.setFont(jilabaFonts.getFont(FontStyle.BOLD, 23));
 		lblHeading.setForeground(fontColor1);
 		lblHeading.setVisible(true);
@@ -1265,7 +1289,7 @@ public class FrmDevCalls extends JFrame implements ActionListener, KeyListener {
 
 				if (!callNoStr.equals("")) {
 					strCallNo = Long.valueOf(callNoStr);
-					//				strCallNo = Integer.valueOf(String.valueOf(txtCallNo.getText().trim()));
+					// strCallNo = Integer.valueOf(String.valueOf(txtCallNo.getText().trim()));
 					cmbDeveloper.requestFocus();
 				}
 
@@ -1394,7 +1418,7 @@ public class FrmDevCalls extends JFrame implements ActionListener, KeyListener {
 
 	private void btnView() {
 
-		chkSelectAll(); //Nature And type 
+		chkSelectAll(); // Nature And type
 		tblDevCalls.clear();
 
 		lstDevCalls = logicDevCalls.getDeveloperCalls(spnAsOnDate.getDateValue(), strCallNo, strDeveleoper,
@@ -1442,13 +1466,13 @@ public class FrmDevCalls extends JFrame implements ActionListener, KeyListener {
 				k = i;
 			}
 
-			//			for (Calls cc : lstDevCalls) {
+			// for (Calls cc : lstDevCalls) {
 			//
-			//				if (cc.getTestresult().equalsIgnoreCase("R")) {
-			//					k = i;
-			//				}
+			// if (cc.getTestresult().equalsIgnoreCase("R")) {
+			// k = i;
+			// }
 			//
-			//			}
+			// }
 
 			tblDevCalls.addRow(lstObjects);
 
@@ -1468,19 +1492,21 @@ public class FrmDevCalls extends JFrame implements ActionListener, KeyListener {
 
 		returnCalls = logicDevCalls.getReturnCall(strDeveleoper);
 
-		/*		if (progress.size() != 0
-						&& progress.get(0).getSugto() == Integer.valueOf(String.valueOf(cmbDeveloper.getSelectedItemValue()))) {
-		*/
+		/*
+		 * if (progress.size() != 0 && progress.get(0).getSugto() ==
+		 * Integer.valueOf(String.valueOf(cmbDeveloper.getSelectedItemValue()))) {
+		 */
 		if ((progress.size() != 0 && strType != 2) && (progress.size() != 0 && strType != 3)) {
 
 			if (j != -1) {
 				tblDevCalls.setRowColor(j, Color.decode("#CEAB8C"));
 			}
 		}
-		//Particular Developer Only - Gokul, 09/09/24
-		/*if (returnCalls.size() != 0 && returnCalls.get(0).getSugto() == Integer
-				.valueOf(String.valueOf(cmbDeveloper.getSelectedItemValue()))) {
-		*/
+		// Particular Developer Only - Gokul, 09/09/24
+		/*
+		 * if (returnCalls.size() != 0 && returnCalls.get(0).getSugto() == Integer
+		 * .valueOf(String.valueOf(cmbDeveloper.getSelectedItemValue()))) {
+		 */
 
 		// 28/10/2024 For Return Value 0
 		if ((returnCalls.size() != 0 && strType != 2) && (returnCalls.size() != 0 && strType != 3)) {
@@ -1490,14 +1516,14 @@ public class FrmDevCalls extends JFrame implements ActionListener, KeyListener {
 			}
 		}
 
-		//		if (j != 0) {
-		//			calls = new Calls();
+		// if (j != 0) {
+		// calls = new Calls();
 		//
-		//			//				if (calls.getReady() == null) {
-		//z
-		//			tblDevCalls.setRowColor(j, Color.decode("#CEAB8C"));
-		//			//				}
-		//		}
+		// // if (calls.getReady() == null) {
+		// z
+		// tblDevCalls.setRowColor(j, Color.decode("#CEAB8C"));
+		// // }
+		// }
 
 	}
 
@@ -1516,18 +1542,18 @@ public class FrmDevCalls extends JFrame implements ActionListener, KeyListener {
 
 	private ReturnStatus chkSelectAll() {
 
-		//		// Apply the method to each combo box
-		//		strDeveleoper = getComboBoxValue(cmbDeveloper);
-		//		strDepartment = getComboBoxValue(cmbDepartment);
-		//		strModule = getComboBoxValue(cmbModule);
-		//		strCustomer = getComboBoxValue(cmbCustomer);
-		//		strDeptAuthorize = getComboBoxValue(cmbDeptAuthorize);
-		//		strRecvFrom = getComboBoxValue(cmbRecvFrom);
-		//		strCallCoOrd = getComboBoxValue(cmbCallCoOrd);
-		//		strType = getComboBoxValue(cmbType);
-		//		strCallNature = getComboBoxValue(cmbCallNature);
+		// // Apply the method to each combo box
+		// strDeveleoper = getComboBoxValue(cmbDeveloper);
+		// strDepartment = getComboBoxValue(cmbDepartment);
+		// strModule = getComboBoxValue(cmbModule);
+		// strCustomer = getComboBoxValue(cmbCustomer);
+		// strDeptAuthorize = getComboBoxValue(cmbDeptAuthorize);
+		// strRecvFrom = getComboBoxValue(cmbRecvFrom);
+		// strCallCoOrd = getComboBoxValue(cmbCallCoOrd);
+		// strType = getComboBoxValue(cmbType);
+		// strCallNature = getComboBoxValue(cmbCallNature);
 		//
-		//		return new ReturnStatus(true);
+		// return new ReturnStatus(true);
 
 		if (cmbDeveloper.getSelectedItem().equals("All")) {
 			strDeveleoper = 0;

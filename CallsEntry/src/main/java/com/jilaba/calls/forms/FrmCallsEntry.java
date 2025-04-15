@@ -1205,12 +1205,12 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 
 		cmbBranch.addListItem(new ListItem("LJM"));
 
-		cmbNature.addListItem(new ListItem("Error"));
-		cmbNature.addListItem(new ListItem("Modification"));
-		cmbNature.addListItem(new ListItem("Clarification"));
-		cmbNature.addListItem(new ListItem("Development"));
-		cmbNature.addListItem(new ListItem("General"));
-		cmbNature.addListItem(new ListItem("Tallying"));
+		cmbNature.addListItem(new ListItem("Error", 1));
+		cmbNature.addListItem(new ListItem("Modification", 2));
+		cmbNature.addListItem(new ListItem("Clarification", 3));
+		cmbNature.addListItem(new ListItem("Development", 4));
+		cmbNature.addListItem(new ListItem("General", 5));
+		cmbNature.addListItem(new ListItem("Tallying", 6));
 
 		devCoOrd = logicCallsEntry.getDevCoOrd();
 
@@ -1928,7 +1928,8 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 					cmbCustomer.getSelectedItemValue().toString(), cmbDepartment.getSelectedItemValue().toString(),
 					cmbCustStaff.getSelectedItemValue().toString(), cmbStaff.getSelectedItemValue().toString(),
 					cmbModule.getSelectedItemValue().toString(), txtRefNo.getText(), txtOption.getText(),
-					cmbNature.getSelectedItemValue().toString(), txtDesc.getText(),
+					cmbNature.getSelectedItem()
+							.toString(), txtDesc.getText(),
 					cmbDevCoOrd.getSelectedItemValue().toString(), txtEditCallNo.getText());
 
 			if (FrmImageDialog.blnImageVerify == true) {

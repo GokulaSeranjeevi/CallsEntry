@@ -164,13 +164,13 @@ public class DevCallsQuery {
 
 	}
 
-	//	private void appendInClause(StringBuilder sb, String columnName, int count) {
-	//		sb.append(columnName).append(" IN (?");
-	//		for (int index = 1; index < count; index++) {
-	//			sb.append(",?");
-	//		}
-	//		sb.append(")");
-	//	}
+	// private void appendInClause(StringBuilder sb, String columnName, int count) {
+	// sb.append(columnName).append(" IN (?");
+	// for (int index = 1; index < count; index++) {
+	// sb.append(",?");
+	// }
+	// sb.append(")");
+	// }
 
 	public String getCallsImages(String callNo) {
 
@@ -258,6 +258,15 @@ public class DevCallsQuery {
 			sb.append("Update Calls Set DevPriority=0 Where CallNo='" + selectedCallno + "'");
 		else
 			sb.append("Update Calls Set DevPriority=0" + devPriority + " Where CallNo='" + selectedCallno + "'");
+
+		return sb.toString();
+	}
+
+	public String updateDevTransfer(int cNo, int dev) {
+
+		sb = new StringBuilder("");
+
+		sb.append(" Update Calls Set Sugto=" + dev + " Where Callno=" + cNo);
 
 		return sb.toString();
 	}

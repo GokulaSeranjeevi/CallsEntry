@@ -85,7 +85,7 @@ public class DailyActivityDaoImpl implements DailyActivityDao {
 
 				// Set parameters for the stored procedure
 				mapDataSave.put("GroupId", groupId);
-				mapDataSave.put("Staffid", FrmLogin.OperCode);
+				mapDataSave.put("Staffid", dailyActivity.getStaffId());
 				mapDataSave.put("Leave", dailyActivity.getLeave());
 				mapDataSave.put("Permission", dailyActivity.getPermission());
 				mapDataSave.put("MonthOff", dailyActivity.getMonthOff());

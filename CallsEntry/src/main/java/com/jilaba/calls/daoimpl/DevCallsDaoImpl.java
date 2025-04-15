@@ -71,7 +71,6 @@ public class DevCallsDaoImpl implements DevCalls {
 			operator.setActive("Active");
 
 			return operator;
-			
 
 		}
 	}
@@ -423,7 +422,7 @@ public class DevCallsDaoImpl implements DevCalls {
 
 			Calls calls = new Calls();
 
-			//			calls.setProgress(rs.getInt("Progress"));
+			// calls.setProgress(rs.getInt("Progress"));
 			calls.setSugto(rs.getInt("sugto"));
 
 			return calls;
@@ -496,7 +495,7 @@ public class DevCallsDaoImpl implements DevCalls {
 
 			ReturnCalls returnCalls = new ReturnCalls();
 
-			//			calls.setProgress(rs.getInt("Progress"));
+			// calls.setProgress(rs.getInt("Progress"));
 			returnCalls.setCallno(rs.getInt("callNo"));
 			returnCalls.setSugto(rs.getInt("Sugto"));
 
@@ -568,7 +567,7 @@ public class DevCallsDaoImpl implements DevCalls {
 	public ReturnStatus updateDevPriority(String devPriority, String selectedCallno) {
 		try {
 
-			jdbcTemplate.update(devCallsQuery.updateDevPriority(devPriority,  selectedCallno), new Object[] {});
+			jdbcTemplate.update(devCallsQuery.updateDevPriority(devPriority, selectedCallno), new Object[] {});
 
 			return new ReturnStatus(true);
 
@@ -579,4 +578,17 @@ public class DevCallsDaoImpl implements DevCalls {
 
 	}
 
+	@Override
+	public ReturnStatus updateDev(int cNo, int dev) {
+		try {
+
+			jdbcTemplate.update(devCallsQuery.updateDevTransfer(cNo, dev), new Object[] {});
+
+			return new ReturnStatus(true);
+
+		} catch (Exception e) {
+
+			return new ReturnStatus(false, e.getMessage());
+		}
+	}
 }

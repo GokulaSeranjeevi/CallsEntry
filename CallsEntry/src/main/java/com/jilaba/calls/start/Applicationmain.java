@@ -13,7 +13,7 @@ public class Applicationmain {
 	private static AbstractApplicationContext abstractApplicationContext;
 	private static final int MAJOR = 25;
 	private static final int MINOR = 04;
-	private static final int REVISION = 07;
+	private static final int REVISION = 10;
 	private static final int BUILD = 1;
 	public static final String VERSION = BUILD + "." + MAJOR + "." + MINOR + "." + REVISION;
 	public static final boolean JTDS = false;

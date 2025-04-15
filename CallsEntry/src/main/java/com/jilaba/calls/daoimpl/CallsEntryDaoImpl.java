@@ -39,7 +39,7 @@ public class CallsEntryDaoImpl implements CallsEntryDao {
 
 	@Autowired
 	private JdbcTemplate tranJdbcTemplate;
-	
+
 	private Integer callno;
 
 	@Override
@@ -241,7 +241,7 @@ public class CallsEntryDaoImpl implements CallsEntryDao {
 		SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(tranJdbcTemplate);
 		simpleJdbcCall.setProcedureName("Sp_SaveCallsEntry");
 
-		 callno = tranJdbcTemplate.queryForObject(callsEntryQuery.getCallno(), Integer.class);
+		callno = tranJdbcTemplate.queryForObject(callsEntryQuery.getCallno(), Integer.class);
 
 		try {
 
@@ -322,11 +322,11 @@ public class CallsEntryDaoImpl implements CallsEntryDao {
 			mapCallSave.put("OrgCallTakenDate", calls.getOrgCallTakenDate());
 			mapCallSave.put("GrpRemID", calls.getGrpRemID());
 
-			//			for (Map.Entry<String, Object> entry : mapCallSave.entrySet()) {
-			//				String key = entry.getKey();
-			//				Object val = entry.getValue();
-			//				System.out.println(key + " | " + val);
-			//			}
+			// for (Map.Entry<String, Object> entry : mapCallSave.entrySet()) {
+			// String key = entry.getKey();
+			// Object val = entry.getValue();
+			// System.out.println(key + " | " + val);
+			// }
 
 			simpleJdbcCall.execute(mapCallSave);
 
@@ -367,15 +367,16 @@ public class CallsEntryDaoImpl implements CallsEntryDao {
 			byte[] lblImage4Path) {
 //		String clNo = tranJdbcTemplate.queryForObject(callsEntryQuery.getCallno(), String.class);
 
-
 		try {
-			tranJdbcTemplate.update(callsEntryQuery.getsaveCallsImages( callno,lblImage1Path, lblImage2Path,
+			tranJdbcTemplate.update(callsEntryQuery.getsaveCallsImages(callno, lblImage1Path, lblImage2Path,
 					lblImage3Path, lblImage4Path), callno, lblImage1Path, lblImage2Path, lblImage3Path, lblImage4Path);
 
-			//			tranjdbcTemplate.queryForObject(
-			//					callsEntryQuery.getsaveCallsImages(callNo, lblImage1Path, lblImage2Path, lblImage3Path,
-			//							lblImage4Path),
-			//					new Object[] { callNo, lblImage1Path, lblImage2Path, lblImage3Path, lblImage4Path }, String.class);
+			// tranjdbcTemplate.queryForObject(
+			// callsEntryQuery.getsaveCallsImages(callNo, lblImage1Path, lblImage2Path,
+			// lblImage3Path,
+			// lblImage4Path),
+			// new Object[] { callNo, lblImage1Path, lblImage2Path, lblImage3Path,
+			// lblImage4Path }, String.class);
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -472,9 +473,9 @@ public class CallsEntryDaoImpl implements CallsEntryDao {
 
 		try {
 
-			tranJdbcTemplate
-					.update(callsEntryQuery.updateCallEdit(cmbCallFrom, cmbCustomer, cmbDepartment, cmbCustCoOrd,
-							cmbCallCoOrd, cmbModule, txtRefNo, txtOption, cmbNature, txtDesc, cmbDevCoOrd, txtCallNo));
+			tranJdbcTemplate.update(callsEntryQuery.updateCallEdit(cmbCallFrom, cmbCustomer, cmbDepartment,
+					cmbCustCoOrd, cmbCallCoOrd, cmbModule, txtRefNo, txtOption, cmbNature.substring(0, 1), txtDesc,
+					cmbDevCoOrd, txtCallNo));
 
 			return new ReturnStatus(true);
 

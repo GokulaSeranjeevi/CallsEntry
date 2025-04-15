@@ -196,8 +196,13 @@ public class LogicDevCalls {
 
 	public void updateDevPriority(String DevPriority, String selectedCallno) {
 
-		returnStatus = devCalls.updateDevPriority(DevPriority,selectedCallno);
+		returnStatus = devCalls.updateDevPriority(DevPriority, selectedCallno);
 
+	}
+
+	public void updateDev(int cNo, int dev) {
+
+		returnStatus = devCalls.updateDev(cNo, dev);
 	}
 
 }

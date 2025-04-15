@@ -40,4 +40,6 @@ public interface DevCalls {
 	ReturnStatus updateProgressCancel(String callNo);
 
 	ReturnStatus updateDevPriority(String devPriority, String selectedCallno);
+
+	ReturnStatus updateDev(int cNo, int dev);
 }

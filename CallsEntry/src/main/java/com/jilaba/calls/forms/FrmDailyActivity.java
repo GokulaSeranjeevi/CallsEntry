@@ -63,7 +63,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 
 	private JPanel panelMain;
 	private JPanel panelEntry;
-	private JPanel panelView;
+	private JPanel panelAtnView;
 	private JPanel panelTitle;
 	private JPanel panelLine;
 	private JPanel panelDetail;
@@ -71,7 +71,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 	private JPanel panelContent;
 	private JPanel panelLine3;
 	private JPanel panelAttendance;
-	private JPanel panelViewDetail;
+	private JPanel panelAtnReport;
 	private JPanel panelCallDate;
 	private JPanel panelOrderby;
 	private JPanel panelEdit;
@@ -164,7 +164,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 
 		for (Operator oper : lstoperator) {
 
-			cmbApprovedby.addListItem(new ListItem(oper.getStaffname()));
+			cmbApprovedby.addListItem(new ListItem(oper.getStaffname(), oper.getStaffid()));
 		}
 
 		int selectedRow = tblAttendance.getSelectedRow();
@@ -313,11 +313,17 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		panelEntry.addKeyListener(this);
 //		panelEntry.setBorder(BorderFactory.createEtchedBorder(color3, color3));
 
-		panelView = new JPanel();
-		panelView.setBounds(0, 90, 958, 590);
-		panelView.setLayout(null);
-		panelView.setBackground(color2);
-		panelView.setVisible(false);
+		panelAtnView = new JPanel();
+		panelAtnView.setBounds(0, 90, 958, 590);
+		panelAtnView.setLayout(null);
+		panelAtnView.setBackground(color2);
+		panelAtnView.setVisible(false);
+
+		panelAtnReport = new JPanel();
+		panelAtnReport.setBounds(0, 90, 958, 590);
+		panelAtnReport.setLayout(null);
+		panelAtnReport.setBackground(color2);
+		panelAtnReport.setVisible(false);
 
 		panelMain.add(panelTitleInialize());
 		panelMain.add(panelLineInialize());
@@ -326,7 +332,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		panelEntry.add(panelContentInitalize());
 		panelMain.add(panelLine3Inialize());
 //		panelMain.add(panelButtonInialize());
-		panelView.add(panelViewDetail());
+		panelAtnView.add(panelViewDetail());
 //		panelView.add(panelReadyDetail());
 
 //		createInputVerifiers();
@@ -334,7 +340,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 
 		getContentPane().add(panelMain);
 		panelMain.add(panelEntry);
-		panelMain.add(panelView);
+		panelMain.add(panelAtnView);
 
 	}
 
@@ -677,34 +683,10 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 
 		if (e.getSource() == btnAttendance) {
 
-			panelEntry.setVisible(false);
-			panelView.setVisible(true);
-
-			lstoperator = logicDailyActvity.getOperators();
-
-			List<Object> lstobject;
-
-			for (Operator oper : lstoperator) {
-
-				lstobject = new ArrayList<>();
-
-				lstobject.add(oper.getStaffname());
-				lstobject.add("No");
-				lstobject.add("No");
-				lstobject.add("No");
-				lstobject.add("No");
-				lstobject.add("No");
-				lstobject.add("");
-				lstobject.add("");
-				lstobject.add("");
-				lstobject.add(oper.getStaffid());
-
-				tblAttendance.addRow(lstobject);
-
-			}
+			btnAtnView();
 
 		} else if (e.getSource() == btnExit) {
-			panelView.setVisible(false);
+			panelAtnView.setVisible(false);
 			panelEntry.setVisible(true);
 			panelContent.setFocusable(true);
 			panelContent.requestFocusInWindow();
@@ -717,14 +699,16 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 			for (int row = 0; row < tblAttendance.getRowCount(); row++) {
 				DailyActivity dailyActivity = new DailyActivity();
 
-				dailyActivity.setLeave(String.valueOf(tblAttendance.getValueAt(row, 1).equals("NO") ? "Y" : "N"));
-				dailyActivity.setPermission(String.valueOf(tblAttendance.getValueAt(row, 2).equals("NO") ? "Y" : "N"));
-				dailyActivity.setMonthOff(String.valueOf(tblAttendance.getValueAt(row, 3).equals("NO") ? "Y" : "N"));
-				dailyActivity.setWeekOff(String.valueOf(tblAttendance.getValueAt(row, 4).equals("NO") ? "Y" : "N"));
-				dailyActivity.setComboOff(String.valueOf(tblAttendance.getValueAt(row, 5).equals("NO") ? "Y" : "N"));
-				dailyActivity.setApprovedby(Integer.valueOf(0));
+				dailyActivity.setLeave(String.valueOf(tblAttendance.getValueAt(row, 1).equals("No") ? "N" : "Y"));
+				dailyActivity.setPermission(String.valueOf(tblAttendance.getValueAt(row, 2).equals("No") ? "N" : "Y"));
+				dailyActivity.setMonthOff(String.valueOf(tblAttendance.getValueAt(row, 3).equals("No") ? "N" : "Y"));
+				dailyActivity.setWeekOff(String.valueOf(tblAttendance.getValueAt(row, 4).equals("No") ? "N" : "Y"));
+				dailyActivity.setComboOff(String.valueOf(tblAttendance.getValueAt(row, 5).equals("No") ? "N" : "Y"));
+				dailyActivity.setApprovedby(Integer.valueOf(String.valueOf(
+						cmbApprovedby.getSelectedItemValue() == null ? "0" : cmbApprovedby.getSelectedItemValue())));
 				dailyActivity.setReason(String.valueOf(tblAttendance.getValueAt(row, 7)));
 				dailyActivity.setPermissionTime(String.valueOf(tblAttendance.getValueAt(row, 8)));
+				dailyActivity.setStaffId(Integer.parseInt(String.valueOf(tblAttendance.getValueAt(row, 9))));
 
 				dailyActivities.add(dailyActivity);
 			}
@@ -732,9 +716,47 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 			try {
 				logicDailyActvity.saveDailyActivity(dailyActivities);
 				JOptionPane.showMessageDialog(panelMain, "All records saved ...!");
+
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
+		} else if (e.getSource() == btnAtnReport) {
+
+			btnAtnReport();
+		}
+
+	}
+
+	private void btnAtnReport() {
+
+	}
+
+	private void btnAtnView() {
+
+		panelEntry.setVisible(false);
+		panelAtnView.setVisible(true);
+
+		lstoperator = logicDailyActvity.getOperators();
+
+		List<Object> lstobject;
+
+		for (Operator oper : lstoperator) {
+
+			lstobject = new ArrayList<>();
+
+			lstobject.add(oper.getStaffname());
+			lstobject.add("No");
+			lstobject.add("No");
+			lstobject.add("No");
+			lstobject.add("No");
+			lstobject.add("No");
+			lstobject.add("");
+			lstobject.add("");
+			lstobject.add("");
+			lstobject.add(oper.getStaffid());
+
+			tblAttendance.addRow(lstobject);
+
 		}
 
 	}
