@@ -120,6 +120,9 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 	private JLabel lblMinimize;
 	private JLabel lblEditCallno;
 
+	private JLabel lblTotalcall;
+	private JLabel lblTotalcallVal;
+
 	private JLabel lblCallFromDate;
 	private JLabel lblCallToDate;;
 	private JLabel lblCall;
@@ -174,6 +177,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 	private JButton btnImage;
 	private JButton btnBack;
 	private JButton btnUpdate;
+	private JButton btnExcel;
 
 	private JButton btnView;
 	private JButton btnClear;
@@ -195,6 +199,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 	private Color color5 = Color.decode("#e4dedf");
 	private Color color6 = Color.decode("#b43e69");
 	private Color color7 = Color.decode("#ADD8E6");
+	private Color color8 = Color.decode("#FF3933");
 
 	private Color fontColor1 = Color.decode("#17202A");
 
@@ -427,9 +432,28 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		lblPressEsc.setFont(jilabaFonts.getFont(FontStyle.BOLD, 15));
 		lblPressEsc.setVisible(true);
 
+		lblTotalcall = new JLabel("TOTAL CALLS   - ");
+		lblTotalcall.setBounds(lblPressEsc.getX() + 750, lblPressEsc.getY(), 80, 20);
+		lblTotalcall.setBackground(color8);
+		lblTotalcall.setForeground(color8);
+		lblTotalcall.setFont(jilabaFonts.getFont(FontStyle.BOLD, 18));
+		lblTotalcall.setVisible(false);
+		lblTotalcall.addKeyListener(this);
+
+		lblTotalcallVal = new JLabel("");
+		lblTotalcallVal.setBounds(lblTotalcall.getX() + 70, lblTotalcall.getY(), 20, 20);
+		lblTotalcallVal.setBackground(color8);
+		lblTotalcallVal.setForeground(color8);
+		lblTotalcallVal.setFont(jilabaFonts.getFont(FontStyle.BOLD, 18));
+		lblTotalcallVal.setVisible(true);
+		lblTotalcallVal.addKeyListener(this);
+
 		panelView.add(panelEdit);
 		panelEdit.add(scrEditCalls);
 		panelEdit.add(lblPressEsc);
+		panelEdit.add(lblTotalcall);
+		panelEdit.add(lblTotalcallVal);
+
 		return panelEdit;
 
 	}
@@ -1591,6 +1615,18 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		btnImage.addActionListener(this);
 		btnImage.addKeyListener(this);
 
+		btnExcel = new JButton("Excel Attach ");
+		btnExcel.setHorizontalAlignment(SwingConstants.CENTER);
+		btnExcel.setBounds(btnImage.getX() + btnImage.getWidth() + 30, btnImage.getY(), 60, 25 - 10);
+		btnExcel.setFont(jilabaFonts.getFont(FontStyle.BOLD, 12));
+		btnExcel.setMnemonic(KeyEvent.VK_E);
+		btnExcel.setBackground(Color.decode("#ED2939"));
+		btnExcel.setForeground(Color.BLACK);
+		btnExcel.setBorder(BorderFactory.createBevelBorder(10));
+		btnExcel.setVisible(true);
+		btnExcel.addActionListener(this);
+		btnExcel.addKeyListener(this);
+
 		lblPreview = new JLabel("");
 		lblPreview.setHorizontalAlignment(SwingConstants.LEFT);
 		lblPreview.setBounds(btnImage.getX() + 30, btnImage.getY() + 10, 150, 150);
@@ -1648,6 +1684,8 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		panelContent.add(cmbDevCoOrd);
 
 		panelContent.add(btnImage);
+		panelContent.add(btnExcel);
+
 		panelContent.add(lblPath);
 		panelContent.add(lblPreview);
 		panelContent.add(lblCompanyCode);
@@ -1928,8 +1966,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 					cmbCustomer.getSelectedItemValue().toString(), cmbDepartment.getSelectedItemValue().toString(),
 					cmbCustStaff.getSelectedItemValue().toString(), cmbStaff.getSelectedItemValue().toString(),
 					cmbModule.getSelectedItemValue().toString(), txtRefNo.getText(), txtOption.getText(),
-					cmbNature.getSelectedItem()
-							.toString(), txtDesc.getText(),
+					cmbNature.getSelectedItem().toString(), txtDesc.getText(),
 					cmbDevCoOrd.getSelectedItemValue().toString(), txtEditCallNo.getText());
 
 			if (FrmImageDialog.blnImageVerify == true) {
@@ -2007,6 +2044,9 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		lstCalls = logicCallsEntry.getCalls(strCallFromDate, strCallToDate, strViewRecby, strViewCallCoOrd,
 				strViewCustCoOrd, strViewDevCoOrd, strViewClient, strViewDeptAuthorize, strViewDepartment,
 				strViewModule, strOrderby, txtCallNo.getText());
+
+		lblTotalcall.setVisible(true);
+		lblTotalcallVal.setText(String.valueOf(lstCalls.size() + 1));
 
 		List<Object> lstObjects = null;
 

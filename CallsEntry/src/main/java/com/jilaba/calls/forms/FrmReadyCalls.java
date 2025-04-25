@@ -118,6 +118,8 @@ public class FrmReadyCalls extends JFrame implements ActionListener, KeyListener
 	private JLabel lblClModule;
 	private JLabel lblClModuleVal;
 	private JLabel lblCallDesc;
+	private JLabel lblTotalcall;
+	private JLabel lblTotalcallVal;
 
 	private JLabel lblReadyDesc;
 
@@ -191,6 +193,7 @@ public class FrmReadyCalls extends JFrame implements ActionListener, KeyListener
 	private Color color5 = Color.decode("#e4dedf");
 	private Color color6 = Color.decode("#000000");
 	private Color color7 = Color.decode("#B2809D");
+	private Color color9 = Color.decode("#FF3933");
 
 	private ControlResize controlResize;
 
@@ -391,18 +394,17 @@ public class FrmReadyCalls extends JFrame implements ActionListener, KeyListener
 
 		});
 
-		/*	spnCallToDate.addKeyListener(new KeyAdapter() {
-		
-				@Override
-				public void keyPressed(KeyEvent e) {
-		
-					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-						spnReadyFromDate.requestFocus();
-		
-					}
-		
-				}
-			});*/
+		/*
+		 * spnCallToDate.addKeyListener(new KeyAdapter() {
+		 * 
+		 * @Override public void keyPressed(KeyEvent e) {
+		 * 
+		 * if (e.getKeyCode() == KeyEvent.VK_ENTER) { spnReadyFromDate.requestFocus();
+		 * 
+		 * }
+		 * 
+		 * } });
+		 */
 		spnReadyFromDate.addKeyListener(new KeyAdapter() {
 
 			@Override
@@ -576,13 +578,13 @@ public class FrmReadyCalls extends JFrame implements ActionListener, KeyListener
 								logicReadyCalls.updateReadyProgress(String.valueOf(
 										tblReadyCalls.getModel().getValueAt(tblReadyCalls.getSelectedRow(), 0)));
 
-								//								if (FrmLogin.OperCode == Qc1) {
-								//									tblReadyCalls.setRowColor(selectedRow, Color.decode("#CEAB8C"));
-								//								} else if (FrmLogin.OperCode == Qc2) {
-								//									tblReadyCalls.setRowColor(selectedRow, Color.decode("#F3E5AB"));
-								//								} else if (FrmLogin.OperCode == Qc3) {
-								//									tblReadyCalls.setRowColor(selectedRow, Color.decode("#C9CC3F"));
-								//								}
+								// if (FrmLogin.OperCode == Qc1) {
+								// tblReadyCalls.setRowColor(selectedRow, Color.decode("#CEAB8C"));
+								// } else if (FrmLogin.OperCode == Qc2) {
+								// tblReadyCalls.setRowColor(selectedRow, Color.decode("#F3E5AB"));
+								// } else if (FrmLogin.OperCode == Qc3) {
+								// tblReadyCalls.setRowColor(selectedRow, Color.decode("#C9CC3F"));
+								// }
 
 							} else if (response == JOptionPane.NO_OPTION) {
 								tblReadyCalls.requestFocus();
@@ -681,11 +683,11 @@ public class FrmReadyCalls extends JFrame implements ActionListener, KeyListener
 		panelMain.add(panelLine2Initialize());
 		panelMain.add(panelDetail2Initialize());
 		panelMain.add(panelReadyDetail());
-		//		panelMain.add(panelContentInitialize());
+		// panelMain.add(panelContentInitialize());
 		panelMain.add(panelLine3Inialize());
 
 		getContentPane().add(panelMain);
-		panelMain.addKeyListener(this);
+//		panelMain.addKeyListener(this);
 	}
 
 	private Component panelReadyDetail() {
@@ -722,7 +724,7 @@ public class FrmReadyCalls extends JFrame implements ActionListener, KeyListener
 		panelCallDesc.setBounds(scrReadyCalls.getX(), scrReadyCalls.getY() + scrReadyCalls.getHeight() + 10, 900, 120);
 		panelCallDesc.setLayout(null);
 		panelCallDesc.setBackground(color4);
-		//		panelCallDesc.setBorder(BorderFactory.createEtchedBorder(color3, color3));
+		// panelCallDesc.setBorder(BorderFactory.createEtchedBorder(color3, color3));
 		panelCallDesc.setVisible(true);
 
 		lblDepartment = new JLabel("Department : ");
@@ -781,6 +783,22 @@ public class FrmReadyCalls extends JFrame implements ActionListener, KeyListener
 		lblClModuleVal.setForeground(Color.BLACK);
 		lblClModuleVal.setFont(CustomFonts.fontCalibriBold);
 		lblClModuleVal.setVisible(true);
+
+		lblTotalcall = new JLabel("TOTAL CALLS   - ");
+		lblTotalcall.setBounds(lblClModuleVal.getX() + 90, lblClModuleVal.getY(), 80, 20);
+		lblTotalcall.setBackground(color9);
+		lblTotalcall.setForeground(color9);
+		lblTotalcall.setFont(jilabaFonts.getFont(FontStyle.BOLD, 18));
+		lblTotalcall.setVisible(false);
+		lblTotalcall.addKeyListener(this);
+
+		lblTotalcallVal = new JLabel("");
+		lblTotalcallVal.setBounds(lblTotalcall.getX() + 70, lblTotalcall.getY(), 30, 20);
+		lblTotalcallVal.setBackground(color9);
+		lblTotalcallVal.setForeground(color9);
+		lblTotalcallVal.setFont(jilabaFonts.getFont(FontStyle.BOLD, 18));
+		lblTotalcallVal.setVisible(true);
+		lblTotalcallVal.addKeyListener(this);
 
 		lblCallDesc = new JLabel("Call Desc : ");
 		lblCallDesc.setBounds(lblDepartment.getX(), lblDepartment.getY() + lblDepartment.getHeight() + 10, lblWidth,
@@ -842,7 +860,8 @@ public class FrmReadyCalls extends JFrame implements ActionListener, KeyListener
 		lblQc1Progress.setHorizontalAlignment(SwingConstants.LEFT);
 		lblQc1Progress.setBounds(750, lblPressEsc.getY() + 5, 10, 10);
 		lblQc1Progress.setFont(jilabaFonts.getFont(FontStyle.BOLD, 15));
-		//		lblProgressColourkey.setBorder(BorderFactory.createEtchedBorder(color4, color4));
+		// lblProgressColourkey.setBorder(BorderFactory.createEtchedBorder(color4,
+		// color4));
 		lblQc1Progress.setBackground(Color.decode("#79addc"));
 		lblQc1Progress.setOpaque(true);
 		lblQc1Progress.setForeground(Color.decode("#79addc"));
@@ -852,7 +871,8 @@ public class FrmReadyCalls extends JFrame implements ActionListener, KeyListener
 		lblQc1Colourkey.setHorizontalAlignment(SwingConstants.LEFT);
 		lblQc1Colourkey.setBounds(lblQc1Progress.getX() + lblQc1Progress.getWidth(), lblPressEsc.getY(), 50, 20);
 		lblQc1Colourkey.setFont(jilabaFonts.getFont(FontStyle.BOLD, 15));
-		//		lblProgressColourkeyNote.setBorder(BorderFactory.createEtchedBorder(color4, color4));
+		// lblProgressColourkeyNote.setBorder(BorderFactory.createEtchedBorder(color4,
+		// color4));
 		lblQc1Colourkey.setBackground(color2);
 		lblQc1Colourkey.setVisible(true);
 
@@ -861,7 +881,8 @@ public class FrmReadyCalls extends JFrame implements ActionListener, KeyListener
 		lblQc2Progress.setBounds(lblQc1Colourkey.getX() + lblQc1Colourkey.getWidth() + 10, lblQc1Colourkey.getY() + 5,
 				10, 10);
 		lblQc2Progress.setFont(jilabaFonts.getFont(FontStyle.BOLD, 15));
-		//		lblReturnColourkey.setBorder(BorderFactory.createEtchedBorder(color4, color4));
+		// lblReturnColourkey.setBorder(BorderFactory.createEtchedBorder(color4,
+		// color4));
 		lblQc2Progress.setBackground(Color.decode("#ffee93"));
 		lblQc2Progress.setOpaque(true);
 		lblQc2Progress.setForeground(Color.decode("#ffee93"));
@@ -872,7 +893,8 @@ public class FrmReadyCalls extends JFrame implements ActionListener, KeyListener
 		lblQc2Colourkey.setBounds(lblQc2Progress.getX() + lblQc2Progress.getWidth() + 10, lblQc2Progress.getY() - 5, 50,
 				20);
 		lblQc2Colourkey.setFont(jilabaFonts.getFont(FontStyle.BOLD, 15));
-		//		lblReturnColourkeyNote.setBorder(BorderFactory.createEtchedBorder(color4, color4));
+		// lblReturnColourkeyNote.setBorder(BorderFactory.createEtchedBorder(color4,
+		// color4));
 		lblQc2Colourkey.setBackground(Color.decode("#F3E5AB"));
 		lblQc2Colourkey.setVisible(true);
 
@@ -881,7 +903,8 @@ public class FrmReadyCalls extends JFrame implements ActionListener, KeyListener
 		lblQc3Progress.setBounds(lblQc2Colourkey.getX() + lblQc2Colourkey.getWidth() + 10, lblQc2Colourkey.getY() + 5,
 				10, 10);
 		lblQc3Progress.setFont(jilabaFonts.getFont(FontStyle.BOLD, 15));
-		//		lblReturnColourkey.setBorder(BorderFactory.createEtchedBorder(color4, color4));
+		// lblReturnColourkey.setBorder(BorderFactory.createEtchedBorder(color4,
+		// color4));
 		lblQc3Progress.setBackground(Color.decode("#adf7b6"));
 		lblQc3Progress.setOpaque(true);
 		lblQc3Progress.setForeground(Color.decode("#adf7b6"));
@@ -892,7 +915,8 @@ public class FrmReadyCalls extends JFrame implements ActionListener, KeyListener
 		lblQc3Colourkey.setBounds(lblQc3Progress.getX() + lblQc3Progress.getWidth() + 10, lblQc3Progress.getY() - 5, 50,
 				20);
 		lblQc3Colourkey.setFont(jilabaFonts.getFont(FontStyle.BOLD, 15));
-		//		lblReturnColourkeyNote.setBorder(BorderFactory.createEtchedBorder(color4, color4));
+		// lblReturnColourkeyNote.setBorder(BorderFactory.createEtchedBorder(color4,
+		// color4));
 		lblQc3Colourkey.setBackground(Color.decode("#adf7b6"));
 		lblQc3Colourkey.setVisible(true);
 
@@ -911,6 +935,8 @@ public class FrmReadyCalls extends JFrame implements ActionListener, KeyListener
 		panelCallDesc.add(scrollcall);
 		panelCallDesc.add(lblReadyDesc);
 		panelCallDesc.add(scrollReasonPane);
+		panelCallDesc.add(lblTotalcall);
+		panelCallDesc.add(lblTotalcallVal);
 
 		panelMain.add(lblPressEsc);
 		panelMain.add(lblQc1Progress);
@@ -1015,7 +1041,7 @@ public class FrmReadyCalls extends JFrame implements ActionListener, KeyListener
 		spnCallToDate.addKeyListener(this);
 		spnCallToDate.setFont(CustomFonts.fontCalibriBold);
 
-		//		DSsd
+		// DSsd
 
 		lblReady = new JLabel("Ready Date");
 		lblReady.setBounds(rdpBetweenDate.getX() + rdpBetweenDate.getWidth(), rdpBetweenDate.getY() - 5, lblWidth,
@@ -1335,7 +1361,8 @@ public class FrmReadyCalls extends JFrame implements ActionListener, KeyListener
 
 		lblHeading = new JLabel("QC PROCESS");
 		lblHeading.setBounds(20, -10, 170, 50);
-		//		lblHeading.setBounds(panelDetail.getWidth() / 2, panelDetail.getY() / 2, 20, 20);
+		// lblHeading.setBounds(panelDetail.getWidth() / 2, panelDetail.getY() / 2, 20,
+		// 20);
 		lblHeading.setFont(jilabaFonts.getFont(FontStyle.BOLD, 23));
 		lblHeading.setForeground(fontColor1);
 		lblHeading.setVisible(true);
@@ -1434,7 +1461,7 @@ public class FrmReadyCalls extends JFrame implements ActionListener, KeyListener
 				}
 				spnCallToDate.setVisible(false);
 				lblCallFromDate.setText("As On");
-				//				spnCallToDate = null;
+				// spnCallToDate = null;
 				spnCallFromDate.requestFocus();
 			} else if (e.getSource() == rdpBetweenDate) {
 
@@ -1614,6 +1641,9 @@ public class FrmReadyCalls extends JFrame implements ActionListener, KeyListener
 				strCmbDeveloper, strCmbClient, strCmbDeptAuthorize, strCmbDepartment, strCmbModule, strOrderby,
 				txtCallNo.getText());
 
+		lblTotalcall.setVisible(true);
+		lblTotalcallVal.setText(String.valueOf(lstReadyCalls.size() + 1));
+
 		List<Object> lstObjects = null;
 
 		int i = -1;
@@ -1641,13 +1671,16 @@ public class FrmReadyCalls extends JFrame implements ActionListener, KeyListener
 
 			i = i + 1;
 
-			//			if (readyCalls.getQcOperator() == Qc1 && progress.get(0).getQcOperator() == Qc1) {
-			//				Q1 = i;
-			//			} else if (readyCalls.getQcOperator() == Qc2 && progress.get(1).getQcOperator() == Qc2) {
-			//				Q2 = i;
-			//			} else if (readyCalls.getQcOperator() == Qc3 && progress.get(2).getQcOperator() == Qc3) {
-			//				Q3 = i;
-			//			}
+			// if (readyCalls.getQcOperator() == Qc1 && progress.get(0).getQcOperator() ==
+			// Qc1) {
+			// Q1 = i;
+			// } else if (readyCalls.getQcOperator() == Qc2 &&
+			// progress.get(1).getQcOperator() == Qc2) {
+			// Q2 = i;
+			// } else if (readyCalls.getQcOperator() == Qc3 &&
+			// progress.get(2).getQcOperator() == Qc3) {
+			// Q3 = i;
+			// }
 
 			for (ReadyCalls rc : progress) {
 				if (readyCalls.getQcOperator() == Qc1 && rc.getQcOperator() == Qc1) {

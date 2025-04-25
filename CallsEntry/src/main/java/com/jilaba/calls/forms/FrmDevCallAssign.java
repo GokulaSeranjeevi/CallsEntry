@@ -173,6 +173,7 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 	private Color color6 = Color.decode("#C0C0C0");
 	private Color color7 = Color.decode("#FADBD8");
 	private Color color8 = Color.decode("#008000");
+	private Color color9 = Color.decode("#FF3933");
 
 	private Color fontColor1 = Color.decode("#17202A");
 
@@ -185,6 +186,9 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 	@Autowired
 	private CommonMethods commonMethods;
 	protected Object returnStatus;
+
+	private JLabel lblTotalcall;
+	private JLabel lblTotalcallVal;
 
 	public FrmDevCallAssign() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -261,6 +265,25 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 		createKeyListners();
 
 		getContentPane().add(panelMain);
+
+		lblTotalcall = new JLabel("TOTAL CALLS   - ");
+		lblTotalcall.setBounds(830, panelLine2.getY() + 120, 80, 20);
+		lblTotalcall.setBackground(color9);
+		lblTotalcall.setForeground(color9);
+		lblTotalcall.setFont(jilabaFonts.getFont(FontStyle.BOLD, 18));
+		lblTotalcall.setVisible(false);
+		lblTotalcall.addKeyListener(this);
+
+		lblTotalcallVal = new JLabel("");
+		lblTotalcallVal.setBounds(lblTotalcall.getX() + 70, lblTotalcall.getY(), 80, 20);
+		lblTotalcallVal.setBackground(color9);
+		lblTotalcallVal.setForeground(color9);
+		lblTotalcallVal.setFont(jilabaFonts.getFont(FontStyle.BOLD, 18));
+		lblTotalcallVal.setVisible(true);
+		lblTotalcallVal.addKeyListener(this);
+
+		panelMain.add(lblTotalcall);
+		panelMain.add(lblTotalcallVal);
 
 	}
 
@@ -1339,6 +1362,9 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 
 		lstCalls = logicDevCallAssign.getCalls(strDevCoOrd, strCallNo, strCustomer, strCustCoOrd, strDepartment,
 				strDeptAuthorize, strRecvFrom, strModule, strCallNature);
+
+		lblTotalcall.setVisible(true);
+		lblTotalcallVal.setText(String.valueOf(lstCalls.size() + 1));
 
 		List<Object> lstObject = null;
 
