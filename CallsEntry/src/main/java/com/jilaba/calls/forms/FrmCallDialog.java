@@ -60,6 +60,7 @@ public class FrmCallDialog extends JDialog implements ActionListener, KeyListene
 
 	private int diaCallNo;
 	private int diatblSelectedRow;
+	private boolean diaTask;
 
 	private Color color1 = Color.decode("#ff6666");
 	private Color color2 = Color.decode("#FFFFFF");
@@ -85,10 +86,12 @@ public class FrmCallDialog extends JDialog implements ActionListener, KeyListene
 
 	}
 
-	public void getInitializeValue(int callNo, int tblSelectedRow) {
+	public void getInitializeValue(int callNo, int tblSelectedRow, boolean blnTask) {
 
 		diaCallNo = callNo;
 		diatblSelectedRow = tblSelectedRow;
+		diaTask = blnTask;
+		loadDetails();
 
 	}
 
@@ -96,11 +99,12 @@ public class FrmCallDialog extends JDialog implements ActionListener, KeyListene
 
 		try {
 			logicDevCallAssign.devCallUpdate(String.valueOf(cmbExplanation.getSelectedItem()).substring(0, 2),
-					cmbDiaSugTo.getSelectedItemValue(), txtDevHrs.getText(), spnAssnDate.getDateValue(), diaCallNo);
+					cmbDiaSugTo.getSelectedItemValue(), txtDevHrs.getText(), spnAssnDate.getDateValue(), diaCallNo,
+					diaTask);
 
 			JOptionPane.showMessageDialog(panelCommonDialog, "Call Assign Successfully !...");
 			setVisible(false);
-			getInitializeValue(diaCallNo, diatblSelectedRow);
+			getInitializeValue(diaCallNo, diatblSelectedRow, diaTask);
 			FrmDevCallAssign.tblCalls.removeRow(diatblSelectedRow);
 			FrmDevCallAssign.tblCalls.requestFocus();
 			FrmDevCallAssign.tblCalls.changeSelection(diatblSelectedRow, 1, false, false);
@@ -113,14 +117,13 @@ public class FrmCallDialog extends JDialog implements ActionListener, KeyListene
 
 	}
 
-	@PostConstruct
 	private ReturnStatus loadDetails() {
 
 		cmbExplanation.addListItem(new ListItem("Explained"));
 		cmbExplanation.addListItem(new ListItem("UnExplained"));
 		cmbExplanation.addListItem(new ListItem("Not Required"));
 
-		lstSugTo = logicDevCallAssign.getDeveloper();
+		lstSugTo = logicDevCallAssign.getDeveloper(diaTask);
 
 		for (Operator developer : lstSugTo) {
 
@@ -133,9 +136,9 @@ public class FrmCallDialog extends JDialog implements ActionListener, KeyListene
 
 	private void createControl() {
 
-		//		JOptionPane jop = new JOptionPane();
-		//		JDialog dialog = jop.createDialog("Call Assign");
-		//		dialog.setSize(400, 400);
+		// JOptionPane jop = new JOptionPane();
+		// JDialog dialog = jop.createDialog("Call Assign");
+		// dialog.setSize(400, 400);
 
 		panelTitle = new JPanel(null);
 		panelTitle.setBounds(0, 0, 750, 30);
@@ -292,9 +295,10 @@ public class FrmCallDialog extends JDialog implements ActionListener, KeyListene
 
 			setVisible(false);
 
-			//			FrmDevCallAssign frmDevCallAssign = Applicationmain.getAbstractApplicationContext()
-			//					.getBean(FrmDevCallAssign.class);
-			//			frmDevCallAssign.setVisible(true);
+			// FrmDevCallAssign frmDevCallAssign =
+			// Applicationmain.getAbstractApplicationContext()
+			// .getBean(FrmDevCallAssign.class);
+			// frmDevCallAssign.setVisible(true);
 
 			FrmDevCallAssign.tblCalls.requestFocus();
 

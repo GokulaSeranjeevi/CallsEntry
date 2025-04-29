@@ -90,7 +90,43 @@
 			<artifactId>CommonUtility</artifactId>
 			<version>1.0</version>
 		</dependency>
+		<!-- JSON Library -->
+<dependency>
+    <groupId>org.json</groupId>
+    <artifactId>json</artifactId>
+    <version>20240303</version>
+</dependency>
+
+<!-- Apache POI for Excel -->
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi-ooxml</artifactId>
+    <version>5.2.3</version>
+</dependency>
+
+		<!-- Apache POI for Excel reading -->
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi-ooxml</artifactId>
+    <version>5.2.3</version>
+</dependency>
+
+<!-- Jackson for JSON conversion -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.16.1</version>
+</dependency>
+
+<!-- JDBC driver for SQL Server -->
+<!--<dependency>
+    <groupId>com.microsoft.sqlserver</groupId>
+    <artifactId>mssql-jdbc</artifactId>
+    <version>12.4.1.jre17</version>  Choose your Java version 
+</dependency>-->
+
 	</dependencies>
+	
 	<build>
 		<finalName>Calls</finalName>
    

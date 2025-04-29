@@ -1,5 +1,8 @@
 package com.jilaba.calls.daoimpl;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,6 +19,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Component;
 
+import com.jilaba.calls.common.CommonMethods;
 import com.jilaba.calls.common.TransactionManager;
 import com.jilaba.calls.dao.CallsEntryDao;
 import com.jilaba.calls.model.Calls;
@@ -26,9 +30,11 @@ import com.jilaba.calls.model.Department;
 import com.jilaba.calls.model.Module;
 import com.jilaba.calls.model.Operator;
 import com.jilaba.calls.query.CallsEntryQuery;
+import com.jilaba.calls.start.Applicationmain;
 import com.jilaba.common.ReturnStatus;
 import com.jilaba.exception.ErrorHandling;
 import com.jilaba.exception.JilabaException;
+import com.jilaba.security.Validation;
 
 @Component
 public class CallsEntryDaoImpl implements CallsEntryDao {
@@ -507,6 +513,61 @@ public class CallsEntryDaoImpl implements CallsEntryDao {
 		} catch (Exception e) {
 			return new ReturnStatus(false, e.getMessage());
 		}
+
+	}
+
+	@Override
+	public void insertJsonToSQL(String filename, String json, int CallNo) throws SQLException {
+
+		// Todo; This one temp
+
+		String url = CommonMethods.getUrl(Applicationmain.tranDbName);
+		String user = CommonMethods.strLogin;
+		String password = Validation.decrypt(CommonMethods.strPassword);
+
+		String sql = "INSERT INTO ExcelJsonStore (FileName, JsonContent,CallNo) VALUES (?, ?,?)";
+
+		try (Connection conn = DriverManager.getConnection(url, user, password);
+				PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setString(1, filename);
+			ps.setString(2, json);
+			ps.setInt(3, callno);
+			ps.executeUpdate();
+		}
+	}
+
+	@Override
+	public String fetchJsonFromSQL(String filename) throws SQLException {
+		String jsonContent = null;
+
+		String url = CommonMethods.getUrl(Applicationmain.tranDbName);
+		String user = CommonMethods.strLogin;
+		String password = Validation.decrypt(CommonMethods.strPassword);
+
+		String sql = "SELECT JsonContent FROM ExcelJsonStore WHERE FileName = ?";
+
+		try (Connection conn = DriverManager.getConnection(url, user, password);
+				PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setString(1, filename);
+
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					jsonContent = rs.getString("JsonContent");
+				}
+			}
+		}
+
+		return jsonContent;
+	}
+
+	@Override
+	public String getFileName(String callNo) {
+
+		String sql = callsEntryQuery.getExcelFileName(callNo);
+
+		String fileName = tranJdbcTemplate.queryForObject(sql, new Object[] {}, String.class);
+
+		return fileName;
 
 	}
 

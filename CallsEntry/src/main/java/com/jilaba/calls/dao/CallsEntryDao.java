@@ -1,5 +1,7 @@
 package com.jilaba.calls.dao;
 
+import java.sql.SQLException;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 
@@ -41,5 +43,11 @@ public interface CallsEntryDao {
 
 	public ReturnStatus updateCallImage(String callNo, byte[] lblImage1, byte[] lblImage2, byte[] lblImage3,
 			byte[] lblImage4, boolean blnNewImageAdd);
+
+	public void insertJsonToSQL(String name, String jsonString, int callno) throws SQLException;
+
+	public String fetchJsonFromSQL(String filename) throws SQLException;
+
+	public String getFileName(String callNo);
 
 }

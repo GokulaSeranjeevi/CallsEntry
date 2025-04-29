@@ -42,7 +42,7 @@ import com.jilaba.calls.common.ImageResource;
 import com.jilaba.calls.common.LoginCredential;
 import com.jilaba.calls.common.TimerJob;
 import com.jilaba.calls.logic.LogicCallsCompleted;
-import com.jilaba.calls.logic.LogicDevCalls;
+import com.jilaba.calls.logic.LogicTaskAssignment;
 import com.jilaba.calls.model.CallsCompleted;
 import com.jilaba.calls.model.CallsImages;
 import com.jilaba.calls.model.Customer;
@@ -192,7 +192,7 @@ public class FrmCallsCompleted extends JFrame implements ActionListener, KeyList
 	@Autowired
 	private LogicCallsCompleted logicCallsCompleted;
 	@Autowired
-	private LogicDevCalls logicDevCalls;
+	private LogicTaskAssignment logicDevCalls;
 	@Autowired
 	private CommonMethods commonMethods;
 
@@ -245,50 +245,50 @@ public class FrmCallsCompleted extends JFrame implements ActionListener, KeyList
 		cmbModule.addListItem(new ListItem("All"));
 
 		lstDeveloper = logicCallsCompleted.getDeveloper();
-		//		strDeveloper = new ArrayList<Object>();
+		// strDeveloper = new ArrayList<Object>();
 
 		for (Operator dev : lstDeveloper) {
 
-			//			strDeveloper.add(dev.getStaffid());
+			// strDeveloper.add(dev.getStaffid());
 			cmbDeveloper.addListItem(new ListItem(dev.getStaffname(), dev.getStaffid()));
 
 		}
 
 		lstCustomer = logicCallsCompleted.getCustomer();
-		//		strCustomer = new ArrayList<Object>();
+		// strCustomer = new ArrayList<Object>();
 
 		for (Customer cus : lstCustomer) {
 
-			//			strCustomer.add(cus.getCustId());
+			// strCustomer.add(cus.getCustId());
 			cmbClient.addListItem(new ListItem(cus.getcustName().trim(), cus.getCustId()));
 
 		}
 
 		lstDeptAuthorize = logicCallsCompleted.getDeptAuthorize();
-		//		strDeptAuthorize = new ArrayList<Object>();
+		// strDeptAuthorize = new ArrayList<Object>();
 
 		for (Operator deptAuth : lstDeptAuthorize) {
 
-			//			strDeptAuthorize.add(deptAuth.getStaffid());
+			// strDeptAuthorize.add(deptAuth.getStaffid());
 			cmbTester.addListItem(new ListItem(deptAuth.getStaffname(), deptAuth.getStaffid()));
 
 		}
 
 		lstDepartment = logicCallsCompleted.getDepartment();
-		//		strDepartment = new ArrayList<Object>();
+		// strDepartment = new ArrayList<Object>();
 
 		for (Department dept : lstDepartment) {
 
-			//			strDepartment.add(dept.getdNo());
+			// strDepartment.add(dept.getdNo());
 			cmbDepartment.addListItem(new ListItem(dept.getDepartment(), dept.getdNo()));
 
 		}
 		lstModule = logicCallsCompleted.getModule(0);
-		//		strModule = new ArrayList<Object>();
+		// strModule = new ArrayList<Object>();
 
 		for (com.jilaba.calls.model.Module module : lstModule) {
 
-			//			strModule.add(module.getModuleId());
+			// strModule.add(module.getModuleId());
 			cmbModule.addListItem(new ListItem(module.getModuleName(), module.getModuleId()));
 
 		}
@@ -513,8 +513,9 @@ public class FrmCallsCompleted extends JFrame implements ActionListener, KeyList
 					int callNo = Integer.valueOf(String
 							.valueOf(tblCompletedCalls.getModel().getValueAt(tblCompletedCalls.getSelectedRow(), 0)));
 
-					//					String moduleid = String
-					//							.valueOf(tblCompletedCalls.getModel().getValueAt(tblCompletedCalls.getSelectedRow(), 8));
+					// String moduleid = String
+					// .valueOf(tblCompletedCalls.getModel().getValueAt(tblCompletedCalls.getSelectedRow(),
+					// 8));
 
 					boolean blnFrmcompletedcall = true;
 					FrmCompletedDialog frmCompletedDialog = Applicationmain.getAbstractApplicationContext()
@@ -539,21 +540,21 @@ public class FrmCallsCompleted extends JFrame implements ActionListener, KeyList
 
 			}
 		});
-		/*panelMain.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-		
-				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-		
-					setVisible(false);
-					FrmMainMenu frmMainMenu = Applicationmain.getAbstractApplicationContext()
-							.getBean(FrmMainMenu.class);
-					frmMainMenu.setVisible(true);
-		
-				}
-		
-			}
-		});*/
+		/*
+		 * panelMain.addKeyListener(new KeyAdapter() {
+		 * 
+		 * @Override public void keyPressed(KeyEvent e) {
+		 * 
+		 * if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+		 * 
+		 * setVisible(false); FrmMainMenu frmMainMenu =
+		 * Applicationmain.getAbstractApplicationContext() .getBean(FrmMainMenu.class);
+		 * frmMainMenu.setVisible(true);
+		 * 
+		 * }
+		 * 
+		 * } });
+		 */
 
 	}
 
@@ -710,7 +711,7 @@ public class FrmCallsCompleted extends JFrame implements ActionListener, KeyList
 		panelMain.add(panelLine2Initialize());
 		panelMain.add(panelDetail2Initialize());
 		panelMain.add(panelCompletedDetail());
-		//		//		panelMain.add(panelContentInitialize());
+		// // panelMain.add(panelContentInitialize());
 		panelMain.add(panelLine3Inialize());
 		panelMain.addKeyListener(this);
 
@@ -752,7 +753,7 @@ public class FrmCallsCompleted extends JFrame implements ActionListener, KeyList
 				900, 90);
 		panelCallDesc.setLayout(null);
 		panelCallDesc.setBackground(color4);
-		//		panelCallDesc.setBorder(BorderFactory.createEtchedBorder(color3, color3));
+		// panelCallDesc.setBorder(BorderFactory.createEtchedBorder(color3, color3));
 		panelCallDesc.setVisible(true);
 
 		lblDepartment = new JLabel("Department : ");
@@ -966,7 +967,7 @@ public class FrmCallsCompleted extends JFrame implements ActionListener, KeyList
 		spnCallToDate.addKeyListener(this);
 		spnCallToDate.setFont(CustomFonts.fontCalibriBold);
 
-		//		DSsd
+		// DSsd
 
 		lblCompleted = new JLabel("Tested Date");
 		lblCompleted.setBounds(rdpBetweenDate.getX() + rdpBetweenDate.getWidth(), rdpBetweenDate.getY() - 5, lblWidth,
@@ -1012,7 +1013,7 @@ public class FrmCallsCompleted extends JFrame implements ActionListener, KeyList
 		spnCompletedToDate.setFont(CustomFonts.fontCalibriBold);
 		spnCompletedToDate.addKeyListener(this);
 
-		lblDeveloper = new JLabel("Developer");
+		lblDeveloper = new JLabel("Staff Name");
 		lblDeveloper.setBounds(panelCompletedDate.getX(),
 				panelCompletedDate.getY() + panelCompletedDate.getHeight() + 10, lblWidth, lblHeight);
 		lblDeveloper.setBackground(color2);
@@ -1281,7 +1282,8 @@ public class FrmCallsCompleted extends JFrame implements ActionListener, KeyList
 		panelDetail.setVisible(true);
 		lblHeading = new JLabel("CALL COMPLETION PROCESS");
 		lblHeading.setBounds(20, -10, 170, 50);
-		//		lblHeading.setBounds(panelDetail.getWidth() / 2, panelDetail.getY() / 2, 20, 20);
+		// lblHeading.setBounds(panelDetail.getWidth() / 2, panelDetail.getY() / 2, 20,
+		// 20);
 		lblHeading.setFont(jilabaFonts.getFont(FontStyle.BOLD, 23));
 		lblHeading.setForeground(fontColor1);
 		lblHeading.setVisible(true);

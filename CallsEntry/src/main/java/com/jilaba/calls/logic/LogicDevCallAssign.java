@@ -119,8 +119,8 @@ public class LogicDevCallAssign {
 
 	}
 
-	public List<Operator> getDeveloper() {
-		returnStatus = devCallAssign.getDeveloper();
+	public List<Operator> getDeveloper(boolean diaTask) {
+		returnStatus = devCallAssign.getDeveloper(diaTask);
 		CommonMethods.catchreturnstatus(returnStatus);
 
 		List<Operator> lstOperator = (List<Operator>) returnStatus.getReturnObject();
@@ -128,9 +128,9 @@ public class LogicDevCallAssign {
 		return lstOperator;
 	}
 
-	public void devCallUpdate(Object cmbExplanation, Object cmbSugTo, String txtDevHrs, String assnDate, int callNo) {
+	public void devCallUpdate(Object cmbExplanation, Object cmbSugTo, String txtDevHrs, String assnDate, int callNo, boolean diaTask) {
 
-		returnStatus = devCallAssign.devCallUpdate(cmbExplanation, cmbSugTo, txtDevHrs, assnDate, callNo);
+		returnStatus = devCallAssign.devCallUpdate(cmbExplanation, cmbSugTo, txtDevHrs, assnDate, callNo,diaTask);
 		CommonMethods.catchreturnstatus(returnStatus);
 
 	}

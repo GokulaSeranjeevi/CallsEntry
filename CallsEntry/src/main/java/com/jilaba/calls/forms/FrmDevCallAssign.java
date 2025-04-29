@@ -39,7 +39,7 @@ import com.jilaba.calls.common.ImageResource;
 import com.jilaba.calls.common.LoginCredential;
 import com.jilaba.calls.common.TimerJob;
 import com.jilaba.calls.logic.LogicDevCallAssign;
-import com.jilaba.calls.logic.LogicDevCalls;
+import com.jilaba.calls.logic.LogicTaskAssignment;
 import com.jilaba.calls.model.Calls;
 import com.jilaba.calls.model.CallsImages;
 import com.jilaba.calls.model.CustStaff;
@@ -179,10 +179,12 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 
 	private JilabaFonts jilabaFonts = new JilabaFonts();
 
+	private boolean blnTask = false;
+
 	@Autowired
 	private LogicDevCallAssign logicDevCallAssign;
 	@Autowired
-	private LogicDevCalls logicDevCalls;
+	private LogicTaskAssignment logicDevCalls;
 	@Autowired
 	private CommonMethods commonMethods;
 	protected Object returnStatus;
@@ -323,13 +325,15 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 
 					if (FrmLogin.designation == 3) {
 
+						blnTask = false;
+
 						int callNo = Integer
 								.valueOf(String.valueOf(tblCalls.getModel().getValueAt(tblCalls.getSelectedRow(), 0)));
 						int tblSelectedRow = tblCalls.getSelectedRow();
 
 						FrmCallDialog frmCallDialog = Applicationmain.getAbstractApplicationContext()
 								.getBean(FrmCallDialog.class, new Object[] { getContentPane() });
-						frmCallDialog.getInitializeValue(callNo, tblSelectedRow);
+						frmCallDialog.getInitializeValue(callNo, tblSelectedRow, blnTask);
 						frmCallDialog.setVisible(true);
 
 						// tblCalls.removeRow(tblSelectedRow);
@@ -340,6 +344,25 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 					} else {
 						JOptionPane.showMessageDialog(panelMain, "You Are Not Authorized to Call Assign... !");
 					}
+				}
+				if (e.getKeyCode() == KeyEvent.VK_T) {
+
+					blnTask = true;
+
+					int callNo = Integer
+							.valueOf(String.valueOf(tblCalls.getModel().getValueAt(tblCalls.getSelectedRow(), 0)));
+					int tblSelectedRow = tblCalls.getSelectedRow();
+
+					int moduleid = Integer
+							.valueOf(String.valueOf(tblCalls.getModel().getValueAt(tblCalls.getSelectedRow(), 0)));
+
+					FrmCallDialog frmCallDialog = Applicationmain.getAbstractApplicationContext()
+							.getBean(FrmCallDialog.class, new Object[] { getContentPane() });
+					frmCallDialog.getInitializeValue(callNo, tblSelectedRow, blnTask);
+					frmCallDialog.setVisible(true);
+
+					btnView();
+
 				}
 
 				if (e.getKeyCode() == KeyEvent.VK_I) {
@@ -809,7 +832,8 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 		lblPressEsc.setForeground(color4);
 		lblPressEsc.setVisible(true);
 
-		lblShortcutkey = new JLabel("SpaceBar - Assign to Develeloper             I - Image Details To Show   ");
+		lblShortcutkey = new JLabel(
+				"SpaceBar - Assign to Develeloper             I - Image Details To Show                         T - Task Assign ");
 		lblShortcutkey.setHorizontalAlignment(SwingConstants.LEFT);
 		lblShortcutkey.setBounds(lblPressEsc.getX() + lblPressEsc.getWidth() + 100, lblPressEsc.getY(), 500, 30);
 		lblShortcutkey.setFont(CustomFonts.fontCalibriBold);

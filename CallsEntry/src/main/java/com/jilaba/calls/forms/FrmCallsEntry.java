@@ -14,6 +14,12 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -21,6 +27,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 
@@ -43,17 +50,29 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableColumn;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jilaba.calls.common.CommonMethods;
 import com.jilaba.calls.common.CustomFonts;
 import com.jilaba.calls.common.ImageResource;
 import com.jilaba.calls.common.LoginCredential;
 import com.jilaba.calls.common.TimerJob;
 import com.jilaba.calls.logic.LogicCallsEntry;
-import com.jilaba.calls.logic.LogicDevCalls;
+import com.jilaba.calls.logic.LogicTaskAssignment;
 import com.jilaba.calls.logic.LogicReadyCalls;
 import com.jilaba.calls.model.Calls;
 import com.jilaba.calls.model.CallsImages;
@@ -75,6 +94,7 @@ import com.jilaba.design.ControlResize;
 import com.jilaba.fonts.JilabaFonts;
 import com.jilaba.fonts.JilabaFonts.FontStyle;
 import com.jilaba.imagemanager.ImageCompressor;
+import com.jilaba.security.Validation;
 
 @org.springframework.stereotype.Component
 @Scope("prototype")
@@ -206,6 +226,8 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 	private ControlResize controlResize;
 
 	private JilabaFonts jilabaFonts = new JilabaFonts();
+	private File selectedFile;
+	private String jsonString;
 
 	private JFileChooser jFileChooser;
 	private File previewFile;
@@ -222,7 +244,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 	private byte[] lblImage3 = null;
 	private byte[] lblImage4 = null;
 	@Autowired
-	private LogicDevCalls logicDevCalls;
+	private LogicTaskAssignment logicDevCalls;
 
 	private boolean blnFrmDevCall = false;
 	private JilabaTextField txtCallNo;
@@ -335,6 +357,66 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 
 				if (e.getKeyCode() == KeyEvent.VK_I) {
 					btnImageCall();
+				} else if (e.getKeyCode() == KeyEvent.VK_E) {
+
+					try {
+
+						String callNo = (String
+								.valueOf(tblEditCalls.getModel().getValueAt(tblEditCalls.getSelectedRow(), 0)));
+
+						String filename = logicCallsEntry.getFileName(callNo); // Or take dynamically if
+																				// needed
+						String jsonContent = logicCallsEntry.fetchJsonFromSQL(filename);
+
+						if (jsonContent == null) {
+							JOptionPane.showMessageDialog(null, "❌ No JSON found for file: " + filename);
+							return;
+						}
+
+						// Now convert this JSON content into Excel
+						JSONArray jsonArray = new JSONArray(jsonContent);
+
+						Workbook workbook = new XSSFWorkbook();
+						Sheet sheet = workbook.createSheet("Exported Data");
+
+						int rowNum = 0;
+
+						// Headers
+						if (!jsonArray.isEmpty()) {
+							JSONObject firstObj = jsonArray.getJSONObject(0);
+							Row headerRow = sheet.createRow(rowNum++);
+							int cellNum = 0;
+							for (String key : firstObj.keySet()) {
+								Cell cell = headerRow.createCell(cellNum++);
+								cell.setCellValue(key);
+							}
+						}
+
+						// Data
+						for (int i = 0; i < jsonArray.length(); i++) {
+							JSONObject obj = jsonArray.getJSONObject(i);
+							Row row = sheet.createRow(rowNum++);
+							int cellNum = 0;
+							for (String key : obj.keySet()) {
+								Cell cell = row.createCell(cellNum++);
+								cell.setCellValue(obj.get(key).toString());
+							}
+						}
+
+						// Save Excel
+						File outputExcel = new File("D:/" + filename);
+						try (FileOutputStream out = new FileOutputStream(outputExcel)) {
+							workbook.write(out);
+						}
+						workbook.close();
+
+						JOptionPane.showMessageDialog(null, "✅ Excel Exported Successfully!");
+
+					} catch (Exception ex) {
+						ex.printStackTrace();
+						JOptionPane.showMessageDialog(null, "❌ Export Failed: " + ex.getMessage());
+					}
+
 				}
 
 			}
@@ -424,7 +506,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		scrEditCalls.getViewport().setBackground(tblEditCalls.getTableHeader().getBackground());
 		scrEditCalls.setVisible(true);
 
-		lblPressEsc = new JLabel(" I - Image Details To Show    ");
+		lblPressEsc = new JLabel(" I - Image Details To Show                       E - Excel Details to Export     ");
 		lblPressEsc.setHorizontalAlignment(SwingConstants.LEFT);
 		lblPressEsc.setBounds(tblEditCalls.getX() + 20, 380, 900, 20);
 		lblPressEsc.setBackground(color2);
@@ -1045,6 +1127,40 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 			}
 		});
 
+		btnExcel.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setDialogTitle("Select Excel File");
+				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+				// Only allow Excel files
+				fileChooser.setFileFilter(
+						new javax.swing.filechooser.FileNameExtensionFilter("Excel Files", "xlsx", "xls"));
+
+				int result = fileChooser.showOpenDialog(null);
+				if (result == JFileChooser.APPROVE_OPTION) {
+					selectedFile = fileChooser.getSelectedFile();
+					String excelPath = selectedFile.getAbsolutePath();
+					System.out.println(" File selected: " + excelPath);
+
+					try {
+						List<ObjectNode> jsonData = readExcelAsJson(excelPath);
+						jsonString = new ObjectMapper().writeValueAsString(jsonData);
+
+//						insertJsonToSQL(selectedFile.getName(), jsonString);
+						JOptionPane.showMessageDialog(null, " Uploaded successfully!");
+					} catch (Exception ex) {
+						ex.printStackTrace();
+						JOptionPane.showMessageDialog(null, " Upload failed: " + ex.getMessage());
+					}
+
+				}
+			}
+		});
+
 		cmbModule.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -1110,6 +1226,167 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 	 * } catch (IOException e) { return new ReturnStatus(false,
 	 * ErrorHandling.handleError(e)); } }
 	 */
+	public List<ObjectNode> readExcelAsJson(String excelPath) throws Exception {
+		List<ObjectNode> jsonData = new ArrayList<>();
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		try (Workbook workbook = WorkbookFactory.create(new File(excelPath))) {
+			Sheet sheet = workbook.getSheetAt(0);
+			Iterator<Row> rowIterator = sheet.iterator();
+
+			List<String> headers = new ArrayList<>();
+			boolean headerFound = false;
+
+			while (rowIterator.hasNext()) {
+				Row row = rowIterator.next();
+
+				// First detect non-empty header row
+				if (!headerFound) {
+					boolean isNonEmptyRow = false;
+					for (Cell cell : row) {
+						if (cell.getCellType() != CellType.BLANK) {
+							isNonEmptyRow = true;
+							break;
+						}
+					}
+
+					if (isNonEmptyRow) {
+						for (Cell cell : row) {
+							headers.add(getCellValueAsString(cell));
+						}
+						headerFound = true;
+						System.out.println("✅ Headers found: " + headers);
+					}
+
+				} else {
+					// Process Data Rows
+					ObjectNode json = objectMapper.createObjectNode();
+
+					for (int colIndex = 0; colIndex < headers.size(); colIndex++) {
+						Cell cell = row.getCell(colIndex, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+						String cellValue = getCellValueAsString(cell);
+						json.put(headers.get(colIndex), cellValue);
+					}
+
+					if (!isEmptyRow(json)) {
+						jsonData.add(json);
+					}
+				}
+			}
+		}
+		return jsonData;
+	}
+
+	// This One Commend after the data fetch correct but Column Arrangement wrong
+
+	/*
+	 * public List<ObjectNode> readExcelAsJson(String excelPath) throws Exception {
+	 * List<ObjectNode> jsonData = new ArrayList<>(); ObjectMapper objectMapper =
+	 * new ObjectMapper();
+	 * 
+	 * try (Workbook workbook = WorkbookFactory.create(new File(excelPath))) { Sheet
+	 * sheet = workbook.getSheetAt(0); Iterator<Row> rowIterator = sheet.iterator();
+	 * 
+	 * List<String> headers = new ArrayList<>(); boolean headerFound = false;
+	 * 
+	 * while (rowIterator.hasNext()) { Row row = rowIterator.next();
+	 * 
+	 * // First, detect non-empty row as header if (!headerFound) { boolean
+	 * isNonEmptyRow = false; for (Cell cell : row) { if (cell.getCellType() !=
+	 * CellType.BLANK) { isNonEmptyRow = true; break; } }
+	 * 
+	 * // if (isNonEmptyRow) { // for (Cell cell : row) { //
+	 * headers.add(cell.getStringCellValue()); // } // headerFound = true; //
+	 * System.out.println("✅ Headers found: " + headers); // }
+	 * 
+	 * if (isNonEmptyRow) { for (Cell cell : row) {
+	 * headers.add(getCellValueAsString(cell)); // Not cell.getStringCellValue() }
+	 * headerFound = true; System.out.println("✅ Headers found: " + headers); }
+	 * 
+	 * } else { // Process Data Rows ObjectNode json =
+	 * objectMapper.createObjectNode();
+	 * 
+	 * for (int i = 0; i < headers.size(); i++) { Cell cell = row.getCell(i,
+	 * Row.MissingCellPolicy.CREATE_NULL_AS_BLANK); String cellValue =
+	 * getCellValueAsString(cell); json.put(headers.get(i), cellValue); }
+	 * 
+	 * // Skip full empty data rows (optional) if (!isEmptyRow(json)) {
+	 * jsonData.add(json); } } } } return jsonData; }
+	 */
+
+	private boolean isEmptyRow(ObjectNode json) {
+		Iterator<String> fieldNames = json.fieldNames();
+		while (fieldNames.hasNext()) {
+			String field = fieldNames.next();
+			if (!json.get(field).asText().trim().isEmpty()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private String getCellValueAsString(Cell cell) {
+		switch (cell.getCellType()) {
+		case STRING:
+			return cell.getStringCellValue();
+		case NUMERIC:
+			if (DateUtil.isCellDateFormatted(cell)) {
+				return cell.getDateCellValue().toString();
+			} else {
+				return String.valueOf(cell.getNumericCellValue());
+			}
+		case BOOLEAN:
+			return String.valueOf(cell.getBooleanCellValue());
+		case FORMULA:
+			return cell.getCellFormula();
+		case BLANK:
+			return "";
+		default:
+			return "";
+		}
+	}
+
+	// Date On 26Apr25
+
+	/*
+	 * private static List<ObjectNode> readExcelAsJson(String excelPath) throws
+	 * Exception { List<ObjectNode> dataList = new ArrayList<>(); ObjectMapper
+	 * mapper = new ObjectMapper();
+	 * 
+	 * try (Workbook workbook = new XSSFWorkbook(new File(excelPath))) { Sheet sheet
+	 * = workbook.getSheetAt(0); Row headerRow = sheet.getRow(0);
+	 * 
+	 * if (headerRow == null) { throw new
+	 * Exception("❌ Excel file is missing a header row (Row 0 is empty)."); }
+	 * 
+	 * for (int i = 1; i <= sheet.getLastRowNum(); i++) { Row row = sheet.getRow(i);
+	 * if (row == null) continue; // Skip empty rows
+	 * 
+	 * ObjectNode jsonObject = mapper.createObjectNode();
+	 * 
+	 * for (int j = 0; j < headerRow.getLastCellNum(); j++) { String columnName =
+	 * headerRow.getCell(j).toString(); Cell cell = row.getCell(j); String value =
+	 * (cell != null) ? cell.toString() : ""; jsonObject.put(columnName, value); }
+	 * dataList.add(jsonObject); } }
+	 * 
+	 * return dataList; }
+	 */
+	private static void insertJsonToSQL(String fileName, String json) throws Exception {
+//		String url = "jdbc:sqlserver://192.168.20.125:3434;databaseName='JCalls';encrypt=true;trustServerCertificate=true;";
+
+		String url = CommonMethods.getUrl(Applicationmain.tranDbName);
+		String user = CommonMethods.strLogin;
+		String password = CommonMethods.strPassword;
+
+		String sql = "INSERT INTO ExcelJsonStore (FileName, JsonContent) VALUES (?, ?)";
+
+		try (Connection conn = DriverManager.getConnection(url, user, password);
+				PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setString(1, fileName);
+			ps.setString(2, json);
+			ps.executeUpdate();
+		}
+	}
 
 	private void createInputVerifiers() {
 
@@ -2191,6 +2468,11 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 			} else {
 
 				logicCallsEntry.getCallSave(calls, "", null, null, null, null);
+			}
+
+			if (jsonString != null) {
+
+				logicCallsEntry.insertJsonToSQL(selectedFile.getName(), jsonString, calls.getCallno());
 			}
 
 			JOptionPane.showMessageDialog(panelMain, "Call Raised Successfully...!");

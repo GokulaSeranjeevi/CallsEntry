@@ -128,7 +128,7 @@ public class FrmImageDialog extends JDialog implements ActionListener, KeyListen
 	}
 
 	private void createListeners() {
-		// 
+		//
 
 		lblImage1.addKeyListener(new KeyAdapter() {
 			@Override
@@ -152,9 +152,9 @@ public class FrmImageDialog extends JDialog implements ActionListener, KeyListen
 
 	private void createControl() {
 
-		//		JOptionPane jop = new JOptionPane();
-		//		JDialog dialog = jop.createDialog("Call Assign");
-		//		dialog.setSize(400, 400);
+		// JOptionPane jop = new JOptionPane();
+		// JDialog dialog = jop.createDialog("Call Assign");
+		// dialog.setSize(400, 400);
 
 		int lblWidth = 300;
 		int lblHeight = 250;
@@ -171,7 +171,7 @@ public class FrmImageDialog extends JDialog implements ActionListener, KeyListen
 		lblTitle.setForeground(Color.RED);
 		lblTitle.setFont(CustomFonts.fontCalibriBold);
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		//		lblTitle.setBorder(BorderFactory.createEtchedBorder(color3, color3));
+		// lblTitle.setBorder(BorderFactory.createEtchedBorder(color3, color3));
 		lblTitle.setVisible(true);
 
 		panelCommonDialog = new JPanel(null);
@@ -286,11 +286,12 @@ public class FrmImageDialog extends JDialog implements ActionListener, KeyListen
 
 			setVisible(false);
 
-			//			FrmDevCallAssign frmDevCallAssign = Applicationmain.getAbstractApplicationContext()
-			//					.getBean(FrmDevCallAssign.class);
-			//			frmDevCallAssign.setVisible(true);
+			// FrmDevCallAssign frmDevCallAssign =
+			// Applicationmain.getAbstractApplicationContext()
+			// .getBean(FrmDevCallAssign.class);
+			// frmDevCallAssign.setVisible(true);
 
-			//			FrmDevCallAssign.tblCalls.requestFocus();
+			// FrmDevCallAssign.tblCalls.requestFocus();
 
 		}
 
@@ -307,7 +308,8 @@ public class FrmImageDialog extends JDialog implements ActionListener, KeyListen
 
 		if (e.getSource() == btnSubmit) {
 
-			//frmCallsEntry.btnImageSave(lblImage1Path, lblImage2Path, lblImage3Path, lblImage4Path);
+			// frmCallsEntry.btnImageSave(lblImage1Path, lblImage2Path, lblImage3Path,
+			// lblImage4Path);
 
 			setVisible(false);
 
@@ -333,7 +335,7 @@ public class FrmImageDialog extends JDialog implements ActionListener, KeyListen
 
 		jFileChooser = new JFileChooser();
 
-		/**JPG, BMP, PCX, GIF, WBMP, PNG, RAW, JPEG, PNM, TIF, TIFF*/
+		/** JPG, BMP, PCX, GIF, WBMP, PNG, RAW, JPEG, PNM, TIF, TIFF */
 		FileFilter imageFilter = new FileNameExtensionFilter("", ImageIO.getWriterFormatNames());
 		jFileChooser.setFileFilter(imageFilter);
 
@@ -341,7 +343,7 @@ public class FrmImageDialog extends JDialog implements ActionListener, KeyListen
 		try {
 			if (retVal == JFileChooser.APPROVE_OPTION) {
 				previewFile = jFileChooser.getSelectedFile();
-				//						lblPath.setText(previewFile.getAbsolutePath());
+				// lblPath.setText(previewFile.getAbsolutePath());
 				returnStatus = changePreview(previewFile);
 				if (!returnStatus.isStatus()) {
 					throw new JilabaException(returnStatus.getDescription());
@@ -376,7 +378,7 @@ public class FrmImageDialog extends JDialog implements ActionListener, KeyListen
 			Check.setIcon(previewIcon);
 
 			previewFile = null;
-			//			lblPath.setText("");
+			// lblPath.setText("");
 
 			return new ReturnStatus(true);
 
@@ -387,18 +389,19 @@ public class FrmImageDialog extends JDialog implements ActionListener, KeyListen
 
 	private ReturnStatus changePreview(File file) {
 		try {
-			/*BufferedImage bi = new BufferedImage(Check.getWidth(), Check.getHeight(), BufferedImage.TYPE_INT_RGB);
-			Graphics2D g = bi.createGraphics();
-			Image img = ImageIO.read(file);
-			g.drawImage(img, 0, 0, Check.getWidth(), Check.getHeight(), null);
-			g.dispose();
-			Check.setIcon(new ImageIcon(
-					img.getScaledInstance(Check.getWidth(), Check.getHeight(), BufferedImage.SCALE_SMOOTH)));
-			
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(bi, "png", baos);
-			
-			repImageFile = baos.toByteArray();*/
+			/*
+			 * BufferedImage bi = new BufferedImage(Check.getWidth(), Check.getHeight(),
+			 * BufferedImage.TYPE_INT_RGB); Graphics2D g = bi.createGraphics(); Image img =
+			 * ImageIO.read(file); g.drawImage(img, 0, 0, Check.getWidth(),
+			 * Check.getHeight(), null); g.dispose(); Check.setIcon(new ImageIcon(
+			 * img.getScaledInstance(Check.getWidth(), Check.getHeight(),
+			 * BufferedImage.SCALE_SMOOTH)));
+			 * 
+			 * ByteArrayOutputStream baos = new ByteArrayOutputStream(); ImageIO.write(bi,
+			 * "png", baos);
+			 * 
+			 * repImageFile = baos.toByteArray();
+			 */
 
 			String imagePath = file.getAbsolutePath();
 
@@ -412,11 +415,12 @@ public class FrmImageDialog extends JDialog implements ActionListener, KeyListen
 			Image img = imageIcon.getImage().getScaledInstance(Check.getWidth(), Check.getHeight(), Image.SCALE_SMOOTH);
 			Check.setIcon(new ImageIcon(img));
 
-			/*BufferedImage bimage = ImageIO.read(file);
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(bimage, file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf(".") + 1), baos);
-			repImageFile = baos.toByteArray();
-			*/
+			/*
+			 * BufferedImage bimage = ImageIO.read(file); ByteArrayOutputStream baos = new
+			 * ByteArrayOutputStream(); ImageIO.write(bimage,
+			 * file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf(".") +
+			 * 1), baos); repImageFile = baos.toByteArray();
+			 */
 			blnImageVerify = true;
 			// repImageFile = imageCompressor.compressBytes(repImageFile);
 			if (blnimage1 == true) {
@@ -691,7 +695,7 @@ public class FrmImageDialog extends JDialog implements ActionListener, KeyListen
 
 	private void ImageCheck() {
 
-		//		try {
+		// try {
 
 		imageData1 = callsImages.getImage1();
 		imageData2 = callsImages.getImage2();
@@ -699,9 +703,10 @@ public class FrmImageDialog extends JDialog implements ActionListener, KeyListen
 		imageData4 = callsImages.getImage4();
 
 		if (imageData1 != null) {
-			/*ImageIcon imageIcon1 = new ImageIcon(imageData1);
-			lblImage1Path = imageData1;
-			lblImage1.setIcon(imageIcon1);*/
+			/*
+			 * ImageIcon imageIcon1 = new ImageIcon(imageData1); lblImage1Path = imageData1;
+			 * lblImage1.setIcon(imageIcon1);
+			 */
 
 			ImageIcon imageIcon1 = new ImageIcon(imageData1);
 			Image scaledImage = imageIcon1.getImage().getScaledInstance(lblImage1.getWidth(), lblImage1.getHeight(),
@@ -724,11 +729,11 @@ public class FrmImageDialog extends JDialog implements ActionListener, KeyListen
 			lblImage4Path = imageData4;
 			lblImage4.setIcon(imageIcon4);
 		}
-		//		} catch (Exception e) {
+		// } catch (Exception e) {
 		//
-		//			JOptionPane.showMessageDialog(panelCommonDialog, "No Images Found ... !");
-		//			return ;
-		//		}
+		// JOptionPane.showMessageDialog(panelCommonDialog, "No Images Found ... !");
+		// return ;
+		// }
 	}
 
 	public Image getReImage1() {

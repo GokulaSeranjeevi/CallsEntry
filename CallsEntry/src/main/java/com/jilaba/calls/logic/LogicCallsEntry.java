@@ -1,5 +1,6 @@
 package com.jilaba.calls.logic;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -170,6 +171,20 @@ public class LogicCallsEntry {
 			boolean blnNewImageAdd) {
 
 		callsEntryDao.updateCallImage(callNo, lblImage1, lblImage2, lblImage3, lblImage4, blnNewImageAdd);
+	}
+
+	public void insertJsonToSQL(String name, String jsonString, int Callno) throws SQLException {
+
+		callsEntryDao.insertJsonToSQL(name, jsonString, Callno);
+	}
+
+	public String fetchJsonFromSQL(String filename) throws SQLException {
+
+		return callsEntryDao.fetchJsonFromSQL(filename);
+	}
+
+	public String getFileName(String callNo) {
+		return callsEntryDao.getFileName(callNo);
 	}
 
 }

@@ -243,4 +243,13 @@ public class CallsEntryQuery {
 
 	}
 
+	public String getExcelFileName(String callNo) {
+
+		sb = new StringBuilder("");
+
+		sb.append("Select FileName from ExcelJsonStore Where CallNo=" + callNo);
+
+		return sb.toString();
+	}
+
 }

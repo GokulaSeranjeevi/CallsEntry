@@ -18,10 +18,10 @@ public interface DevCallAssign {
 
 	public ReturnStatus getdeveloperCalls();
 
-	public ReturnStatus getDeveloper();
+	public ReturnStatus getDeveloper(boolean diaTask);
 
 	public ReturnStatus devCallUpdate(Object cmbExplanation, Object cmbSugTo, String txtDevHrs, String assnDate,
-			int callNO);
+			int callNO, boolean diaTask);
 
 	public ReturnStatus getCalls(int strDevCoOrd, long strCallNo, int strCustomer, int strCustCoOrd, int strDepartment,
 			int strDeptAuthorize, int strRecvFrom, int strModule, int cmbCallNature);

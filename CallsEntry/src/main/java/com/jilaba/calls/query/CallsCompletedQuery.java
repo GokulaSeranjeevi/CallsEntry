@@ -19,7 +19,7 @@ public class CallsCompletedQuery {
 	public String getDeveloperCalls() {
 		sb = new StringBuilder("");
 
-		sb.append("Select * from staff where Active='Y' And designation=1");
+		sb.append("Select * from staff where Active='Y' And designation In(1,2,3)");
 
 		return sb.toString();
 	}

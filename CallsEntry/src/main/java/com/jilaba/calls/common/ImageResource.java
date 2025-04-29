@@ -13,6 +13,7 @@ public class ImageResource {
 	public static final String CALLSASSIGN = "resource/CallAssign.png";
 	public static final String DEVCALLS = "resource/DeveloperCalls.png";
 	public static final String READYCALLS = "resource/ReadyCalls.png";
+	public static final String TASK = "resource/Task.png";
 	public static final String COMPLETEDCALLS = "resource/CompletedCall.png";
 	public static final String LOGOUT = "resource/LogOut.png";
 	public static final String VERSION = "resource/Version.png";

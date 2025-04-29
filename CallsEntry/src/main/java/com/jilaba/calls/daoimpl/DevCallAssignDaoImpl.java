@@ -228,8 +228,7 @@ public class DevCallAssignDaoImpl implements DevCallAssign {
 
 			List<Object> params = new ArrayList<Object>();
 
-			lstModule = tranjdbcTemplate.query(devCallAssignQuery.getModule(dept),
-					new ModuleRowMapper());
+			lstModule = tranjdbcTemplate.query(devCallAssignQuery.getModule(dept), new ModuleRowMapper());
 
 			return new ReturnStatus(true, lstModule);
 		} catch (Exception e) {
@@ -279,45 +278,37 @@ public class DevCallAssignDaoImpl implements DevCallAssign {
 		}
 	}
 
-	/*@Override
-	public ReturnStatus getCalls(List<Object> devCoOrd, int callNo, List<Object> customer, List<Object> custCoOrd,
-			List<Object> cmbDept, List<Object> cmbDeptAuthorize, List<Object> cmbRecvFrom, List<Object> cmbModule) {
-	
-		List<Calls> lstCalls;
-		try {
-	
-			List<Object> params = new ArrayList<Object>();
-			if (String.valueOf(callNo).isEmpty()) {
-				params.addAll(devCoOrd);
-				params.addAll(customer);
-				params.addAll(cmbDept);
-				params.addAll(cmbRecvFrom);
-				params.addAll(cmbModule);
-			} else {
-				params.add(devCoOrd);
-				params.add(customer);
-				params.addAll(cmbDept);
-				params.add(cmbRecvFrom);
-				params.addAll(cmbModule);
-				params.add(callNo);
-			}
-			//			lstCalls = tranjdbcTemplate.query(devCallAssignQuery.getCalls(callNo, cmbDept.size()), new CallsRowMapper(),
-			//					params);
-	
-			lstCalls = tranjdbcTemplate.query(devCallAssignQuery.getCalls(devCoOrd.size(), callNo, customer.size(),
-					cmbDept.size(), cmbRecvFrom.size(), cmbModule.size()), new CallsRowMapper(), params.toArray());
-	
-			return new ReturnStatus(true, lstCalls);
-		} catch (		Exception e) {
-	
-			return new ReturnStatus(false, ErrorHandling.handleError(e));
-		}
-	
-	}
-	*/
+	/*
+	 * @Override public ReturnStatus getCalls(List<Object> devCoOrd, int callNo,
+	 * List<Object> customer, List<Object> custCoOrd, List<Object> cmbDept,
+	 * List<Object> cmbDeptAuthorize, List<Object> cmbRecvFrom, List<Object>
+	 * cmbModule) {
+	 * 
+	 * List<Calls> lstCalls; try {
+	 * 
+	 * List<Object> params = new ArrayList<Object>(); if
+	 * (String.valueOf(callNo).isEmpty()) { params.addAll(devCoOrd);
+	 * params.addAll(customer); params.addAll(cmbDept); params.addAll(cmbRecvFrom);
+	 * params.addAll(cmbModule); } else { params.add(devCoOrd);
+	 * params.add(customer); params.addAll(cmbDept); params.add(cmbRecvFrom);
+	 * params.addAll(cmbModule); params.add(callNo); } // lstCalls =
+	 * tranjdbcTemplate.query(devCallAssignQuery.getCalls(callNo, cmbDept.size()),
+	 * new CallsRowMapper(), // params);
+	 * 
+	 * lstCalls =
+	 * tranjdbcTemplate.query(devCallAssignQuery.getCalls(devCoOrd.size(), callNo,
+	 * customer.size(), cmbDept.size(), cmbRecvFrom.size(), cmbModule.size()), new
+	 * CallsRowMapper(), params.toArray());
+	 * 
+	 * return new ReturnStatus(true, lstCalls); } catch ( Exception e) {
+	 * 
+	 * return new ReturnStatus(false, ErrorHandling.handleError(e)); }
+	 * 
+	 * }
+	 */
 	@Override
 	public ReturnStatus getCalls(int devCoOrd, long callNo, int strCustomer, int strCustCoOrd, int strDepartment,
-			int strDeptAuthorize, int strRecvFrom, int strModule,int strCallNature ) {
+			int strDeptAuthorize, int strRecvFrom, int strModule, int strCallNature) {
 		List<Calls> lstCalls;
 		try {
 			List<Object> params = new ArrayList<>();
@@ -340,15 +331,13 @@ public class DevCallAssignDaoImpl implements DevCallAssign {
 			if (strModule != 0) {
 				params.add(strModule);
 			}
-			
-				
 
 			// Ensure the correct number of parameters are passed
 			System.out.println("Params: " + params);
 
 			// Construct query
-			String sqlQuery = devCallAssignQuery.getCalls( devCoOrd,  callNo,  strCustomer,  strDepartment,
-					   strRecvFrom,  strModule, strCallNature );
+			String sqlQuery = devCallAssignQuery.getCalls(devCoOrd, callNo, strCustomer, strDepartment, strRecvFrom,
+					strModule, strCallNature);
 
 			lstCalls = tranjdbcTemplate.query(sqlQuery, new CallsRowMapper(), params.toArray());
 
@@ -392,11 +381,11 @@ public class DevCallAssignDaoImpl implements DevCallAssign {
 	}
 
 	@Override
-	public ReturnStatus getDeveloper() {
+	public ReturnStatus getDeveloper(boolean diaTask) {
 		List<Operator> lstDeveloper;
 		try {
 
-			lstDeveloper = tranjdbcTemplate.query(devCallAssignQuery.getDeveloper(), new DeveloperRowMapper());
+			lstDeveloper = tranjdbcTemplate.query(devCallAssignQuery.getDeveloper(diaTask), new DeveloperRowMapper());
 
 			return new ReturnStatus(true, lstDeveloper);
 		} catch (Exception e) {
@@ -421,11 +410,11 @@ public class DevCallAssignDaoImpl implements DevCallAssign {
 
 	@Override
 	public ReturnStatus devCallUpdate(Object cmbExplanation, Object cmbSugTo, String txtDevHrs, String assnDate,
-			int callNo) {
+			int callNo, boolean diaTask) {
 
 		try {
 			tranjdbcTemplate.update(
-					devCallAssignQuery.devCallUpdate(cmbExplanation, cmbSugTo, txtDevHrs, assnDate, callNo),
+					devCallAssignQuery.devCallUpdate(cmbExplanation, cmbSugTo, txtDevHrs, assnDate, callNo, diaTask),
 					new Object[] {});
 
 			return new ReturnStatus(true);
@@ -436,5 +425,4 @@ public class DevCallAssignDaoImpl implements DevCallAssign {
 
 	}
 
-	
 }

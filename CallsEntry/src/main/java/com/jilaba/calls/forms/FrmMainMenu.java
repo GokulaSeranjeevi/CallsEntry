@@ -108,6 +108,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 	private JButton btnDailyActivity;
 	private JButton btnVersionUpgrade;
 	private JButton btnDataValidation;
+	private JButton btnTaskAssignment;
 
 	private JButton btnLogOut;
 	private JButton btnExit;
@@ -503,6 +504,25 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 
 		btnX = btnX + btnHSpace;
 
+		btnTaskAssignment = new JButton("Task Assignment");
+		btnTaskAssignment.setOpaque(false);
+		btnTaskAssignment.setContentAreaFilled(false);
+		btnTaskAssignment.setHorizontalTextPosition(JButton.CENTER);
+		btnTaskAssignment.setVerticalTextPosition(JButton.BOTTOM);
+		btnTaskAssignment.setFocusable(false);
+		btnTaskAssignment.setBorderPainted(true);
+		btnTaskAssignment.setForeground(fontColor2);
+		btnTaskAssignment.setBorder(BorderFactory.createLineBorder(Color.decode("#cc9900")));
+		btnTaskAssignment.setMnemonic(KeyEvent.VK_T);
+		btnTaskAssignment.setBounds(btnX, btnY, btnWidth, btnHeight);
+		btnTaskAssignment.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		CommonMethods.setIcon(ImageResource.TASK, btnTaskAssignment);
+		btnTaskAssignment.setVisible(true);
+		btnTaskAssignment.addActionListener(this);
+
+		btnY = btnY + btnVSpace;
+		btnX = 30;
+
 		btnReadyCalls = new JButton("Ready Calls");
 		btnReadyCalls.setOpaque(false);
 		btnReadyCalls.setContentAreaFilled(false);
@@ -519,8 +539,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		btnReadyCalls.setVisible(true);
 		btnReadyCalls.addActionListener(this);
 
-		btnY = btnY + btnVSpace;
-		btnX = 30;
+		btnX = btnX + btnHSpace;
 
 		btnCompletedCalls = new JButton("Completed Calls");
 		btnCompletedCalls.setOpaque(false);
@@ -588,7 +607,8 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		CommonMethods.setIcon(ImageResource.DATAVALIDATION, btnDataValidation);
 		btnDataValidation.addActionListener(this);
 
-		btnX = btnX + btnHSpace;
+		btnY = btnY + btnVSpace;
+		btnX = 30;
 
 		btnVersionUpgrade = new JButton("Version Upgrade");
 		btnVersionUpgrade.setOpaque(false);
@@ -606,8 +626,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		btnVersionUpgrade.setVisible(true);
 		btnVersionUpgrade.addActionListener(this);
 
-		btnY = btnY + btnVSpace;
-		btnX = 30;
+		btnX = btnX + btnHSpace;
 
 		btnLogOut = new JButton("LogOut");
 		btnLogOut.setOpaque(false);
@@ -661,6 +680,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		panelContent.add(btnCallsAssign);
 		panelContent.add(btnDevCalls);
 		panelContent.add(btnReadyCalls);
+		panelContent.add(btnTaskAssignment);
 		panelContent.add(btnCompletedCalls);
 		panelContent.add(btnDataMaintenance);
 		panelContent.add(btnDailyActivity);
@@ -905,6 +925,12 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 				FrmDailyActivity frmDailyActivity = Applicationmain.getAbstractApplicationContext()
 						.getBean(FrmDailyActivity.class);
 				frmDailyActivity.setVisible(true);
+			} else if (e.getSource() == btnTaskAssignment) {
+				setVisible(false);
+
+				FrmTaskAssignment frmTaskAssignment = Applicationmain.getAbstractApplicationContext()
+						.getBean(FrmTaskAssignment.class);
+				frmTaskAssignment.setVisible(true);
 			}
 
 		} catch (Exception e2) {
@@ -938,7 +964,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 		Path destinationPath = Paths.get(destination);
 
 		// Copy the file (overwriting if it exists)
-		Files.copy(sourcePath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
+//		Files.copy(sourcePath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
 
 	}
 

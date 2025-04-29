@@ -190,15 +190,21 @@ public class DevCallAssignQuery {
 	 * 
 	 * }
 	 */
-	public String getDeveloper() {
+	public String getDeveloper(boolean diaTask) {
 
 		sb = new StringBuilder("");
-		sb.append("Select * from Staff Where Active='Y' And designation=1");
+
+		if (diaTask == false) {
+			sb.append("Select * from Staff Where Active='Y' And designation=1");
+		} else {
+			sb.append("Select * from Staff Where Active='Y' And designation In (2,3)");
+		}
 
 		return sb.toString();
 	}
 
-	public String devCallUpdate(Object cmbExplanation, Object cmbSugTo, String txtDevHrs, String assnDate, int callNo) {
+	public String devCallUpdate(Object cmbExplanation, Object cmbSugTo, String txtDevHrs, String assnDate, int callNo,
+			boolean diaTask) {
 
 		sb = new StringBuilder("");
 		sb.append("Update Calls Set ExpNature ='" + cmbExplanation + "',\r\n");
