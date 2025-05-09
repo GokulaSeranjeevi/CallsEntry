@@ -115,7 +115,7 @@ public class FrmCompletedDialog extends JDialog implements ActionListener {
 		btnCompleted.setBounds(200, 250, 80, 20);
 		btnCompleted.setBackground(color3);
 		btnCompleted.setForeground(Color.WHITE);
-		btnCompleted.setMnemonic(KeyEvent.VK_R);
+		btnCompleted.setMnemonic(KeyEvent.VK_C);
 		btnCompleted.setFont(jilabaFonts.getFont(FontStyle.BOLD, 15));
 		btnCompleted.setHorizontalAlignment(SwingConstants.CENTER);
 		btnCompleted.setBorder(BorderFactory.createEmptyBorder());

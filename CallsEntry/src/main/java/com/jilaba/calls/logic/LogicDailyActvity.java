@@ -36,4 +36,14 @@ public class LogicDailyActvity {
 		dailyActivityDao.saveDailyActivity(dailyActivities);
 	}
 
+	public List<DailyActivity> getAttendance(String AtnDate) {
+
+		returnStatus = dailyActivityDao.getReport(AtnDate);
+		CommonMethods.catchreturnstatus(returnStatus);
+
+		List<DailyActivity> lstdailyActivity = (List<DailyActivity>) returnStatus.getReturnObject();
+
+		return lstdailyActivity;
+	}
+
 }

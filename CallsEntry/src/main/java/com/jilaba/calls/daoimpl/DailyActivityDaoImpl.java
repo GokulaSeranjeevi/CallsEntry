@@ -2,6 +2,7 @@ package com.jilaba.calls.daoimpl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -72,6 +73,7 @@ public class DailyActivityDaoImpl implements DailyActivityDao {
 
 		try {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
+			LocalDate localDate = LocalDate.now();
 			LocalDateTime now = LocalDateTime.now();
 
 			SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(tranJdbcTemplate);
@@ -95,7 +97,7 @@ public class DailyActivityDaoImpl implements DailyActivityDao {
 				mapDataSave.put("Reason", dailyActivity.getReason());
 				mapDataSave.put("Permissiontime", dailyActivity.getPermissionTime()); // Make sure this field exists in
 																						// the `DailyActivity` class
-				mapDataSave.put("Createddate", formatter.format(now));
+				mapDataSave.put("Createddate", localDate);
 				mapDataSave.put("Createdtime", formatter.format(now));
 
 				// Execute the stored procedure for each DailyActivity object
@@ -105,6 +107,42 @@ public class DailyActivityDaoImpl implements DailyActivityDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
+		}
+	}
+
+	@Override
+	public ReturnStatus getReport(String AtnDate) {
+		List<DailyActivity> lstDailyActivities;
+
+		try {
+			lstDailyActivities = tranJdbcTemplate.query(dailyActivityQuery.getReport(AtnDate), new ReportRowMapper());
+
+			return new ReturnStatus(true, lstDailyActivities);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ReturnStatus(false, ErrorHandling.handleError(e));
+		}
+	}
+
+	class ReportRowMapper implements RowMapper<DailyActivity> {
+
+		@Override
+		public DailyActivity mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+			DailyActivity Report = new DailyActivity();
+
+			Report.setStaffName(rs.getString("StaffName"));
+			Report.setLeave(rs.getString("Leave"));
+			Report.setPermission(rs.getString("Permission"));
+			Report.setMonthOff(rs.getString("MonthOff"));
+			Report.setWeekOff(rs.getString("WeekOff"));
+			Report.setComboOff(rs.getString("ComboOff"));
+			Report.setApprovedName(rs.getString("Approvedby"));
+			Report.setReason(rs.getString("Reason"));
+			Report.setPermissionTime(rs.getString("Permissiontime"));
+
+			return Report;
 		}
 	}
 

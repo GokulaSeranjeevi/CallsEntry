@@ -11,4 +11,6 @@ public interface DailyActivityDao {
 
 	public void saveDailyActivity(List<DailyActivity> dailyActivities) throws Exception;
 
+	public ReturnStatus getReport(String atnDate);
+
 }

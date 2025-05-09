@@ -12,6 +12,24 @@ public class DailyActivity {
 	private int Approvedby;
 	private String Reason;
 	private String PermissionTime;
+	private String StaffName;
+	private String ApprovedName;
+
+	public String getStaffName() {
+		return StaffName;
+	}
+
+	public void setStaffName(String staffName) {
+		StaffName = staffName;
+	}
+
+	public String getApprovedName() {
+		return ApprovedName;
+	}
+
+	public void setApprovedName(String approvedName) {
+		ApprovedName = approvedName;
+	}
 
 	public int getGroupId() {
 		return GroupId;

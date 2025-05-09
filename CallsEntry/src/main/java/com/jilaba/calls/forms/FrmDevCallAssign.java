@@ -340,6 +340,7 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 						// tblCalls.requestFocus();
 						// tblCalls.changeSelection(tblSelectedRow, 1, false, false);
 						loadDevCalls();
+						btnView();
 
 					} else {
 						JOptionPane.showMessageDialog(panelMain, "You Are Not Authorized to Call Assign... !");
@@ -347,21 +348,24 @@ public class FrmDevCallAssign extends JFrame implements ActionListener, KeyListe
 				}
 				if (e.getKeyCode() == KeyEvent.VK_T) {
 
-					blnTask = true;
+					if (FrmLogin.designation == 3 || FrmLogin.designation == 1 || FrmLogin.designation == 2) {
 
-					int callNo = Integer
-							.valueOf(String.valueOf(tblCalls.getModel().getValueAt(tblCalls.getSelectedRow(), 0)));
-					int tblSelectedRow = tblCalls.getSelectedRow();
+						blnTask = true;
 
-					int moduleid = Integer
-							.valueOf(String.valueOf(tblCalls.getModel().getValueAt(tblCalls.getSelectedRow(), 0)));
+						int callNo = Integer
+								.valueOf(String.valueOf(tblCalls.getModel().getValueAt(tblCalls.getSelectedRow(), 0)));
+						int tblSelectedRow = tblCalls.getSelectedRow();
 
-					FrmCallDialog frmCallDialog = Applicationmain.getAbstractApplicationContext()
-							.getBean(FrmCallDialog.class, new Object[] { getContentPane() });
-					frmCallDialog.getInitializeValue(callNo, tblSelectedRow, blnTask);
-					frmCallDialog.setVisible(true);
+						int moduleid = Integer
+								.valueOf(String.valueOf(tblCalls.getModel().getValueAt(tblCalls.getSelectedRow(), 0)));
 
-					btnView();
+						FrmCallDialog frmCallDialog = Applicationmain.getAbstractApplicationContext()
+								.getBean(FrmCallDialog.class, new Object[] { getContentPane() });
+						frmCallDialog.getInitializeValue(callNo, tblSelectedRow, blnTask);
+						frmCallDialog.setVisible(true);
+
+						btnView();
+					}
 
 				}
 
