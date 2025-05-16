@@ -1,5 +1,12 @@
 package com.jilaba.calls.forms;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.pdf.*;
+
+import java.io.FileOutputStream;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -621,7 +628,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		jilabaColumnlist.add(new JilabaColumn(" StaffName ", String.class, 250, JLabel.LEFT));
 		jilabaColumnlist.add(new JilabaColumn(" Leave", String.class, 150, JLabel.CENTER));
 		jilabaColumnlist.add(new JilabaColumn(" Permission ", String.class, 150, JLabel.CENTER));
-		jilabaColumnlist.add(new JilabaColumn(" MonthOff ", String.class, 150, JLabel.CENTER));
+		jilabaColumnlist.add(new JilabaColumn(" HalfDay ", String.class, 150, JLabel.CENTER));
 		jilabaColumnlist.add(new JilabaColumn(" WeekOff ", String.class, 150, JLabel.CENTER));
 		jilabaColumnlist.add(new JilabaColumn(" ComboOff ", String.class, 150, JLabel.CENTER));
 		jilabaColumnlist.add(new JilabaColumn(" Approvedby ", String.class, 150, JLabel.LEFT));
@@ -639,7 +646,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		jilabaColumnlist.add(new JilabaColumn(" StaffName ", String.class, 250, JLabel.LEFT));
 		jilabaColumnlist.add(new JilabaColumn(" Leave", String.class, 150, JLabel.CENTER));
 		jilabaColumnlist.add(new JilabaColumn(" Permission ", String.class, 150, JLabel.CENTER));
-		jilabaColumnlist.add(new JilabaColumn(" MonthOff ", String.class, 150, JLabel.CENTER));
+		jilabaColumnlist.add(new JilabaColumn(" HalfDay ", String.class, 150, JLabel.CENTER));
 		jilabaColumnlist.add(new JilabaColumn(" WeekOff ", String.class, 150, JLabel.CENTER));
 		jilabaColumnlist.add(new JilabaColumn(" ComboOff ", String.class, 150, JLabel.CENTER));
 		jilabaColumnlist.add(new JilabaColumn(" Approvedby ", String.class, 150, JLabel.LEFT));
@@ -888,7 +895,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 
 				dailyActivity.setLeave(String.valueOf(tblAttendance.getValueAt(row, 1).equals("No") ? "N" : "Y"));
 				dailyActivity.setPermission(String.valueOf(tblAttendance.getValueAt(row, 2).equals("No") ? "N" : "Y"));
-				dailyActivity.setMonthOff(String.valueOf(tblAttendance.getValueAt(row, 3).equals("No") ? "N" : "Y"));
+				dailyActivity.setHalfDay(String.valueOf(tblAttendance.getValueAt(row, 3).equals("No") ? "N" : "Y"));
 				dailyActivity.setWeekOff(String.valueOf(tblAttendance.getValueAt(row, 4).equals("No") ? "N" : "Y"));
 				dailyActivity.setComboOff(String.valueOf(tblAttendance.getValueAt(row, 5).equals("No") ? "N" : "Y"));
 				dailyActivity.setApprovedby(Integer.valueOf(String
@@ -937,7 +944,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 					lstObjects.add(dailyActivity.getStaffName());
 					lstObjects.add(dailyActivity.getLeave());
 					lstObjects.add(dailyActivity.getPermission());
-					lstObjects.add(dailyActivity.getMonthOff());
+					lstObjects.add(dailyActivity.getHalfDay());
 					lstObjects.add(dailyActivity.getWeekOff());
 					lstObjects.add(dailyActivity.getComboOff());
 					lstObjects.add(dailyActivity.getApprovedName());
@@ -957,21 +964,21 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 				Connection con = DriverManager.getConnection(url, user, password);
 
 				String query = "Select S.Staffname, (Case When D.Leave='N' Then 'No' Else 'Yes' End )Leave , (Case When D.Permission='N' Then 'No' Else 'Yes' End )Permission, \r\n"
-						+ "						 (Case When D.MonthOff='N' Then 'No' Else 'Yes' End )MonthOff,\r\n"
+						+ "						 (Case When D.HalfDay='N' Then 'No' Else 'Yes' End )HalfDay,\r\n"
 						+ "						 (Case When D.WeekOff='N' Then 'No' Else 'Yes' End )WeekOff ,\r\n"
 						+ "						(Case When D.ComboOff='N' Then 'No' Else 'Yes' End )ComboOff ,\r\n"
-						+ "						Isnull(S1.Staffname,'')Approvedby,Reason,PermissionTime from DailyActivity D \r\n"
+						+ "						PermissionTime from DailyActivity D \r\n"
 						+ "						Left Join staff S On S.staffid = D.StaffId \r\n"
 						+ "						Left Join staff S1 On S1.staffid = D.Approvedby "
 						+ "Where GroupId In(\r\n"
 						+ "						Select Max(GroupId)GroupId from DailyActivity  A Where Createddate='"
-						+ (spnAtnDate.getDateValue()) + "')";
+						+ (spnRepDate.getDateValue()) + "')";
 
 				Statement stmt = con.createStatement();
 
 				ResultSet rs = stmt.executeQuery(query);
 
-				exportToExcel(rs, "ExportedData.xlsx");
+				exportToPDF(rs, "LalithaaTeam -" + spnRepDate.getDateValue() + ".pdf");
 
 				JOptionPane.showMessageDialog(null, "Data exported successfully.");
 
@@ -982,8 +989,81 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 				ex.printStackTrace();
 				JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
 			}
+		} else if (e.getSource() == btnIndividualReport) {
+
+		}
+	}
+
+	public void exportToPDF(ResultSet rs, String fileName) throws Exception {
+		Document document = new Document();
+		PdfWriter.getInstance(document, new FileOutputStream(fileName));
+		document.open();
+
+		BaseFont calibri = BaseFont.createFont("C:/Windows/Fonts/calibri.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+		Font titleFont = new Font(calibri, 12, Font.BOLD);
+
+		Paragraph title = new Paragraph(("Lalitha Jewellery Jilaba Team Date - " + spnRepDate.getDateValue()),
+				titleFont);
+		title.setAlignment(Element.ALIGN_CENTER);
+		title.setSpacingAfter(10f);
+		document.add(title);
+
+		ResultSetMetaData metaData = rs.getMetaData();
+		int columnCount = metaData.getColumnCount();
+
+		PdfPTable table = new PdfPTable(columnCount);
+		table.setWidthPercentage(100);
+		table.setSpacingBefore(10f);
+
+		float[] columnWidths = new float[columnCount];
+		columnWidths[0] = 3.5f; // First column wider
+		for (int i = 1; i < columnCount; i++) {
+			columnWidths[i] = 1.5f; // Other columns
+		}
+		table.setWidths(columnWidths);
+
+		// Header row
+		Font headerFont = new Font(calibri, 12, Font.BOLD);
+		for (int i = 1; i <= columnCount; i++) {
+			PdfPCell headerCell = new PdfPCell(new Phrase(metaData.getColumnName(i), headerFont));
+			headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			headerCell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+			table.addCell(headerCell);
 		}
 
+		// Data rows
+		Font dataFont = new Font(calibri, 12, Font.NORMAL);
+		while (rs.next()) {
+			for (int i = 1; i <= columnCount; i++) {
+				String value = rs.getString(i);
+				PdfPCell cell = new PdfPCell(new Phrase(value != null ? value : "", dataFont));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				table.addCell(cell);
+			}
+		}
+		
+		
+		// Data rows
+		while (rs.next()) {
+		    for (int i = 1; i <= columnCount; i++) {
+		        String value = rs.getString(i);
+		        PdfPCell cell = new PdfPCell(new Phrase(value != null ? value : "", headerFont));
+		        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		        table.addCell(cell);
+		    }
+		}
+		
+	
+		Font bottom = new Font(calibri, 12, Font.NORMAL);
+		PdfPCell mergedCell = new PdfPCell(new Phrase("Prepared by " + FrmLogin.Operator,bottom));
+		mergedCell.setColspan(columnCount);
+		mergedCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+		mergedCell.setPadding(10f);
+		table.addCell(mergedCell);
+
+
+		document.add(table);
+		document.close();
 	}
 
 	public void exportToExcel(ResultSet rs, String fileName) throws Exception {

@@ -90,7 +90,7 @@ public class DailyActivityDaoImpl implements DailyActivityDao {
 				mapDataSave.put("Staffid", dailyActivity.getStaffId());
 				mapDataSave.put("Leave", dailyActivity.getLeave());
 				mapDataSave.put("Permission", dailyActivity.getPermission());
-				mapDataSave.put("MonthOff", dailyActivity.getMonthOff());
+				mapDataSave.put("HalfDay", dailyActivity.getHalfDay());
 				mapDataSave.put("WeekOff", dailyActivity.getWeekOff());
 				mapDataSave.put("ComboOff", dailyActivity.getComboOff());
 				mapDataSave.put("Approvedby", dailyActivity.getApprovedby());
@@ -135,7 +135,7 @@ public class DailyActivityDaoImpl implements DailyActivityDao {
 			Report.setStaffName(rs.getString("StaffName"));
 			Report.setLeave(rs.getString("Leave"));
 			Report.setPermission(rs.getString("Permission"));
-			Report.setMonthOff(rs.getString("MonthOff"));
+			Report.setHalfDay(rs.getString("HalfDay"));
 			Report.setWeekOff(rs.getString("WeekOff"));
 			Report.setComboOff(rs.getString("ComboOff"));
 			Report.setApprovedName(rs.getString("Approvedby"));

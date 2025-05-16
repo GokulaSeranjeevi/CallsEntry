@@ -12,8 +12,8 @@ public class Applicationmain {
 	private static JdbcTemplate tranJdbcTemplate;
 	private static AbstractApplicationContext abstractApplicationContext;
 	private static final int MAJOR = 25;
-	private static final int MINOR = 04;
-	private static final int REVISION = 29;
+	private static final int MINOR = 05;
+	private static final int REVISION = 16;
 	private static final int BUILD = 1;
 	public static final String VERSION = BUILD + "." + MAJOR + "." + MINOR + "." + REVISION;
 	public static final boolean JTDS = false;

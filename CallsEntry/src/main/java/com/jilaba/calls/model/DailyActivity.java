@@ -6,7 +6,7 @@ public class DailyActivity {
 	private int StaffId;
 	private String Leave;
 	private String Permission;
-	private String MonthOff;
+	private String HalfDay;
 	private String WeekOff;
 	private String ComboOff;
 	private int Approvedby;
@@ -63,12 +63,12 @@ public class DailyActivity {
 		Permission = permission;
 	}
 
-	public String getMonthOff() {
-		return MonthOff;
+	public String getHalfDay() {
+		return HalfDay;
 	}
 
-	public void setMonthOff(String monthOff) {
-		MonthOff = monthOff;
+	public void setHalfDay(String halfDay) {
+		HalfDay = halfDay;
 	}
 
 	public String getWeekOff() {

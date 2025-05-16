@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.jilaba.calls.common.CustomFonts;
+import com.jilaba.calls.logic.LogicDevCalls;
 import com.jilaba.calls.logic.LogicTaskAssignment;
 import com.jilaba.exception.JilabaException;
 import com.jilaba.fonts.JilabaFonts;
@@ -50,7 +51,7 @@ public class FrmReadyDialog extends JDialog implements ActionListener {
 	private Color color7 = Color.decode("#FF3933");
 
 	@Autowired
-	private LogicTaskAssignment logicDevCalls;
+	private LogicDevCalls logicDevCalls;
 
 	public FrmReadyDialog(Container contenPane) throws JilabaException {
 

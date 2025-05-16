@@ -90,7 +90,7 @@ public class CallsEntryQuery {
 				+ " Left join staff s2 On s2.staffid = C.callcoordinator\r\n"
 				+ "Left join module M On M.moduleid = C.moduleid \r\n"
 				+ "Left join Callimages I On I.Callno = C.callno \r\n");
-		sb.append("Where testResult='' \r\n");
+		sb.append("Where 1=1--testResult='' \r\n");
 
 		if (toDate != null) {
 			sb.append(" And C.Cdate between '" + fromDate + "' And '" + toDate + "'\r\n");

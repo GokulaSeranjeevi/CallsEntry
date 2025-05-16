@@ -860,18 +860,29 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 
 			} else if (e.getSource() == btnDevCalls) {
 
-				setVisible(false);
+				if (FrmLogin.designation == 3 || FrmLogin.designation == 2 || FrmLogin.designation == 1) {
 
-				FrmDevCalls frmDevCalls = Applicationmain.getAbstractApplicationContext().getBean(FrmDevCalls.class);
-				frmDevCalls.setVisible(true);
+					setVisible(false);
+
+					FrmDevCalls frmDevCalls = Applicationmain.getAbstractApplicationContext()
+							.getBean(FrmDevCalls.class);
+					frmDevCalls.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(panelMain, "You dont have Rights ...!");
+				}
 
 			} else if (e.getSource() == btnReadyCalls) {
 
-				setVisible(false);
+				if (FrmLogin.designation == 3 || FrmLogin.designation == 2 || FrmLogin.designation == 1) {
 
-				FrmReadyCalls frmReadyCalls = Applicationmain.getAbstractApplicationContext()
-						.getBean(FrmReadyCalls.class);
-				frmReadyCalls.setVisible(true);
+					setVisible(false);
+
+					FrmReadyCalls frmReadyCalls = Applicationmain.getAbstractApplicationContext()
+							.getBean(FrmReadyCalls.class);
+					frmReadyCalls.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(panelMain, "You dont have Rights ...!");
+				}
 
 			} else if (e.getSource() == btnCompletedCalls) {
 
@@ -884,7 +895,7 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 
 			} else if (e.getSource() == btnDataValidation) {
 
-				if (FrmLogin.designation == 3) {
+				if (FrmLogin.designation == 3 || FrmLogin.designation == 2 || FrmLogin.designation == 1) {
 
 					setVisible(false);
 
@@ -901,8 +912,12 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 				workinProgress();
 
 			} else if (e.getSource() == btnDataMaintenance) {
+				if (FrmLogin.designation == 3 || FrmLogin.designation == 2 || FrmLogin.designation == 1) {
 
-				workinProgress();
+					workinProgress();
+				} else {
+					JOptionPane.showMessageDialog(panelMain, "You dont have Rights ...!");
+				}
 
 			} else if (e.getSource() == btnVersionUpgrade) {
 
@@ -919,18 +934,27 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 				}
 
 			} else if (e.getSource() == btnDailyActivity) {
+				if (FrmLogin.designation == 3 || FrmLogin.designation == 2 || FrmLogin.designation == 1) {
 
-				setVisible(false);
+					setVisible(false);
 
-				FrmDailyActivity frmDailyActivity = Applicationmain.getAbstractApplicationContext()
-						.getBean(FrmDailyActivity.class);
-				frmDailyActivity.setVisible(true);
+					FrmDailyActivity frmDailyActivity = Applicationmain.getAbstractApplicationContext()
+							.getBean(FrmDailyActivity.class);
+					frmDailyActivity.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(panelMain, "You dont have Rights ...!");
+				}
 			} else if (e.getSource() == btnTaskAssignment) {
-				setVisible(false);
 
-				FrmTaskAssignment frmTaskAssignment = Applicationmain.getAbstractApplicationContext()
-						.getBean(FrmTaskAssignment.class);
-				frmTaskAssignment.setVisible(true);
+				if (FrmLogin.designation == 3 || FrmLogin.designation == 2 || FrmLogin.designation == 1) {
+					setVisible(false);
+
+					FrmTaskAssignment frmTaskAssignment = Applicationmain.getAbstractApplicationContext()
+							.getBean(FrmTaskAssignment.class);
+					frmTaskAssignment.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(panelMain, "You dont have Rights ...!");
+				}
 			}
 
 		} catch (Exception e2) {

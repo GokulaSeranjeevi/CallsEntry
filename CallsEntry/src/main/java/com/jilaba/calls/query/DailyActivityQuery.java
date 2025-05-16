@@ -34,7 +34,7 @@ public class DailyActivityQuery {
 
 		sb.append(
 				"Select S.Staffname, (Case When D.Leave='N' Then 'No' Else 'Yes' End )Leave , (Case When D.Permission='N' Then 'No' Else 'Yes' End )Permission, \r\n"
-						+ " (Case When D.MonthOff='N' Then 'No' Else 'Yes' End )MonthOff,\r\n"
+						+ " (Case When D.HalfDay='N' Then 'No' Else 'Yes' End )HalfDay,\r\n"
 						+ " (Case When D.WeekOff='N' Then 'No' Else 'Yes' End )WeekOff ,\r\n"
 						+ " (Case When D.ComboOff='N' Then 'No' Else 'Yes' End )ComboOff ,\r\n"
 						+ "Isnull(S1.Staffname,'')Approvedby,Reason,PermissionTime from DailyActivity D \r\n"
