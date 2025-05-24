@@ -1,6 +1,7 @@
 package com.jilaba.calls.logic;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,6 +45,10 @@ public class LogicDailyActvity {
 		List<DailyActivity> lstdailyActivity = (List<DailyActivity>) returnStatus.getReturnObject();
 
 		return lstdailyActivity;
+	}
+
+	public List<Map<String, Object>> getStaff() {
+		return dailyActivityDao.getStaff();
 	}
 
 }

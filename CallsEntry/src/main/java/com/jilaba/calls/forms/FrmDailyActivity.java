@@ -7,6 +7,7 @@ import com.itextpdf.text.pdf.*;
 import java.io.FileOutputStream;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -31,17 +32,22 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -54,6 +60,7 @@ import com.jilaba.calls.common.CustomFonts;
 import com.jilaba.calls.common.ImageResource;
 import com.jilaba.calls.common.LoginCredential;
 import com.jilaba.calls.common.TimerJob;
+import com.jilaba.calls.daoimpl.MainMenuDaoImpl;
 import com.jilaba.calls.logic.LogicDailyActvity;
 import com.jilaba.calls.model.Calls;
 import com.jilaba.calls.model.DailyActivity;
@@ -74,10 +81,23 @@ import com.jilaba.security.Validation;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.title.TextTitle;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 
 @org.springframework.stereotype.Component
 @Scope("prototype")
 public class FrmDailyActivity extends JFrame implements ActionListener, KeyListener {
+
+	private final MainMenuDaoImpl mainMenuDaoImpl;
 
 	private JPanel panelMain;
 	private JPanel panelEntry;
@@ -91,8 +111,11 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 	private JPanel panelAttendance;
 	private JPanel panelAtnReport;
 	private JPanel panelReportView;
-	private JPanel panelOrderby;
-	private JPanel panelEdit;
+	private JPanel panelIndReport;
+	private JPanel panelIndRepView;
+	private ChartPanel panelCallsChart;
+	private ChartPanel panelCallsBar;
+	private JPanel panelMonthAtn;
 
 	private JLabel lblDevelopedby;
 	private JLabel lblVersion;
@@ -101,6 +124,9 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 	private JLabel lblOperatorLabel;
 	private JLabel lblCallMnuHead;
 	private JLabel lblMinimize;
+	private JLabel lblStaffName;
+	private JLabel lblJobrole;
+	private JLabel lblJoinDate;
 
 	private JButton btnAttendance;
 	private JButton btnIndividualReport;
@@ -109,18 +135,24 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 	private JLabel lblAtnDate;
 	private JilabaSpinner spnAtnDate;
 	private JLabel lblRepDate;
+	private JLabel lblYearHead;
+	private JLabel lblIndStaff;
 	private JilabaSpinner spnRepDate;
 	private JilabaTable tblAttendance;
 	private JilabaTable tblReport;
+	private JilabaTable tblYearReport;
 	private JScrollPane scrAtn;
 	private JScrollPane scrRep;
+	private JScrollPane scrYearRep;
 	private JButton btnAtnMark;
 	private JButton btnExit;
 	private JButton btnRepView;
 	private JButton btnRepExport;
 	private JButton btnRepExit;
+	private JButton btnIndView;
 	private JCheckBox chkAtmMark;
 	private JilabaComboBox<Operator> cmbApprovedby;
+	private JilabaComboBox<Operator> cmbIndRepStaff;
 	private JilabaTextField txtAtn;
 
 	private List<Operator> lstoperator = new ArrayList<Operator>();
@@ -129,7 +161,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 	private Color color1 = Color.decode("#F1C232");
 	private Color color2 = Color.decode("#FFFFFF");
 	private Color color3 = Color.decode("#f9e6ac");
-	private Color color4 = Color.decode("#cdcdcd");
+	private Color color4 = Color.decode("#000000");
 	private Color color5 = Color.decode("#e4dedf");
 	private Color color6 = Color.decode("#b43e69");
 	private Color color7 = Color.decode("#ACDDDE");
@@ -142,11 +174,12 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
 
 	private ControlResize controlResize;
+	private List<Map<String, Object>> staffList = new ArrayList<>();
 
 	@Autowired
 	private LogicDailyActvity logicDailyActvity;
 
-	public FrmDailyActivity() {
+	public FrmDailyActivity(MainMenuDaoImpl mainMenuDaoImpl) {
 
 		setTitle("Calls");
 		getContentPane().setPreferredSize(new Dimension(958, 728));
@@ -162,6 +195,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		controlResize = new ControlResize(this);
 		setSize(controlResize.getRectangle().getSize());
 		controlResize.reAlignControls();
+		this.mainMenuDaoImpl = mainMenuDaoImpl;
 
 	}
 
@@ -336,6 +370,22 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 
 			}
 		});
+
+		panelIndReport.setFocusable(true);
+		panelIndReport.requestFocusInWindow();
+
+		panelIndReport.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+				"escapePressed");
+
+		panelIndReport.getActionMap().put("escapePressed", new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				panelIndReport.setVisible(false);
+				panelEntry.setVisible(true);
+				panelContent.setFocusable(true);
+				panelContent.requestFocusInWindow();
+			}
+		});
+
 	}
 
 	private void createControls() {
@@ -365,6 +415,12 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		panelAtnReport.setBackground(color2);
 		panelAtnReport.setVisible(false);
 
+		panelIndReport = new JPanel();
+		panelIndReport.setBounds(0, 90, 958, 590);
+		panelIndReport.setLayout(null);
+		panelIndReport.setBackground(color2);
+		panelIndReport.setVisible(false);
+
 		panelMain.add(panelTitleInialize());
 		panelMain.add(panelLineInialize());
 		panelMain.add(panelDetailInitialize());
@@ -374,6 +430,7 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 //		panelMain.add(panelButtonInialize());
 		panelAtnView.add(panelViewDetail());
 		panelAtnReport.add(panelAtnReport());
+		panelIndReport.add(panelIndReport());
 
 //		createInputVerifiers();
 //		createActionListners();
@@ -382,7 +439,58 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		panelMain.add(panelEntry);
 		panelMain.add(panelAtnView);
 		panelMain.add(panelAtnReport);
+		panelMain.add(panelIndReport);
 
+	}
+
+	private Component panelIndReport() {
+
+		panelIndRepView = new JPanel();
+		panelIndRepView.setBounds(30, 30, 900, 530);
+		panelIndRepView.setLayout(null);
+		panelIndRepView.setBackground(color2);
+		panelIndRepView.setBorder(BorderFactory.createEtchedBorder(color3, color3));
+		panelIndRepView.addKeyListener(this);
+		panelIndRepView.setVisible(true);
+
+		lblIndStaff = new JLabel("Staff Name");
+		lblIndStaff.setBounds(20, 10, 130, 50);
+		lblIndStaff.setBackground(color2);
+		lblIndStaff.setVisible(true);
+		lblIndStaff.setFont(CustomFonts.font20);
+		lblIndStaff.setForeground(Color.BLACK);
+		lblIndStaff.setBackground(color2);
+
+		cmbIndRepStaff = new JilabaComboBox<Operator>();
+		cmbIndRepStaff.setBounds(lblIndStaff.getX() + 80, lblIndStaff.getY() + 15, 130, 20);
+		cmbIndRepStaff.setBackground(color2);
+		cmbIndRepStaff.setFont(CustomFonts.fontCalibriPlain15);
+		cmbIndRepStaff.setVisible(true);
+		cmbIndRepStaff.addKeyListener(this);
+
+		btnIndView = new JButton("View ");
+		btnIndView.setHorizontalAlignment(SwingConstants.CENTER);
+		btnIndView.setBounds(cmbIndRepStaff.getX() + 150, cmbIndRepStaff.getY(), 60, 20);
+		btnIndView.setFont(jilabaFonts.getFont(FontStyle.BOLD, 17));
+		btnIndView.setMnemonic(KeyEvent.VK_X);
+		btnIndView.setBackground(Color.decode("#f08080"));
+		btnIndView.setForeground(Color.BLACK);
+		btnIndView.setVisible(true);
+		btnIndView.addActionListener(this);
+		btnIndView.setVerifyInputWhenFocusTarget(false);
+		btnIndView.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		CommonMethods.setIcon(ImageResource.ATTENDANCEEXIT, btnExit);
+		btnIndView.addActionListener(this);
+		btnIndView.setIconTextGap(10);
+		btnIndView.addKeyListener(this);
+
+		panelIndRepView.add(lblIndStaff);
+		panelIndRepView.add(cmbIndRepStaff);
+		panelIndRepView.add(btnIndView);
+
+		panelMain.add(panelIndRepView);
+
+		return panelIndRepView;
 	}
 
 	private Component panelAtnReport() {
@@ -653,6 +761,17 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 		jilabaColumnlist.add(new JilabaColumn(" Reason ", String.class, 300, JLabel.LEFT));
 		jilabaColumnlist.add(new JilabaColumn(" PermissionTime ", String.class, 200, JLabel.CENTER));
 		jilabaColumnlist.add(new JilabaColumn(" StaffId ", String.class, 200, JLabel.CENTER));
+
+		return jilabaColumnlist;
+
+	}
+
+	private List<JilabaColumn> getYearlyReport() {
+
+		List<JilabaColumn> jilabaColumnlist = new ArrayList<>();
+		jilabaColumnlist.add(new JilabaColumn(" Month ", String.class, 200, JLabel.LEFT));
+		jilabaColumnlist.add(new JilabaColumn(" NoofLeave", String.class, 120, JLabel.CENTER));
+		jilabaColumnlist.add(new JilabaColumn(" NoofPermission ", String.class, 127, JLabel.CENTER));
 
 		return jilabaColumnlist;
 
@@ -991,10 +1110,360 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 			}
 		} else if (e.getSource() == btnIndividualReport) {
 
-		}
+			panelEntry.setVisible(false);
+			panelIndReport.setVisible(true);
+
+			cmbIndRepStaff.removeAllItems();
+
+			lstoperator = logicDailyActvity.getOperators();
+
+			for (Operator oper : lstoperator) {
+
+				cmbIndRepStaff.addListItem(new ListItem(oper.getStaffname(), oper.getStaffid()));
+			}
+
+		} else if (e.getSource() == btnIndView) {
+
+			DefaultPieDataset dataset = new DefaultPieDataset();
+			DefaultCategoryDataset datasetBar = new DefaultCategoryDataset();
+
+			Connection con = null;
+			Statement stmt = null;
+			ResultSet rs = null;
+
+			try {
+				String url = CommonMethods.getUrl(Applicationmain.tranDbName);
+				String user = CommonMethods.strLogin;
+				String password = Validation.decrypt(CommonMethods.strPassword);
+				con = DriverManager.getConnection(url, user, password);
+
+				staffList = logicDailyActvity.getStaff();
+
+				int des = getDesignationByStaffId(staffList, String.valueOf(cmbIndRepStaff.getSelectedItemValue()));
+
+				StringBuilder queryPie = new StringBuilder("");
+				queryPie.append("SELECT (CASE WHEN C.callnature = 'E' THEN 'Error'\r\n");
+				queryPie.append(
+						"WHEN C.callnature = 'M' THEN 'Modification' WHEN C.callnature = 'G' THEN 'General'\r\n");
+				queryPie.append("WHEN C.callnature = 'D' THEN 'Development'\r\n");
+				queryPie.append("WHEN C.callnature = 'C' THEN 'Clarification'\r\n");
+				queryPie.append("WHEN C.callnature = 'T' THEN 'Tallying' ELSE '' END) AS callNature, "
+						+ "COUNT(*) AS total \r\n");
+				queryPie.append("FROM Calls C \r\n ");
+				queryPie.append("	Left Join ReadyMark R On R.Callno = C.Callno \r\n");
+				if (des == 1) {
+					queryPie.append("WHERE Readyby = " + cmbIndRepStaff.getSelectedItemValue() + " ");
+				} else {
+					queryPie.append("WHERE Testing = " + cmbIndRepStaff.getSelectedItemValue() + " ");
+				}
+				queryPie.append("GROUP BY callnature");
+
+				stmt = con.createStatement();
+				rs = stmt.executeQuery(queryPie.toString());
+
+				while (rs.next()) {
+					String type = rs.getString("callNature");
+					int count = rs.getInt("total");
+					dataset.setValue(type, count);
+				}
+
+				rs.close();
+
+				StringBuilder bldr = new StringBuilder();
+				bldr.append("-- 1. Generate Calendar Dates for Financial Year\n ");
+				bldr.append("With CalendarDates AS (\n ");
+				bldr.append("    SELECT CAST('2025-04-01' AS DATE) AS CalendarDate\n ");
+				bldr.append("    UNION ALL\n ");
+				bldr.append("    SELECT DATEADD(DAY, 1, CalendarDate)\n ");
+				bldr.append("    FROM CalendarDates\n ");
+				bldr.append("    WHERE CalendarDate < CAST(GETDATE() AS DATE )\n ");
+				bldr.append("),\n ");
+				bldr.append("\n ");
+				bldr.append("-- 2. Extract Attendance Records for the Staff\n ");
+				bldr.append("Attendance AS (\n ");
+				bldr.append("    SELECT \n ");
+				bldr.append("        CAST(CreatedDate AS DATE) AS AttendanceDate,\n ");
+				bldr.append("        StaffId,\n ");
+				bldr.append("        Leave\n ");
+				bldr.append("    FROM DailyActivity\n ");
+				bldr.append("    WHERE StaffId =" + cmbIndRepStaff.getSelectedItemValue() + " \n ");
+				bldr.append(")\n ");
+				bldr.append("\n ");
+				bldr.append("-- 3. Final Report Query\n ");
+				bldr.append("SELECT \n ");
+				bldr.append("    FORMAT(c.CalendarDate, 'MMM') AS Month,\n ");
+				bldr.append("    MONTH(c.CalendarDate) AS MonthNumber,\n ");
+				bldr.append("    YEAR(c.CalendarDate) AS YearNumber,\n ");
+				bldr.append("\n ");
+				bldr.append("    COUNT(DISTINCT CASE \n ");
+				bldr.append("        WHEN a.StaffId IS NOT NULL AND a.Leave = 'N' THEN c.CalendarDate \n ");
+				bldr.append("        ELSE NULL \n ");
+				bldr.append("    END) AS PresentDays,\n ");
+				bldr.append("\n ");
+				bldr.append("    COUNT(*) AS TotalDaysInMonth,\n ");
+				bldr.append("\n ");
+				bldr.append("    COUNT(CASE \n ");
+				bldr.append("        WHEN DATENAME(WEEKDAY, c.CalendarDate) = 'Sunday' THEN 1 \n ");
+				bldr.append("        ELSE NULL \n ");
+				bldr.append("    END) AS Sundays\n ");
+				bldr.append("\n ");
+				bldr.append("FROM CalendarDates c\n ");
+				bldr.append("LEFT JOIN Attendance a\n ");
+				bldr.append("    ON c.CalendarDate = a.AttendanceDate\n ");
+				bldr.append("\n ");
+				bldr.append("GROUP BY \n ");
+				bldr.append("    FORMAT(c.CalendarDate, 'MMM'), \n ");
+				bldr.append("    MONTH(c.CalendarDate), \n ");
+				bldr.append("    YEAR(c.CalendarDate)\n ");
+				bldr.append("\n ");
+				bldr.append("ORDER BY YearNumber, MonthNumber\n ");
+				bldr.append("\n ");
+				bldr.append("-- Allow recursion up to 365 days\n ");
+				bldr.append("OPTION (MAXRECURSION 400);\n ");
+
+				rs = stmt.executeQuery(bldr.toString());
+
+				while (rs.next()) {
+					String month = rs.getString("Month");
+					int presentDays = rs.getInt("PresentDays");
+					int sundays = rs.getInt("Sundays");
+
+					if (presentDays > 0)
+						datasetBar.addValue(presentDays + sundays, "Days Present", month);
+					else
+						datasetBar.addValue(presentDays, "Days Present", month);
+				}
+
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Error fetching data: " + ex.getMessage());
+				return;
+			} finally {
+				try {
+					if (rs != null)
+						rs.close();
+					if (stmt != null)
+						stmt.close();
+					if (con != null)
+						con.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+
+			JFreeChart pieChart = ChartFactory.createPieChart("Calls Completion", // Chart title
+					dataset, // Data
+					true, // Include legend
+					true, false); // Tooltips, URLs
+
+			TextTitle title = pieChart.getTitle();
+			title.setFont(new java.awt.Font("Calibri", Font.BOLD, 18));
+
+			if (pieChart.getLegend() != null) {
+				pieChart.getLegend().setItemFont(new java.awt.Font("Calibri", java.awt.Font.PLAIN, 14));
+			}
+
+			PiePlot plot = (PiePlot) pieChart.getPlot();
+			plot.setLabelFont(new java.awt.Font("Calibri", java.awt.Font.PLAIN, 12));
+
+			if (panelCallsChart != null) {
+				panelIndRepView.remove(panelCallsChart);
+				panelCallsChart.setVisible(false);
+				panelCallsChart = null;
+			}
+
+			panelCallsChart = new ChartPanel(pieChart);
+			panelCallsChart.setBounds(30, 150, 600, 400); // Adjust positioning
+			panelCallsChart.setLayout(null);
+			panelCallsChart.setBackground(color2);
+			panelCallsChart.setBorder(BorderFactory.createEtchedBorder(color3, color3));
+			panelCallsChart.addKeyListener(this);
+			panelCallsChart.setFont(CustomFonts.fontCalibriPlain15);
+			panelCallsChart.setVisible(true);
+
+			panelIndRepView.add(panelCallsChart);
+
+			JFreeChart barChart = ChartFactory.createBarChart("Monthly Attendance", // Chart title
+					"Month", // X-Axis Label
+					"Days Present", // Y-Axis Label
+					datasetBar, // Data
+					PlotOrientation.VERTICAL, true, // Include legend
+					true, false); // Tooltips, URLs
+
+			// 🔹 Set title font
+			TextTitle chartTitle = barChart.getTitle();
+			chartTitle.setFont(new java.awt.Font("Calibri", Font.BOLD, 18));
+
+			// 🔹 Set legend font (if it exists)
+			if (barChart.getLegend() != null) {
+				barChart.getLegend().setItemFont(new java.awt.Font("Calibri", java.awt.Font.PLAIN, 14));
+			}
+
+			// 🔹 Set axis fonts
+			CategoryPlot plot1 = barChart.getCategoryPlot();
+
+			// X-axis
+			CategoryAxis xAxis = plot1.getDomainAxis();
+			xAxis.setLabelFont(new java.awt.Font("Calibri", Font.BOLD, 14)); // Axis label: "Month"
+			xAxis.setTickLabelFont(new java.awt.Font("Calibri", java.awt.Font.PLAIN, 12)); // Tick labels: "Jan",
+																							// "Feb"...
+
+			// Y-axis
+			ValueAxis yAxis = plot1.getRangeAxis();
+			yAxis.setLabelFont(new java.awt.Font("Calibri", Font.BOLD, 14)); // Axis label: "Days Present"
+			yAxis.setTickLabelFont(new java.awt.Font("Calibri", java.awt.Font.PLAIN, 12)); // Tick labels: 1, 2, 3...
+
+			if (panelCallsBar != null) {
+				panelIndRepView.remove(panelCallsBar);
+				panelCallsBar.setVisible(false);
+				panelCallsBar = null;
+			}
+
+			panelCallsBar = new ChartPanel(barChart);
+			panelCallsBar.setBounds(650, 150, 600, 400); // Adjust positioning
+			panelCallsBar.setLayout(null);
+			panelCallsBar.setBackground(color2);
+			panelCallsBar.setBorder(BorderFactory.createEtchedBorder(color3, color3));
+			panelCallsBar.addKeyListener(this);
+			panelCallsBar.setFont(CustomFonts.fontCalibriPlain15);
+			panelCallsBar.setVisible(true);
+
+			panelIndRepView.add(panelCallsBar);
+
+			panelIndRepView.revalidate();
+			panelIndRepView.repaint();
+
+			lblStaffName = new JLabel("STAFF NAME : ");
+			lblStaffName.setBounds(panelCallsChart.getX(), panelCallsChart.getY() + panelCallsChart.getHeight() + 40,
+					100, 22);
+			lblStaffName.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
+			lblStaffName.setForeground(color4);
+			lblStaffName.setVisible(true);
+
+			lblJobrole = new JLabel("JOB ROLE : ");
+			lblJobrole.setBounds(lblStaffName.getX(), lblStaffName.getY() + lblStaffName.getHeight() + 20, 100, 22);
+			lblJobrole.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
+			lblJobrole.setForeground(color4);
+			lblJobrole.setVisible(true);
+
+			lblJoinDate = new JLabel("JOINING DATE : ");
+			lblJoinDate.setBounds(lblJobrole.getX(), lblJobrole.getY() + lblJobrole.getHeight() + 20, 120, 22);
+			lblJoinDate.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
+			lblJoinDate.setForeground(color4);
+			lblJoinDate.setVisible(true);
+
+			panelIndRepView.add(lblStaffName);
+			panelIndRepView.add(lblJobrole);
+			panelIndRepView.add(lblJoinDate);
+
+			panelMonthAtn = new JPanel();
+			panelMonthAtn.setBounds(1270, 150, 500, 400); // Adjust positioning
+			panelMonthAtn.setLayout(null);
+			panelMonthAtn.setBackground(color2);
+			panelMonthAtn.setBorder(BorderFactory.createEtchedBorder(color3, color3));
+			panelMonthAtn.addKeyListener(this);
+			panelMonthAtn.setFont(getFont());
+			panelMonthAtn.setVisible(true);
+
+			panelIndRepView.add(panelMonthAtn);
+
+			lblYearHead = new JLabel("Yealy Attendance");
+			lblYearHead.setBounds(180, 0, 200, 50);
+			lblYearHead.setBackground(color2);
+			lblYearHead.setVisible(true);
+			lblYearHead.setFont(CustomFonts.fontCalibriBold18);
+			lblYearHead.setForeground(Color.BLACK);
+			lblYearHead.setBackground(color2);
+
+			panelMonthAtn.add(lblYearHead);
+
+			tblYearReport = new JilabaTable(getYearlyReport());
+			tblYearReport.setAutoResizeMode(JilabaTable.AUTO_RESIZE_OFF);
+			tblYearReport.getTableHeader().setReorderingAllowed(false);
+			tblYearReport.getTableHeader().setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
+			tblYearReport.setFont(CustomFonts.fontCalibriPlain15);
+			tblYearReport.setForeground(Color.BLACK);
+			tblYearReport.getTableHeader().setForeground(color6);
+			tblYearReport.getTableHeader().setBackground(Color.WHITE);
+			tblYearReport.setRowHeight(22);
+			tblYearReport.setVisible(true);
+			tblYearReport.addKeyListener(this);
+
+			scrYearRep = new JScrollPane(tblYearReport);
+			scrYearRep.setBounds(25, lblYearHead.getY() + lblYearHead.getHeight(), 450, 320);
+			scrYearRep.getViewport().setBackground(tblYearReport.getTableHeader().getBackground());
+			scrYearRep.setVisible(true);
+
+			panelMonthAtn.add(scrYearRep);
+
+			/*
+			 * DefaultPieDataset dataset = new DefaultPieDataset();
+			 * 
+			 * try { String url = CommonMethods.getUrl(Applicationmain.tranDbName); String
+			 * user = CommonMethods.strLogin; String password =
+			 * Validation.decrypt(CommonMethods.strPassword); Connection con =
+			 * DriverManager.getConnection(url, user, password);
+			 * 
+			 * String query = "\r\n" + "Select (Case when C.callnature='E' then 'Error'\r\n"
+			 * + "							when C.callnature='M' Then 'Modification'\r\n" +
+			 * "							when C.callnature='G' Then 'General' \r\n" +
+			 * "							when C.callnature='D' Then 'Development'\r\n" +
+			 * "							when C.callnature='C' Then 'Clarification'\r\n"
+			 * +
+			 * "							when C.callnature='T' Then 'Tallying' else '' End)callNature ,Count(*) total from Calls C  \r\n"
+			 * + " Where Sugto =" + cmbIndRepStaff.getSelectedItemValue() + "\r\n" +
+			 * "Group by callnature"; Statement stmt = con.createStatement(); ResultSet rs =
+			 * stmt.executeQuery(query);
+			 * 
+			 * while (rs.next()) { String type = rs.getString("callNature"); int count =
+			 * rs.getInt("total"); dataset.setValue(type, count); }
+			 * 
+			 * rs.close(); stmt.close(); con.close();
+			 * 
+			 * } catch (SQLException ex) { ex.printStackTrace();
+			 * JOptionPane.showMessageDialog(null, "Error fetching data: " +
+			 * ex.getMessage()); return; }
+			 * 
+			 * // Create Pie Chart JFreeChart chart =
+			 * ChartFactory.createPieChart("Calls Completion ", // chart title dataset, //
+			 * data true, // include legend true, false);
+			 * 
+			 * // 🧹 Remove old chart panel if it exists if (panelCallsChart != null) {
+			 * panelIndRepView.remove(panelCallsChart); panelCallsChart.setVisible(false);
+			 * panelCallsChart = null; }
+			 * 
+			 * // Display chart in a frame
+			 * 
+			 * panelCallsChart = new ChartPanel(chart); panelCallsChart.setBounds(30, 150,
+			 * 600, 400); panelCallsChart.setLayout(null);
+			 * panelCallsChart.setBackground(color2);
+			 * panelCallsChart.setBorder(BorderFactory.createEtchedBorder(color3, color3));
+			 * panelCallsChart.addKeyListener(this); panelCallsChart.setFont(getFont());
+			 * panelCallsChart.setVisible(true);
+			 * 
+			 * panelIndRepView.add(panelCallsChart);
+			 * 
+			 * panelIndRepView.revalidate(); panelIndRepView.repaint();
+			 * 
+			 * // ChartPanel chartPanel = new ChartPanel(chart); // JFrame chartFrame = new
+			 * JFrame("Pie Chart"); //
+			 * chartFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); //
+			 * chartFrame.add(panelCallsChart); // chartFrame.setSize(600, 400); //
+			 * chartFrame.setLocationRelativeTo(null); // chartFrame.setVisible(true);
+			 */ }
+
 	}
 
-	public void exportToPDF(ResultSet rs, String fileName) throws Exception {
+	private int getDesignationByStaffId(List<Map<String, Object>> lstStaff, String staffId) {
+		for (Map<String, Object> row : lstStaff) {
+			if (staffId.equals(String.valueOf(row.get("StaffId")))) {
+				return Integer.parseInt(String.valueOf(row.get("Designation")));
+			}
+		}
+		return 0;
+	}
+
+	private void exportToPDF(ResultSet rs, String fileName) throws Exception {
 		Document document = new Document();
 		PdfWriter.getInstance(document, new FileOutputStream(fileName));
 		document.open();
@@ -1041,26 +1510,23 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 				table.addCell(cell);
 			}
 		}
-		
-		
+
 		// Data rows
 		while (rs.next()) {
-		    for (int i = 1; i <= columnCount; i++) {
-		        String value = rs.getString(i);
-		        PdfPCell cell = new PdfPCell(new Phrase(value != null ? value : "", headerFont));
-		        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		        table.addCell(cell);
-		    }
+			for (int i = 1; i <= columnCount; i++) {
+				String value = rs.getString(i);
+				PdfPCell cell = new PdfPCell(new Phrase(value != null ? value : "", headerFont));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				table.addCell(cell);
+			}
 		}
-		
-	
+
 		Font bottom = new Font(calibri, 12, Font.NORMAL);
-		PdfPCell mergedCell = new PdfPCell(new Phrase("Prepared by " + FrmLogin.Operator,bottom));
+		PdfPCell mergedCell = new PdfPCell(new Phrase("Prepared by " + FrmLogin.Operator, bottom));
 		mergedCell.setColspan(columnCount);
 		mergedCell.setHorizontalAlignment(Element.ALIGN_CENTER);
 		mergedCell.setPadding(10f);
 		table.addCell(mergedCell);
-
 
 		document.add(table);
 		document.close();
@@ -1155,6 +1621,8 @@ public class FrmDailyActivity extends JFrame implements ActionListener, KeyListe
 
 			} else if (e.getSource() == tblReport) {
 				btnRepExport.requestFocus();
+			} else if (e.getSource() == cmbIndRepStaff) {
+				btnIndividualReport.requestFocus();
 			}
 
 		}

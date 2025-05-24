@@ -22,5 +22,6 @@ public class CustomFonts {
 	public final static Font fontCalibriPlain15 = new Font("Calibri", Font.PLAIN, 15);
 	public final static Font fontCalibriBold = new Font("Calibri", Font.BOLD, 15);
 	public final static Font fontCalibriBold16 = new Font("Calibri", Font.BOLD, 16);
+	public final static Font fontCalibriBold18 = new Font("Calibri", Font.BOLD, 18);
 	public final static Font fontAxiformaBold16 = new Font("Axiforma", Font.BOLD, 18);
 }

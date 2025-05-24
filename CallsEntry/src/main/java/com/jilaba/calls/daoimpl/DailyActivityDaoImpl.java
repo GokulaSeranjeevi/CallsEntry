@@ -81,11 +81,9 @@ public class DailyActivityDaoImpl implements DailyActivityDao {
 
 			int groupId = tranJdbcTemplate.queryForObject(dailyActivityQuery.getGroupId(), Integer.class);
 
-			// Iterate over all DailyActivity objects in the list
 			for (DailyActivity dailyActivity : dailyActivities) {
 				Map<String, Object> mapDataSave = new HashMap<>();
 
-				// Set parameters for the stored procedure
 				mapDataSave.put("GroupId", groupId);
 				mapDataSave.put("Staffid", dailyActivity.getStaffId());
 				mapDataSave.put("Leave", dailyActivity.getLeave());
@@ -144,6 +142,16 @@ public class DailyActivityDaoImpl implements DailyActivityDao {
 
 			return Report;
 		}
+	}
+
+	@Override
+	public List<Map<String, Object>> getStaff() {
+
+		List<Map<String, Object>> lstStaff;
+
+		lstStaff = tranJdbcTemplate.queryForList(dailyActivityQuery.getOperator(), new Object[] {});
+
+		return lstStaff;
 	}
 
 }
