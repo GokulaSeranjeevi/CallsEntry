@@ -76,12 +76,10 @@ public class ReadyCallsQuery {
 		sb.append("Where cancel='' And C.testresult<>'C' And C.testdate is null And R.Callstatus<>'C'  \r\n");
 		if (strCallToDate != null) {
 			sb.append(" And C.Cdate between '" + strCallFromDate + "' And '" + strCallToDate + "'\r\n");
-			// sb.append(
-			// " And R.Rdate between '" + strReadyFromDate + "' And '" + strReadyToDate +
-			// "'\r\n");
+			sb.append(" And R.Rdate between '" + strReadyFromDate + "' And '" + strReadyToDate + "'\r\n");
 		} else {
 			sb.append(" And C.Cdate<='" + strCallFromDate + "'");
-			// sb.append(" And R.RdSate<='" + strReadyFromDate + "'");
+			sb.append(" And R.Rdate<='" + strReadyFromDate + "'");
 		}
 
 		if (!callno.equals("")) {

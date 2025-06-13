@@ -112,7 +112,9 @@ public class LogicCallsEntry {
 			CommonMethods.catchreturnstatus(returnStatus);
 			lstCalls = (List<Calls>) returnStatus.getReturnObject();
 
-			saveCallImages(call, lblImage1, lblImage2, lblImage3, lblImage4);
+			if (lblImage1 != null || lblImage2 != null || lblImage3 != null || lblImage4 != null) {
+				saveCallImages(call, lblImage1, lblImage2, lblImage3, lblImage4);
+			}
 
 			transactionManager.commit();
 		} catch (Exception e) {

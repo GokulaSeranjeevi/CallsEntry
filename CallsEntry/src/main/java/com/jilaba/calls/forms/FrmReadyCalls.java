@@ -1727,7 +1727,7 @@ public class FrmReadyCalls extends JFrame implements ActionListener, KeyListener
 			strCallFromDate = spnCallFromDate.getDateValue();
 			strCallToDate = spnCallToDate.getDateValue();
 		}
-		if (rdpReadyDate.isSelected() == true) {
+		if (rdpAsOnDate.isSelected() == true) {
 			strReadyFromDate = spnReadyFromDate.getDateValue();
 			strReadyToDate = null;
 		} else {

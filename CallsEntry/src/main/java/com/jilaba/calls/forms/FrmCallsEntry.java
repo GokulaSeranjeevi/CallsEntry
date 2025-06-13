@@ -2323,7 +2323,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 				strViewModule, strOrderby, txtCallNo.getText());
 
 		lblTotalcall.setVisible(true);
-		lblTotalcallVal.setText(String.valueOf(lstCalls.size() + 1));
+		lblTotalcallVal.setText(String.valueOf(lstCalls.size()));
 
 		List<Object> lstObjects = null;
 
@@ -2466,7 +2466,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 				// logicCallsEntry.saveCallImages(call, lblImage1, lblImage2, lblImage3,
 				// lblImage4);
 			} else {
-
+				
 				logicCallsEntry.getCallSave(calls, "", null, null, null, null);
 			}
 
