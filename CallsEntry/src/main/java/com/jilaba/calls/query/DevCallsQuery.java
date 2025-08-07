@@ -119,7 +119,6 @@ public class DevCallsQuery {
 			sb.append(" AND C.testresult='C' ");
 			break;
 		default:
-			// Handle unexpected values or do nothing
 			break;
 		}
 		if (recByCount != 0) {
@@ -151,11 +150,10 @@ public class DevCallsQuery {
 			sb.append(" AND C.callnature='T' ");
 			break;
 		default:
-			// Handle unexpected values or do nothing
 			break;
 		}
 		if (devCount != 0) {
-			sb.append("\r\n Order by DevPriority ");
+			sb.append("\r\n Order by DevPriority,C.Callno ");
 		} else {
 			sb.append("\r\n Order by Callno ");
 		}

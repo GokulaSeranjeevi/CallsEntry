@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.jilaba.calls.common.CustomFonts;
+import com.jilaba.calls.logic.LogicDevCalls;
 import com.jilaba.calls.logic.LogicTaskAssignment;
 import com.jilaba.calls.model.Operator;
 import com.jilaba.common.ReturnStatus;
@@ -57,7 +58,10 @@ public class FrmTransferCall extends JDialog implements ActionListener {
 	private Color color7 = Color.decode("#FF3933");
 
 	@Autowired
-	private LogicTaskAssignment logicDevCalls;
+	private LogicDevCalls logicDevCalls;
+
+	@Autowired
+	private LogicTaskAssignment logicTaskAssignment;
 
 	public FrmTransferCall(Container contenPane) throws JilabaException {
 
@@ -78,7 +82,13 @@ public class FrmTransferCall extends JDialog implements ActionListener {
 	@PostConstruct
 	private ReturnStatus loadInitialize() {
 
-		lstDeveloper = logicDevCalls.getDeveloper();
+		if (FrmLogin.designation == 1) {
+
+			lstDeveloper = logicDevCalls.getDeveloper();
+
+		} else {
+			lstDeveloper = logicTaskAssignment.getDeveloper();
+		}
 
 		for (Operator dev : lstDeveloper) {
 			cmbDeveloper.addListItem(new ListItem(dev.getStaffname(), dev.getStaffid()));

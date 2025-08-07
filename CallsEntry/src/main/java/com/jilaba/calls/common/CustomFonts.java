@@ -24,4 +24,6 @@ public class CustomFonts {
 	public final static Font fontCalibriBold16 = new Font("Calibri", Font.BOLD, 16);
 	public final static Font fontCalibriBold18 = new Font("Calibri", Font.BOLD, 18);
 	public final static Font fontAxiformaBold16 = new Font("Axiforma", Font.BOLD, 18);
+	public final static Font fontSegoeUI = new Font("Segoe UI ", Font.BOLD, 18);
+	public final static Font fontTahoma = new Font("Tahoma", Font.BOLD, 18);
 }

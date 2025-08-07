@@ -747,7 +747,7 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		btnAdd.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
 		btnAdd.setMnemonic(KeyEvent.VK_A);
 		btnAdd.setBackground(color3);
-		btnAdd.setForeground(Color.BLACK);
+		btnAdd.setForeground(color2);
 		btnAdd.setVisible(true);
 		btnAdd.addActionListener(this);
 		btnAdd.setVerifyInputWhenFocusTarget(false);
@@ -760,7 +760,7 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		btnSave.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
 		btnSave.setMnemonic(KeyEvent.VK_S);
 		btnSave.setBackground(color3);
-		btnSave.setForeground(Color.BLACK);
+		btnSave.setForeground(color2);
 		btnSave.setVisible(true);
 		btnSave.addActionListener(this);
 		btnSave.addKeyListener(this);
@@ -772,7 +772,7 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		btnUpdate.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
 		btnUpdate.setMnemonic(KeyEvent.VK_U);
 		btnUpdate.setBackground(color3);
-		btnUpdate.setForeground(Color.BLACK);
+		btnUpdate.setForeground(color2);
 		btnUpdate.setVisible(false);
 		btnUpdate.addActionListener(this);
 		btnUpdate.setVerifyInputWhenFocusTarget(false);
@@ -785,7 +785,7 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		btnEntryView.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
 		btnEntryView.setMnemonic(KeyEvent.VK_V);
 		btnEntryView.setBackground(color3);
-		btnEntryView.setForeground(Color.BLACK);
+		btnEntryView.setForeground(color2);
 		btnEntryView.setVisible(true);
 		btnEntryView.addActionListener(this);
 		btnEntryView.setVerifyInputWhenFocusTarget(false);
@@ -798,7 +798,7 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		btnClear.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
 		btnClear.setMnemonic(KeyEvent.VK_E);
 		btnClear.setBackground(color3);
-		btnClear.setForeground(Color.BLACK);
+		btnClear.setForeground(color2);
 		btnClear.setVisible(true);
 		btnClear.addActionListener(this);
 		btnClear.setVerifyInputWhenFocusTarget(false);
@@ -811,7 +811,7 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		btnCancel.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
 		btnCancel.setMnemonic(KeyEvent.VK_C);
 		btnCancel.setBackground(color3);
-		btnCancel.setForeground(Color.BLACK);
+		btnCancel.setForeground(color2);
 		btnCancel.setVisible(true);
 		btnCancel.addActionListener(this);
 		btnCancel.setVerifyInputWhenFocusTarget(false);
@@ -824,7 +824,7 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		btnBack.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
 		btnBack.setMnemonic(KeyEvent.VK_B);
 		btnBack.setBackground(color3);
-		btnBack.setForeground(Color.BLACK);
+		btnBack.setForeground(color2);
 		btnBack.setVisible(true);
 		btnBack.addActionListener(this);
 		btnBack.setVerifyInputWhenFocusTarget(false);
@@ -836,7 +836,7 @@ public class FrmDataValidation extends JFrame implements ActionListener, KeyList
 		btnClose.setBounds(btnBack.getX() + btnWidth + 80, btnBack.getY(), btnWidth, btnHeight);
 		btnClose.setFont(jilabaFonts.getFont(FontStyle.BOLD, 16));
 		btnClose.setBackground(color3);
-		btnClose.setForeground(Color.BLACK);
+		btnClose.setForeground(color2);
 		btnClose.setMnemonic(KeyEvent.VK_L);
 		btnClose.setMargin(new Insets(0, 0, 0, 0));
 		btnClose.setVisible(true);

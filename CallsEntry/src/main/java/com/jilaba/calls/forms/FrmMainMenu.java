@@ -852,11 +852,17 @@ public class FrmMainMenu extends JFrame implements ActionListener {
 
 			} else if (e.getSource() == btnCallsAssign) {
 
-				setVisible(false);
+				if (FrmLogin.designation == 3 || FrmLogin.designation == 2 || FrmLogin.designation == 1) {
 
-				FrmDevCallAssign frmDevCallAssign = Applicationmain.getAbstractApplicationContext()
-						.getBean(FrmDevCallAssign.class);
-				frmDevCallAssign.setVisible(true);
+					setVisible(false);
+
+					FrmDevCallAssign frmDevCallAssign = Applicationmain.getAbstractApplicationContext()
+							.getBean(FrmDevCallAssign.class);
+					frmDevCallAssign.setVisible(true);
+
+				} else {
+					JOptionPane.showMessageDialog(panelMain, "You dont have Rights ...!");
+				}
 
 			} else if (e.getSource() == btnDevCalls) {
 

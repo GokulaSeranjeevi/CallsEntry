@@ -16,6 +16,7 @@ import com.jilaba.calls.model.CallsImages;
 import com.jilaba.calls.model.CustStaff;
 import com.jilaba.calls.model.Customer;
 import com.jilaba.calls.model.Department;
+import com.jilaba.calls.model.Designation;
 import com.jilaba.calls.model.Operator;
 import com.jilaba.common.ReturnStatus;
 import com.jilaba.exception.JilabaException;
@@ -31,9 +32,9 @@ public class LogicCallsEntry {
 	@Autowired
 	private JdbcTemplate tranJdbcTemplate;
 
-	public List<Operator> getCallFrom() {
+	public List<Operator> getCallFrom(Integer desgId) {
 
-		returnStatus = callsEntryDao.getOperator();
+		returnStatus = callsEntryDao.getOperator(desgId);
 		CommonMethods.catchreturnstatus(returnStatus);
 
 		List<Operator> lstCallFrom = (List<Operator>) returnStatus.getReturnObject();
@@ -147,11 +148,12 @@ public class LogicCallsEntry {
 
 	public List<Calls> getCalls(String fromDate, String toDate, int strViewRecby, int strViewCallCoOrd,
 			int strViewCustCoOrd, int strViewDevCoOrd, int strViewClient, int strViewDeptAuthorize,
-			int strViewDepartment, int strViewModule, String strOrderby, String callNo) {
+			int strViewDepartment, int strViewModule, String strOrderby, String callNo, int strViewDesignation,
+			int strViewType, int strViewNature) {
 
 		returnStatus = callsEntryDao.getCalls(fromDate, toDate, strViewRecby, strViewCallCoOrd, strViewCustCoOrd,
 				strViewDevCoOrd, strViewClient, strViewDeptAuthorize, strViewDepartment, strViewModule, strOrderby,
-				callNo);
+				callNo, strViewDesignation, strViewType, strViewNature);
 		CommonMethods.catchreturnstatus(returnStatus);
 
 		List<Calls> lstCalls = (List<Calls>) returnStatus.getReturnObject();
@@ -187,6 +189,15 @@ public class LogicCallsEntry {
 
 	public String getFileName(String callNo) {
 		return callsEntryDao.getFileName(callNo);
+	}
+
+	public List<Designation> getDesignation() {
+		returnStatus = callsEntryDao.getDesignation();
+		CommonMethods.catchreturnstatus(returnStatus);
+
+		List<Designation> lstdesignation = (List<Designation>) returnStatus.getReturnObject();
+
+		return lstdesignation;
 	}
 
 }

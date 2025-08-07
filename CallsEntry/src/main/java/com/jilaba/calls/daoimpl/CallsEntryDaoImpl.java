@@ -27,6 +27,7 @@ import com.jilaba.calls.model.CallsImages;
 import com.jilaba.calls.model.CustStaff;
 import com.jilaba.calls.model.Customer;
 import com.jilaba.calls.model.Department;
+import com.jilaba.calls.model.Designation;
 import com.jilaba.calls.model.Module;
 import com.jilaba.calls.model.Operator;
 import com.jilaba.calls.query.CallsEntryQuery;
@@ -49,13 +50,13 @@ public class CallsEntryDaoImpl implements CallsEntryDao {
 	private Integer callno;
 
 	@Override
-	public ReturnStatus getOperator() {
+	public ReturnStatus getOperator(Integer desgId) {
 
 		List<Operator> lstCallFrom;
 
 		try {
 
-			lstCallFrom = tranJdbcTemplate.query(callsEntryQuery.getCallFrom(), new CallFromRowmapper());
+			lstCallFrom = tranJdbcTemplate.query(callsEntryQuery.getCallFrom(desgId), new CallFromRowmapper());
 
 			return new ReturnStatus(true, lstCallFrom);
 
@@ -393,7 +394,8 @@ public class CallsEntryDaoImpl implements CallsEntryDao {
 	@Override
 	public ReturnStatus getCalls(String fromDate, String toDate, int strViewRecby, int strViewCallCoOrd,
 			int strViewCustCoOrd, int strViewDevCoOrd, int strViewClient, int strViewDeptAuthorize,
-			int strViewDepartment, int strViewModule, String strOrderby, String callNo) {
+			int strViewDepartment, int strViewModule, String strOrderby, String callNo, int strViewDesignation,
+			int strViewType, int strViewNature) {
 
 		try {
 			List<Calls> lstCalls;
@@ -423,10 +425,19 @@ public class CallsEntryDaoImpl implements CallsEntryDao {
 			if (strViewModule != 0) {
 				params.add(strViewModule);
 			}
+			if (strViewDesignation != 0) {
+				params.add(strViewDesignation);
+			}
+//			if (strViewType != 0) {
+//				params.add(strViewType);
+//			}
+//			if (strViewNature != 0) {
+//				params.add(strViewNature);
+//			}
 
 			String strQuery = (callsEntryQuery.getCalls(fromDate, toDate, strViewRecby, strViewCallCoOrd,
 					strViewCustCoOrd, strViewDevCoOrd, strViewClient, strViewDeptAuthorize, strViewDepartment,
-					strViewModule, strOrderby, callNo));
+					strViewModule, strOrderby, callNo, strViewDesignation, strViewType, strViewNature));
 
 			lstCalls = tranJdbcTemplate.query(strQuery, new CallsRowMapper(), params.toArray());
 
@@ -569,6 +580,37 @@ public class CallsEntryDaoImpl implements CallsEntryDao {
 
 		return fileName;
 
+	}
+
+	@Override
+	public ReturnStatus getDesignation() {
+
+		List<Designation> lstDesignation;
+
+		try {
+
+			lstDesignation = tranJdbcTemplate.query(callsEntryQuery.getDesignation(), new DesignationRowmapper());
+
+			return new ReturnStatus(true, lstDesignation);
+
+		} catch (Exception e) {
+			return new ReturnStatus(false, ErrorHandling.handleError(e));
+		}
+
+	}
+
+	class DesignationRowmapper implements RowMapper<Designation> {
+
+		@Override
+		public Designation mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+			Designation designation = new Designation();
+
+			designation.setDesigid(rs.getInt("Desigid"));
+			designation.setDesigname(rs.getString("designame"));
+
+			return designation;
+		}
 	}
 
 }

@@ -7,10 +7,15 @@ public class CallsEntryQuery {
 
 	private StringBuilder sb;
 
-	public String getCallFrom() {
+	public String getCallFrom(Integer desgId) {
 
 		sb = new StringBuilder();
-		sb.append("Select * from Staff Where Active='Y' \r\n" + "Order by staffname");
+		if (desgId == 0) {
+			sb.append("Select * from Staff Where Active='Y' \r\n" + "Order by staffname");
+		} else {
+			sb.append(
+					"Select * from Staff Where Active='Y' And designation=" + desgId + "\r\n " + "Order by staffname");
+		}
 		return sb.toString();
 	}
 
@@ -74,7 +79,7 @@ public class CallsEntryQuery {
 
 	public String getCalls(String fromDate, String toDate, int strViewRecby, int strViewCallCoOrd, int strViewCustCoOrd,
 			int strViewDevCoOrd, int strViewClient, int strViewDeptAuthorize, int strViewDepartment, int strViewModule,
-			String strOrderby, String callNo) {
+			String strOrderby, String callNo, int strViewDesignation, int strViewType, int strViewNature) {
 
 		sb = new StringBuilder("");
 
@@ -125,10 +130,49 @@ public class CallsEntryQuery {
 		if (!callNo.equalsIgnoreCase("")) {
 			sb.append(" And C.callNo=" + callNo);
 		}
+		if (strViewDesignation != 0) {
+			sb.append(" And S.designation= ?");
+		}
+
+		switch (strViewType) {
+		case 1:
+			sb.append(" AND C.Ready='' ");
+			break;
+		case 2:
+			sb.append(" AND C.Ready='Y' ");
+			break;
+		case 3:
+			sb.append(" AND C.testresult='C' ");
+			break;
+		default:
+			break;
+		}
+
+		switch (strViewNature) {
+		case 1:
+			sb.append(" AND C.callnature='E' ");
+			break;
+		case 2:
+			sb.append(" AND C.callnature='M' ");
+			break;
+		case 3:
+			sb.append(" AND C.callnature='G' ");
+			break;
+		case 4:
+			sb.append(" AND C.callnature='D' ");
+			break;
+		case 5:
+			sb.append(" AND C.callnature='C' ");
+			break;
+		case 6:
+			sb.append(" AND C.callnature='T' ");
+			break;
+		default:
+			break;
+		}
 		if (!strOrderby.equalsIgnoreCase("")) {
 			sb.append("Order by " + strOrderby);
 		}
-
 		System.out.println(sb);
 		return sb.toString();
 	}
@@ -250,6 +294,16 @@ public class CallsEntryQuery {
 		sb.append("Select FileName from ExcelJsonStore Where CallNo=" + callNo);
 
 		return sb.toString();
+	}
+
+	public String getDesignation() {
+
+		sb = new StringBuilder("");
+
+		sb.append("Select * from designation Order by desigid");
+
+		return sb.toString();
+
 	}
 
 }

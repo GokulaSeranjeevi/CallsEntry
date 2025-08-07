@@ -10,7 +10,7 @@ import com.jilaba.common.ReturnStatus;
 
 public interface CallsEntryDao {
 
-	public ReturnStatus getOperator();
+	public ReturnStatus getOperator(Integer desgId);
 
 	public ReturnStatus getClients();
 
@@ -35,7 +35,8 @@ public interface CallsEntryDao {
 
 	public ReturnStatus getCalls(String fromDate, String toDate, int strViewRecby, int strViewCallCoOrd,
 			int strViewCustCoOrd, int strViewDevCoOrd, int strViewClient, int strViewDeptAuthorize,
-			int strViewDepartment, int strViewModule, String strOrderby, String callNo);
+			int strViewDepartment, int strViewModule, String strOrderby, String callNo, int strViewDesignation,
+			int strViewType, int strViewNature);
 
 	public ReturnStatus updateCallsEdit(String cmbCallFrom, String cmbCustomer, String cmbDepartment,
 			String cmbCustCoOrd, String cmbCallCoOrd, String cmbModule, String txtRefNo, String txtOption,
@@ -49,5 +50,7 @@ public interface CallsEntryDao {
 	public String fetchJsonFromSQL(String filename) throws SQLException;
 
 	public String getFileName(String callNo);
+
+	public ReturnStatus getDesignation();
 
 }

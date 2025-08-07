@@ -18,8 +18,6 @@ import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -68,17 +66,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jilaba.calls.common.CommonMethods;
 import com.jilaba.calls.common.CustomFonts;
+import com.jilaba.calls.common.ExcelExporter;
 import com.jilaba.calls.common.ImageResource;
 import com.jilaba.calls.common.LoginCredential;
 import com.jilaba.calls.common.TimerJob;
 import com.jilaba.calls.logic.LogicCallsEntry;
-import com.jilaba.calls.logic.LogicTaskAssignment;
 import com.jilaba.calls.logic.LogicReadyCalls;
+import com.jilaba.calls.logic.LogicTaskAssignment;
 import com.jilaba.calls.model.Calls;
 import com.jilaba.calls.model.CallsImages;
 import com.jilaba.calls.model.CustStaff;
 import com.jilaba.calls.model.Customer;
 import com.jilaba.calls.model.Department;
+import com.jilaba.calls.model.Designation;
 import com.jilaba.calls.model.Module;
 import com.jilaba.calls.model.Operator;
 import com.jilaba.calls.start.Applicationmain;
@@ -94,7 +94,6 @@ import com.jilaba.design.ControlResize;
 import com.jilaba.fonts.JilabaFonts;
 import com.jilaba.fonts.JilabaFonts.FontStyle;
 import com.jilaba.imagemanager.ImageCompressor;
-import com.jilaba.security.Validation;
 
 @org.springframework.stereotype.Component
 @Scope("prototype")
@@ -152,6 +151,9 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 	private JLabel lblRecFrom;
 	private JLabel lblViewCustCoOrd;
 	private JLabel lblViewCallCoOrd;
+	private JLabel lblViewDesignation;
+	private JLabel lblViewType;
+	private JLabel lblViewNature;
 
 	private JilabaComboBox<Operator> cmbCallFrom;
 	private JilabaComboBox<Customer> cmbCustomer;
@@ -171,6 +173,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 	private List<Operator> callCoOrd;
 	private List<Module> module;
 	private List<Operator> devCoOrd;
+	private List<Designation> designation;
 
 	private JilabaComboBox<Operator> cmbViewDevCoOrd;
 	private JilabaComboBox<Operator> cmbViewRecby;
@@ -180,6 +183,9 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 	private JilabaComboBox<Operator> cmbDeptAuthorize;
 	private JilabaComboBox<Department> cmbViewDepartment;
 	private JilabaComboBox<Module> cmbViewModule;
+	private JilabaComboBox<Designation> cmbViewDesignation;
+	private JilabaComboBox<String> cmbViewtype;
+	private JilabaComboBox<String> cmbViewNature;
 
 	private JilabaTextField txtRefNo;
 	private JilabaTextField txtOption;
@@ -277,6 +283,9 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 	private int strViewDeptAuthorize;
 	private int strViewDepartment;
 	private int strViewModule;
+	private int strViewDesignation;
+	private int strViewType;
+	private int strViewNature;
 
 	private List<Calls> lstCalls;
 
@@ -327,7 +336,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 
 					if (blnAsOnDate == true) {
-						cmbViewRecby.requestFocus();
+						cmbViewDesignation.requestFocus();
 					} else {
 						spnCallToDate.requestFocus();
 					}
@@ -343,7 +352,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 
-					cmbViewRecby.requestFocus();
+					cmbViewDesignation.requestFocus();
 
 				}
 
@@ -410,12 +419,15 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 						}
 						workbook.close();
 
-						JOptionPane.showMessageDialog(null, "✅ Excel Exported Successfully!");
+						JOptionPane.showMessageDialog(null, " Excel Exported Successfully!");
 
 					} catch (Exception ex) {
 						ex.printStackTrace();
-						JOptionPane.showMessageDialog(null, "❌ Export Failed: " + ex.getMessage());
+						JOptionPane.showMessageDialog(null, " Export Failed: " + ex.getMessage());
 					}
+
+				} else if (e.getKeyCode() == KeyEvent.VK_P) {
+					ExcelExporter.exportToExcel(tblEditCalls, "Calls.xlsx");
 
 				}
 
@@ -506,7 +518,8 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		scrEditCalls.getViewport().setBackground(tblEditCalls.getTableHeader().getBackground());
 		scrEditCalls.setVisible(true);
 
-		lblPressEsc = new JLabel(" I - Image Details To Show                       E - Excel Details to Export     ");
+		lblPressEsc = new JLabel(
+				" I - Image Details To Show                       E - Excel Details to Export                         P - Excel Posting     ");
 		lblPressEsc.setHorizontalAlignment(SwingConstants.LEFT);
 		lblPressEsc.setBounds(tblEditCalls.getX() + 20, 380, 900, 20);
 		lblPressEsc.setBackground(color2);
@@ -570,7 +583,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 
 		int lblWidth = 130;
 		int lblHeight = 30;
-		int txtWidth = 120;
+		int txtWidth = 90;
 		int txtHeight = 20;
 
 		panelViewDetail = new JPanel();
@@ -606,7 +619,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		lblCall.addKeyListener(this);
 
 		panelCallDate = new JPanel();
-		panelCallDate.setBounds(rdpAsOnDate.getX(), rdpAsOnDate.getY() + rdpAsOnDate.getHeight() + 30, 200, 50);
+		panelCallDate.setBounds(rdpAsOnDate.getX(), rdpAsOnDate.getY() + rdpAsOnDate.getHeight() + 30, 170, 50);
 		panelCallDate.setLayout(null);
 		panelCallDate.setBackground(color2);
 		panelCallDate.setBorder(BorderFactory.createEtchedBorder(color4, color4));
@@ -641,9 +654,28 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 
 		// DSsd
 
+		lblViewDesignation = new JLabel("Designation");
+		lblViewDesignation.setBounds(rdpBetweenDate.getX() + rdpBetweenDate.getWidth() + 20, rdpBetweenDate.getY() - 5,
+				lblWidth, lblHeight);
+		lblViewDesignation.setBackground(color2);
+		lblViewDesignation.setForeground(Color.BLACK);
+		lblViewDesignation.setFont(CustomFonts.font);
+		lblViewDesignation.setVisible(true);
+
+		cmbViewDesignation = new JilabaComboBox<Designation>();
+		cmbViewDesignation.setBounds(lblViewDesignation.getX() + 80, lblViewDesignation.getY(), txtWidth, txtHeight);
+		cmbViewDesignation.setBackground(color2);
+		cmbViewDesignation.setFont(CustomFonts.fontCalibriBold);
+		cmbViewDesignation.setVisible(true);
+		cmbViewDesignation.addKeyListener(this);
+
+		// lblRecFrom.setBounds(rdpBetweenDate.getX() + rdpBetweenDate.getWidth() + 160,
+		// rdpBetweenDate.getY() - 5,
+//		lblWidth, lblHeight);
+
 		lblRecFrom = new JLabel("Received From");
-		lblRecFrom.setBounds(rdpBetweenDate.getX() + rdpBetweenDate.getWidth(), rdpBetweenDate.getY() - 5, lblWidth,
-				lblHeight);
+		lblRecFrom.setBounds(lblViewDesignation.getX(), lblViewDesignation.getY() + lblViewDesignation.getHeight(),
+				lblWidth, lblHeight);
 		lblRecFrom.setBackground(color2);
 		lblRecFrom.setForeground(Color.BLACK);
 		lblRecFrom.setFont(CustomFonts.font);
@@ -686,8 +718,8 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		cmbViewCustCoOrd.addKeyListener(this);
 
 		lblViewDevCoOrd = new JLabel("Dev Co-Ord");
-		lblViewDevCoOrd.setBounds(lblViewCustCoOrd.getX(), lblViewCustCoOrd.getY() + lblViewCustCoOrd.getHeight(),
-				lblWidth, lblHeight);
+		lblViewDevCoOrd.setBounds(cmbViewDesignation.getX() + cmbViewDesignation.getWidth() + 10,
+				cmbViewDesignation.getY(), lblWidth, lblHeight);
 		lblViewDevCoOrd.setBackground(color2);
 		lblViewDevCoOrd.setForeground(Color.BLACK);
 		lblViewDevCoOrd.setFont(CustomFonts.font);
@@ -695,14 +727,14 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		lblViewDevCoOrd.setFont(CustomFonts.font);
 
 		cmbViewDevCoOrd = new JilabaComboBox<Operator>();
-		cmbViewDevCoOrd.setBounds(lblViewDevCoOrd.getX() + 80, lblViewDevCoOrd.getY(), txtWidth, txtHeight);
+		cmbViewDevCoOrd.setBounds(lblViewDevCoOrd.getX() + 70, lblViewDevCoOrd.getY(), txtWidth, txtHeight);
 		cmbViewDevCoOrd.setBackground(color2);
 		cmbViewDevCoOrd.setFont(CustomFonts.fontCalibriBold);
 		cmbViewDevCoOrd.setVisible(true);
 		cmbViewDevCoOrd.addKeyListener(this);
 
 		lblClient = new JLabel("Client");
-		lblClient.setBounds(cmbViewRecby.getX() + cmbViewRecby.getWidth() + 30, cmbViewRecby.getY(), lblWidth,
+		lblClient.setBounds(lblViewDevCoOrd.getX(), lblViewDevCoOrd.getY() + lblViewDevCoOrd.getHeight(), lblWidth,
 				lblHeight);
 		lblClient.setBackground(color2);
 		lblClient.setForeground(Color.BLACK);
@@ -728,7 +760,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		lblDepartment.setFont(CustomFonts.font);
 
 		lblModule = new JLabel("Module");
-		lblModule.setBounds(lblDepartment.getX(), lblDepartment.getY() + lblDepartment.getHeight(), lblWidth,
+		lblModule.setBounds(cmbViewDevCoOrd.getX() + cmbViewDevCoOrd.getWidth() + 10, cmbViewDevCoOrd.getY(), lblWidth,
 				lblHeight);
 		lblModule.setBackground(color2);
 		lblModule.setForeground(Color.BLACK);
@@ -736,8 +768,24 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		lblModule.setVisible(true);
 		lblModule.setFont(CustomFonts.font);
 
+		lblViewType = new JLabel("Type");
+		lblViewType.setBounds(lblModule.getX(), lblModule.getY() + lblModule.getHeight(), lblWidth, lblHeight);
+		lblViewType.setBackground(color2);
+		lblViewType.setForeground(Color.BLACK);
+		lblViewType.setFont(CustomFonts.font);
+		lblViewType.setVisible(true);
+		lblViewType.setFont(CustomFonts.font);
+
+		lblViewNature = new JLabel("Nature");
+		lblViewNature.setBounds(lblViewType.getX(), lblViewType.getY() + lblViewType.getHeight(), lblWidth, lblHeight);
+		lblViewNature.setBackground(color2);
+		lblViewNature.setForeground(Color.BLACK);
+		lblViewNature.setFont(CustomFonts.font);
+		lblViewNature.setVisible(true);
+		lblViewNature.setFont(CustomFonts.font);
+
 		cmbViewClient = new JilabaComboBox<Customer>();
-		cmbViewClient.setBounds(lblClient.getX() + 100, lblClient.getY(), txtWidth, txtHeight);
+		cmbViewClient.setBounds(lblClient.getX() + 70, lblClient.getY(), txtWidth, txtHeight);
 		cmbViewClient.setBackground(color2);
 		cmbViewClient.setFont(CustomFonts.fontCalibriBold);
 		cmbViewClient.setVisible(true);
@@ -758,14 +806,28 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		cmbViewDepartment.addKeyListener(this);
 
 		cmbViewModule = new JilabaComboBox<Module>();
-		cmbViewModule.setBounds(cmbViewDepartment.getX(), lblModule.getY(), txtWidth, txtHeight);
+		cmbViewModule.setBounds(lblModule.getX() + 50, lblModule.getY(), txtWidth, txtHeight);
 		cmbViewModule.setBackground(color2);
 		cmbViewModule.setFont(CustomFonts.fontCalibriBold);
 		cmbViewModule.setVisible(true);
 		cmbViewModule.addKeyListener(this);
 
+		cmbViewtype = new JilabaComboBox<String>();
+		cmbViewtype.setBounds(lblViewType.getX() + 50, lblViewType.getY(), txtWidth, txtHeight);
+		cmbViewtype.setBackground(color2);
+		cmbViewtype.setFont(CustomFonts.fontCalibriBold);
+		cmbViewtype.setVisible(true);
+		cmbViewtype.addKeyListener(this);
+
+		cmbViewNature = new JilabaComboBox<String>();
+		cmbViewNature.setBounds(lblViewNature.getX() + 50, lblViewNature.getY(), txtWidth, txtHeight);
+		cmbViewNature.setBackground(color2);
+		cmbViewNature.setFont(CustomFonts.fontCalibriBold);
+		cmbViewNature.setVisible(true);
+		cmbViewNature.addKeyListener(this);
+
 		lblCallNo = new JLabel("Call No");
-		lblCallNo.setBounds(cmbViewClient.getX() + cmbViewClient.getWidth() + 20, cmbViewClient.getY(), lblWidth,
+		lblCallNo.setBounds(lblViewNature.getX(), lblViewNature.getY() + lblViewNature.getHeight(), lblWidth,
 				lblHeight);
 		lblCallNo.setBackground(color2);
 		lblCallNo.setForeground(Color.BLACK);
@@ -773,7 +835,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		lblCallNo.setVisible(true);
 
 		txtCallNo = new JilabaTextField();
-		txtCallNo.setBounds(lblCallNo.getX() + 60, lblCallNo.getY() + 5, 100, txtHeight);
+		txtCallNo.setBounds(lblCallNo.getX() + 50, lblCallNo.getY(), txtWidth, txtHeight);
 		txtCallNo.setVisible(true);
 		txtCallNo.setFont(CustomFonts.fontCalibriPlain15);
 		txtCallNo.addKeyListener(this);
@@ -781,7 +843,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		txtCallNo.setTextType(TextInputType.NUMBER);
 
 		panelOrderby = new JPanel();
-		panelOrderby.setBounds(lblCallNo.getX(), lblCallNo.getY() + lblCallNo.getY() + 30, 190, 50);
+		panelOrderby.setBounds(cmbViewtype.getX() + cmbViewtype.getWidth() + 10, cmbViewtype.getY(), 190, 50);
 		panelOrderby.setLayout(null);
 		panelOrderby.setBackground(color2);
 		panelOrderby.setBorder(BorderFactory.createEtchedBorder(color4, color4));
@@ -880,6 +942,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		panelViewDetail.add(cmbViewCallCoOrd);
 		panelViewDetail.add(cmbViewCustCoOrd);
 		panelViewDetail.add(cmbViewDevCoOrd);
+		panelViewDetail.add(cmbViewNature);
 		panelViewDetail.add(lblClient);
 		panelViewDetail.add(lblDeptAutorize);
 		panelViewDetail.add(lblDepartment);
@@ -888,7 +951,12 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		panelViewDetail.add(cmbDeptAuthorize);
 		panelViewDetail.add(cmbViewDepartment);
 		panelViewDetail.add(cmbViewModule);
+		panelViewDetail.add(cmbViewDesignation);
+		panelViewDetail.add(cmbViewtype);
+		panelViewDetail.add(lblViewDesignation);
+		panelViewDetail.add(lblViewType);
 		panelViewDetail.add(lblCallNo);
+		panelViewDetail.add(lblViewNature);
 		panelViewDetail.add(txtCallNo);
 		panelViewDetail.add(panelOrderby);
 		btnOrderbyGroup.add(rdpNone);
@@ -1541,6 +1609,9 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		cmbCustStaff.removeAllItems();
 		cmbDepartment.removeAllItems();
 		cmbStaff.removeAllItems();
+		cmbViewDesignation.removeAllItems();
+		cmbViewtype.removeAllItems();
+		cmbViewNature.removeAllItems();
 
 		cmbViewRecby.addListItem(new ListItem("All", 0));
 		cmbViewCallCoOrd.addListItem(new ListItem("All", 0));
@@ -1550,8 +1621,19 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		cmbDeptAuthorize.addListItem(new ListItem("All", 0));
 		cmbViewDepartment.addListItem(new ListItem("All", 0));
 		cmbViewModule.addListItem(new ListItem("All", 0));
+		cmbViewDesignation.addListItem(new ListItem("All", 0));
+		cmbViewtype.addListItem(new ListItem("All", 0));
+		cmbViewNature.addListItem(new ListItem("All", 0));
 
-		callFrom = logicCallsEntry.getCallFrom();
+		designation = logicCallsEntry.getDesignation();
+
+		for (Designation desn : designation) {
+			cmbViewDesignation.addListItem(new ListItem(desn.getDesigname(), desn.getDesigid()));
+
+		}
+
+		callFrom = logicCallsEntry
+				.getCallFrom(Integer.valueOf(String.valueOf(cmbViewDesignation.getSelectedItemValue())));
 		for (Operator oper : callFrom) {
 			// cmbCallFrom.addListItem(new ListItem(oper.getStaffname(),
 			// oper.getStaffid()));
@@ -1610,6 +1692,20 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 			cmbViewRecby.addListItem(new ListItem(oper.getStaffname(), oper.getStaffid()));
 
 		}
+
+		cmbViewtype.addListItem(new ListItem("Pending Calls", 1));
+		cmbViewtype.addListItem(new ListItem("Ready Calls", 2));
+		cmbViewtype.addListItem(new ListItem("Completed Calls", 3));
+//		cmbViewtype.setSelectedItemValue(1);
+
+		cmbViewNature.addListItem(new ListItem("Error", 1));
+		cmbViewNature.addListItem(new ListItem("Modification", 2));
+		cmbViewNature.addListItem(new ListItem("Clarification", 3));
+		cmbViewNature.addListItem(new ListItem("Development", 4));
+		cmbViewNature.addListItem(new ListItem("General", 5));
+		cmbViewNature.addListItem(new ListItem("Tallying", 6));
+
+//		cmbViewNature.setSelectedItemValue(1);
 
 	}
 
@@ -2320,7 +2416,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 
 		lstCalls = logicCallsEntry.getCalls(strCallFromDate, strCallToDate, strViewRecby, strViewCallCoOrd,
 				strViewCustCoOrd, strViewDevCoOrd, strViewClient, strViewDeptAuthorize, strViewDepartment,
-				strViewModule, strOrderby, txtCallNo.getText());
+				strViewModule, strOrderby, txtCallNo.getText(), strViewDesignation, strViewType, strViewNature);
 
 		lblTotalcall.setVisible(true);
 		lblTotalcallVal.setText(String.valueOf(lstCalls.size()));
@@ -2430,6 +2526,21 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		} else {
 			strViewModule = Integer.parseInt(String.valueOf(cmbViewModule.getSelectedItemValue()));
 		}
+		if (cmbViewDesignation.getSelectedItem().equals("All")) {
+			strViewDesignation = 0;
+		} else {
+			strViewDesignation = Integer.parseInt(String.valueOf(cmbViewDesignation.getSelectedItemValue()));
+		}
+		if (cmbViewtype.getSelectedItem().equals("All")) {
+			strViewType = 0;
+		} else {
+			strViewType = Integer.parseInt(String.valueOf(cmbViewtype.getSelectedItemValue()));
+		}
+		if (cmbViewNature.getSelectedItem().equals("All")) {
+			strViewNature = 0;
+		} else {
+			strViewNature = Integer.parseInt(String.valueOf(cmbViewNature.getSelectedItemValue()));
+		}
 
 		if (rdpAsOnDate.isSelected() == true) {
 			strCallFromDate = spnCallFromDate.getDateValue();
@@ -2466,7 +2577,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 				// logicCallsEntry.saveCallImages(call, lblImage1, lblImage2, lblImage3,
 				// lblImage4);
 			} else {
-				
+
 				logicCallsEntry.getCallSave(calls, "", null, null, null, null);
 			}
 
@@ -2650,6 +2761,20 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 				spnCallFromDate.requestFocus();
 				blnAsOnDate = false;
 
+			} else if (e.getSource() == cmbViewDesignation) {
+
+				callFrom = logicCallsEntry
+						.getCallFrom(Integer.valueOf(String.valueOf(cmbViewDesignation.getSelectedItemValue())));
+
+				cmbViewRecby.removeAllItems();
+				cmbViewRecby.addListItem(new ListItem("All"));
+
+				for (Operator oper : callFrom) {
+					cmbViewRecby.addListItem(new ListItem(oper.getStaffname(), oper.getStaffid()));
+
+				}
+
+				cmbViewRecby.requestFocus();
 			} else if (e.getSource() == cmbViewRecby) {
 				cmbViewCallCoOrd.requestFocus();
 			} else if (e.getSource() == cmbViewCallCoOrd) {
@@ -2663,8 +2788,22 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 			} else if (e.getSource() == cmbDeptAuthorize) {
 				cmbViewDepartment.requestFocus();
 			} else if (e.getSource() == cmbViewDepartment) {
+
+				module = logicCallsEntry
+						.getModule(Integer.valueOf(String.valueOf(cmbViewDepartment.getSelectedItemValue())));
+				cmbViewModule.removeAllItems();
+				cmbViewModule.addListItem(new ListItem("All"));
+				for (Module mod : module) {
+					cmbViewModule.addListItem(new ListItem(mod.getModuleName(), mod.getModuleId()));
+
+				}
+
 				cmbViewModule.requestFocus();
 			} else if (e.getSource() == cmbViewModule) {
+				cmbViewtype.requestFocus();
+			} else if (e.getSource() == cmbViewtype) {
+				cmbViewNature.requestFocus();
+			} else if (e.getSource() == cmbViewNature) {
 				txtCallNo.requestFocus();
 			} else if (e.getSource() == txtCallNo) {
 				rdpNone.requestFocus();

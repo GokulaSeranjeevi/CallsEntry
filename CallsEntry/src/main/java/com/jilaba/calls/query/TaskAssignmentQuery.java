@@ -20,7 +20,7 @@ public class TaskAssignmentQuery {
 
 		sb = new StringBuilder();
 
-		sb.append("Select * from Staff Where Active='Y' and Designation Not In(1,4,5) ");
+		sb.append("Select * from Staff Where Active='Y' and Designation Not In(4,5) ");
 
 		return sb.toString();
 	}
