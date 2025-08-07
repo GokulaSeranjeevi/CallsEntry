@@ -74,8 +74,10 @@ public class CallsCompletedQuery {
 
 		if (strCallToDate != null) {
 			sb.append(" And C.Cdate between '" + strCallFromDate + "' And '" + strCallToDate + "'\r\n");
+			sb.append(" And C.Testdate between '" + strCompletedFromDate + "' And '" + strCompletedToDate + "'\r\n");
 		} else {
 			sb.append(" And C.Cdate<='" + strCallFromDate + "'");
+			sb.append(" And C.Testdate<='" + strCompletedFromDate + "'");
 		}
 
 		if (!callNo.equals("")) {

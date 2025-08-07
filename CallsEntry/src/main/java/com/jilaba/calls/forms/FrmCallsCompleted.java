@@ -238,11 +238,11 @@ public class FrmCallsCompleted extends JFrame implements ActionListener, KeyList
 		rdpFalse();
 		rdpNone.setSelected(true);
 
-		cmbDeveloper.addListItem(new ListItem("All"));
-		cmbClient.addListItem(new ListItem("All"));
-		cmbDepartment.addListItem(new ListItem("All"));
-		cmbTester.addListItem(new ListItem("All"));
-		cmbModule.addListItem(new ListItem("All"));
+		cmbDeveloper.addListItem(new ListItem("All", 0));
+		cmbClient.addListItem(new ListItem("All", 0));
+		cmbDepartment.addListItem(new ListItem("All", 0));
+		cmbTester.addListItem(new ListItem("All", 0));
+		cmbModule.addListItem(new ListItem("All", 0));
 
 		lstDeveloper = logicCallsCompleted.getDeveloper();
 		// strDeveloper = new ArrayList<Object>();
@@ -1393,7 +1393,7 @@ public class FrmCallsCompleted extends JFrame implements ActionListener, KeyList
 				lstModule = logicCallsCompleted
 						.getModule(Integer.valueOf(String.valueOf(cmbDepartment.getSelectedItemValue())));
 				cmbModule.removeAllItems();
-				cmbModule.addListItem(new ListItem("All"));
+				cmbModule.addListItem(new ListItem("All", 0));
 
 				for (com.jilaba.calls.model.Module module : lstModule) {
 

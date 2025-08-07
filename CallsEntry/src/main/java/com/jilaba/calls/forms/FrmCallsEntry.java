@@ -1696,6 +1696,7 @@ public class FrmCallsEntry extends JFrame implements ActionListener, KeyListener
 		cmbViewtype.addListItem(new ListItem("Pending Calls", 1));
 		cmbViewtype.addListItem(new ListItem("Ready Calls", 2));
 		cmbViewtype.addListItem(new ListItem("Completed Calls", 3));
+		cmbViewtype.addListItem(new ListItem("Delivered Calls", 4));
 //		cmbViewtype.setSelectedItemValue(1);
 
 		cmbViewNature.addListItem(new ListItem("Error", 1));

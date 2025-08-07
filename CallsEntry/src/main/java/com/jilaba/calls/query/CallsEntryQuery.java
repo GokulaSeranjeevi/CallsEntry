@@ -144,6 +144,9 @@ public class CallsEntryQuery {
 		case 3:
 			sb.append(" AND C.testresult='C' ");
 			break;
+		case 4:
+			sb.append(" AND C.testresult='D' ");
+			break;
 		default:
 			break;
 		}
